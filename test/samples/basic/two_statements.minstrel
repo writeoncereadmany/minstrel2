@@ -1,0 +1,2 @@
+String greeting is "Hello, World"
+print[greeting]

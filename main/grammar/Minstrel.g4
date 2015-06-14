@@ -24,12 +24,14 @@ program: statement*;
 name: IDENTIFIER;
 type: IDENTIFIER;
 
+terminator: NEWLINE | EOF;
+
 modifier: name;
 
 argument_list: '[' (expression (',' expression)*)? ']';
 
-statement: expression NEWLINE                                              # expression_statement
-         | type name IS expression NEWLINE                                 # declaration_statement
+statement: expression terminator                                           # expression_statement
+         | type name IS expression terminator                              # declaration_statement
          ;
 
 expression: '(' expression ')'                                                           # parenthesised_expression
