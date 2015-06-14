@@ -21,7 +21,7 @@ IDENTIFIER: LETTER (LETTER | DIGIT)* ;
 
 terminator: NEWLINE | EOF;
 
-program: (statement terminator)*;
+program: ((statement terminator) | NEWLINE)*;
 
 name: IDENTIFIER;
 type: IDENTIFIER;
