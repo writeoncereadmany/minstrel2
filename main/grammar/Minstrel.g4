@@ -6,7 +6,7 @@ grammar Minstrel;
 
 fragment LETTER: [a-zA-Z];
 fragment DIGIT: [0-9];
-SPACE: [ \t\r]+ -> skip;
+SPACE: [ \t]+ -> skip;
 NEWLINE: [\n];
 
 NUMBER_LITERAL: DIGIT+('.'DIGIT+)?;
@@ -19,19 +19,17 @@ IDENTIFIER: LETTER (LETTER | DIGIT)* ;
 
 // Parser rules
 
-program: statement*;
+terminator: NEWLINE | EOF;
+
+program: (statement terminator)*;
 
 name: IDENTIFIER;
 type: IDENTIFIER;
 
-terminator: NEWLINE | EOF;
-
-modifier: name;
-
 argument_list: '[' (expression (',' expression)*)? ']';
 
-statement: expression terminator                                           # expression_statement
-         | type name IS expression terminator                              # declaration_statement
+statement: expression                                           # expression_statement
+         | type name IS expression                              # declaration_statement
          ;
 
 expression: '(' expression ')'                                                           # parenthesised_expression

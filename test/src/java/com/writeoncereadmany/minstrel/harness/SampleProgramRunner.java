@@ -76,12 +76,32 @@ public class SampleProgramRunner
                     errorCollector.add(String.format("Expected no lex errors for %s", file.getName()));
                 }
             }
+            else
+            {
+                // for now, just check the file exists. we'll verify its contents later.
+                if(replaceExtension(file, "lexerror").exists())
+                {
+                    errorCollector.add(String.format("Expected lex errors for %s", file.getName()));
+                }
+            }
 
             if(parseErrorListener.hasErrors())
             {
                 // for now, just check the file exists. we'll verify its contents later
-                errorCollector.add(String.format("Expected no parse errors for %s", file.getName()));
+                if(!replaceExtension(file, "parseerror").exists())
+                {
+                    errorCollector.add(String.format("Expected no parse errors for %s", file.getName()));
+                }
             }
+            else
+            {
+                if(replaceExtension(file, "parseerror").exists())
+                {
+                    errorCollector.add(String.format("Expected parse errors for %s", file.getName()));
+                }
+            }
+
+            // turn parse tree into program, then run it
 
         } catch (IOException ex)
         {
