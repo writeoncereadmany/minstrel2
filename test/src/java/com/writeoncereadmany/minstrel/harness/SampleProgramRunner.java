@@ -1,7 +1,11 @@
 package com.writeoncereadmany.minstrel.harness;
 
+import com.writeoncereadmany.minstrel.ast.Program;
 import com.writeoncereadmany.minstrel.parser.MinstrelLauncher;
+import com.writeoncereadmany.minstrel.walker.ProgramBuildingParseTreeListener;
+import com.writeoncereadmany.minstrel.walker.MinstrelProgramBuilder;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.junit.Test;
 
 import java.io.File;
@@ -42,6 +46,14 @@ public class SampleProgramRunner
         assertThat(errorCollector, is(empty()));
     }
 
+    @Test
+    public void testASingleScript()
+    {
+        final List<String> errorCollector = new ArrayList<>();
+        runFileAndVerifyResults(new File(ROOT_SCRIPT_DIR, "expressions/number_expression.minstrel"), errorCollector);
+        assertThat(errorCollector, is(empty()));
+    }
+
     private void testScriptsIn(File dir, List<String> errorCollector)
     {
         final File[] children = dir.listFiles();
@@ -66,7 +78,11 @@ public class SampleProgramRunner
             final TestErrorListener lexErrorListener = new TestErrorListener();
             final TestErrorListener parseErrorListener = new TestErrorListener();
             MinstrelLauncher launcher = new MinstrelLauncher(lexErrorListener, parseErrorListener);
+            MinstrelProgramBuilder builder = new MinstrelProgramBuilder();
+            ProgramBuildingParseTreeListener parseTreeListener = new ProgramBuildingParseTreeListener(builder);
             ParseTree parseTree = launcher.parse(launcher.lex(new FileInputStream(file)));
+            ParseTreeWalker walker = new ParseTreeWalker();
+            walker.walk(parseTreeListener, parseTree);
 
             if(lexErrorListener.hasErrors())
             {
@@ -102,10 +118,14 @@ public class SampleProgramRunner
             }
 
             // turn parse tree into program, then run it
+            Program program = builder.getResult();
 
         } catch (IOException ex)
         {
             throw new RuntimeException("Failed to load file", ex);
+        } catch (RuntimeException ex)
+        {
+            throw new RuntimeException("Error when parsing " + file.getName(), ex);
         }
     }
 

@@ -4,6 +4,7 @@ import com.writeoncereadmany.minstrel.generated.grammar.MinstrelLexer;
 import com.writeoncereadmany.minstrel.generated.grammar.MinstrelParser;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,12 +24,8 @@ public class MinstrelLauncher
         return lex(new ANTLRInputStream(inputStream));
     }
 
-    public TokenStream lex(String programText)
+    private TokenStream lex(CharStream charStream)
     {
-        return lex(new ANTLRInputStream(programText));
-    }
-
-    private TokenStream lex(CharStream charStream) {
         MinstrelLexer lexer = new MinstrelLexer(charStream);
         lexer.addErrorListener(lexErrorListener);
         return new CommonTokenStream(lexer);
@@ -38,6 +35,7 @@ public class MinstrelLauncher
     {
         MinstrelParser parser = new MinstrelParser(lexed);
         parser.addErrorListener(parseErrorListener);
+        ParseTreeWalker walker = new ParseTreeWalker();
         return parser.program();
     }
 }
