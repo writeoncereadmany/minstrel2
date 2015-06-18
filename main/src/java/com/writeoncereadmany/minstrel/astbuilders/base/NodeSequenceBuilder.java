@@ -43,10 +43,4 @@ public class NodeSequenceBuilder<N extends AstNode, T extends AstNode> implement
     {
         throw new IllegalArgumentException("Should not add terminals: expecting a sequence of nodes. Received " + text);
     }
-
-    @FunctionalInterface
-    public interface Builder<T, N>
-    {
-        T build(List<N> elements);
-    }
 }

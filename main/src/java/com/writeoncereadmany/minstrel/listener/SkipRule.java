@@ -2,9 +2,6 @@ package com.writeoncereadmany.minstrel.listener;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
-/**
- * Created by tom on 18/06/15.
- */
 public class SkipRule extends RuleProcessor
 {
     public static final RuleProcessor INSTANCE = new SkipRule();
