@@ -1,11 +1,9 @@
 package com.writeoncereadmany.minstrel.harness;
 
 import com.writeoncereadmany.minstrel.ast.Program;
-import com.writeoncereadmany.minstrel.parser.MinstrelLauncher;
-import com.writeoncereadmany.minstrel.walker.ProgramBuildingParseTreeListener;
-import com.writeoncereadmany.minstrel.walker.MinstrelProgramBuilder;
+import com.writeoncereadmany.minstrel.orchestrator.MinstrelOrchestrator;
+import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.junit.Test;
 
 import java.io.File;
@@ -77,12 +75,9 @@ public class SampleProgramRunner
         try {
             final TestErrorListener lexErrorListener = new TestErrorListener();
             final TestErrorListener parseErrorListener = new TestErrorListener();
-            MinstrelLauncher launcher = new MinstrelLauncher(lexErrorListener, parseErrorListener);
-            MinstrelProgramBuilder builder = new MinstrelProgramBuilder();
-            ProgramBuildingParseTreeListener parseTreeListener = new ProgramBuildingParseTreeListener(builder);
-            ParseTree parseTree = launcher.parse(launcher.lex(new FileInputStream(file)));
-            ParseTreeWalker walker = new ParseTreeWalker();
-            walker.walk(parseTreeListener, parseTree);
+            MinstrelOrchestrator orchestrator = new MinstrelOrchestrator(lexErrorListener, parseErrorListener);
+            TokenStream lexed = orchestrator.lex(new FileInputStream(file));
+            ParseTree parseTree = orchestrator.parse(lexed);
 
             if(lexErrorListener.hasErrors())
             {
@@ -118,7 +113,7 @@ public class SampleProgramRunner
             }
 
             // turn parse tree into program, then run it
-            Program program = builder.getResult();
+            Program program = orchestrator.build(parseTree);
 
         } catch (IOException ex)
         {

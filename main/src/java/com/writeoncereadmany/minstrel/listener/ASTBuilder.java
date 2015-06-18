@@ -1,17 +1,17 @@
-package com.writeoncereadmany.minstrel.walker;
+package com.writeoncereadmany.minstrel.listener;
 
 import com.writeoncereadmany.minstrel.ast.AstNode;
 import com.writeoncereadmany.minstrel.ast.Program;
-import com.writeoncereadmany.minstrel.builders.AstNodeBuilder;
+import com.writeoncereadmany.minstrel.astbuilders.AstNodeBuilder;
 
 import java.util.Stack;
 
-public class MinstrelProgramBuilder
+public class ASTBuilder
 {
     private final Stack<AstNodeBuilder<?>> beingBuilt = new Stack<>();
     private Program program;
 
-    public Program getResult()
+    public Program getProgram()
     {
         return this.program;
     }

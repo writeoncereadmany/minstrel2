@@ -1,8 +1,8 @@
-package com.writeoncereadmany.minstrel.builders.base;
+package com.writeoncereadmany.minstrel.astbuilders.base;
 
 
 import com.writeoncereadmany.minstrel.ast.AstNode;
-import com.writeoncereadmany.minstrel.builders.AstNodeBuilder;
+import com.writeoncereadmany.minstrel.astbuilders.AstNodeBuilder;
 
 import java.util.ArrayList;
 import java.util.List;

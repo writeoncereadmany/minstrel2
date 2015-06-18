@@ -1,8 +1,8 @@
-package com.writeoncereadmany.minstrel.builders.expressions;
+package com.writeoncereadmany.minstrel.astbuilders.expressions;
 
 import com.writeoncereadmany.minstrel.ast.expressions.Expression;
 import com.writeoncereadmany.minstrel.ast.expressions.PlusExpression;
-import com.writeoncereadmany.minstrel.builders.base.TwoNodeBuilder;
+import com.writeoncereadmany.minstrel.astbuilders.base.TwoNodeBuilder;
 
 public class PlusExpressionBuilder extends TwoNodeBuilder<Expression, Expression, PlusExpression>
 {

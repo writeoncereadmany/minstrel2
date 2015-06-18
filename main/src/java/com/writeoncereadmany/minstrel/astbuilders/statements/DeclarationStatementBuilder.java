@@ -1,9 +1,9 @@
-package com.writeoncereadmany.minstrel.builders.statements;
+package com.writeoncereadmany.minstrel.astbuilders.statements;
 
 import com.writeoncereadmany.minstrel.ast.AstNode;
 import com.writeoncereadmany.minstrel.ast.expressions.Expression;
 import com.writeoncereadmany.minstrel.ast.statements.DeclarationStatement;
-import com.writeoncereadmany.minstrel.builders.AstNodeBuilder;
+import com.writeoncereadmany.minstrel.astbuilders.AstNodeBuilder;
 
 public class DeclarationStatementBuilder implements AstNodeBuilder<DeclarationStatement>
 {

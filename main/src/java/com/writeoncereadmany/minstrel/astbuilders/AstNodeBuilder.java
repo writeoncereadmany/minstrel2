@@ -1,7 +1,6 @@
-package com.writeoncereadmany.minstrel.builders;
+package com.writeoncereadmany.minstrel.astbuilders;
 
 import com.writeoncereadmany.minstrel.ast.AstNode;
-import com.writeoncereadmany.minstrel.ast.statements.DeclarationStatement;
 
 public interface AstNodeBuilder<T extends AstNode>
 {

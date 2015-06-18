@@ -1,4 +1,4 @@
-package com.writeoncereadmany.minstrel.builders.base;
+package com.writeoncereadmany.minstrel.astbuilders.base;
 
 @FunctionalInterface
 public interface TwoArgFactory<R, A1, A2>

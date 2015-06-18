@@ -1,8 +1,8 @@
-package com.writeoncereadmany.minstrel.builders;
+package com.writeoncereadmany.minstrel.astbuilders;
 
 import com.writeoncereadmany.minstrel.ast.Program;
 import com.writeoncereadmany.minstrel.ast.statements.Statement;
-import com.writeoncereadmany.minstrel.builders.base.NodeSequenceBuilder;
+import com.writeoncereadmany.minstrel.astbuilders.base.NodeSequenceBuilder;
 
 public class ProgramBuilder extends NodeSequenceBuilder<Statement, Program>
 {
