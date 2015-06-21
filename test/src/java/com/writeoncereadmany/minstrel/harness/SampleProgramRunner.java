@@ -14,9 +14,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
-import static com.writeoncereadmany.minstrel.harness.FileUtils.readLines;
+import static com.writeoncereadmany.minstrel.harness.FileUtils.firstLine;
 import static java.util.Arrays.stream;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
@@ -110,10 +109,12 @@ public class SampleProgramRunner
             }
 
 
-        } catch (IOException ex)
+        }
+        catch (IOException ex)
         {
             throw new RuntimeException("Failed to load file", ex);
-        } catch (RuntimeException ex)
+        }
+        catch (RuntimeException ex)
         {
             throw new RuntimeException("Error when parsing " + file.getName(), ex);
         }
@@ -131,8 +132,7 @@ public class SampleProgramRunner
             }
             else
             {
-                List<String> expected = readLines(lexErrors);
-                assertThat(expected, is(lexErrorListener.errors()));
+                assertThat(firstLine(lexErrors), is(lexErrorListener.firstError()));
                 return true;
             }
         }
@@ -148,24 +148,26 @@ public class SampleProgramRunner
     }
 
 
-    private boolean hasExpectedParseErrors(File file, List<String> errorCollector, TestErrorListener parseErrorListener)
+    private boolean hasExpectedParseErrors(File file, List<String> errorCollector, TestErrorListener parseErrorListener) throws FileNotFoundException
     {
+        File parseerrors = replaceExtension(file, "parseerror");
         if(parseErrorListener.hasErrors())
         {
             // for now, just check the file exists. we'll verify its contents later
-            if(!replaceExtension(file, "parseerror").exists())
+            if(!parseerrors.exists())
             {
                 errorCollector.add(String.format("Expected no parse errors for %s", file.getName()));
             }
             else
             {
+                assertThat(firstLine(parseerrors), is(parseErrorListener.firstError()));
                 // checking of contents goes here, then escape early
                 return true;
             }
         }
         else
         {
-            if(replaceExtension(file, "parseerror").exists())
+            if(parseerrors.exists())
             {
                 errorCollector.add(String.format("Expected parse errors for %s", file.getName()));
             }
@@ -173,12 +175,13 @@ public class SampleProgramRunner
         return false;
     }
 
-    private boolean hasExpectedNameErrors(File file, List<String> errorCollector, NameResolver nameResolver)
+    private boolean hasExpectedNameErrors(File file, List<String> errorCollector, NameResolver nameResolver) throws FileNotFoundException
     {
+        File nameerrors = replaceExtension(file, "nameerror");
         if(!nameResolver.getNameResolutionErrors().isEmpty())
         {
             // for now, just check the file exists. we'll verify its contents later
-            if(!replaceExtension(file, "nameerror").exists())
+            if(!nameerrors.exists())
             {
                 errorCollector.add(String.format("Expected no name errors for %s, got: %s",
                                                  file.getName(),
@@ -186,13 +189,13 @@ public class SampleProgramRunner
             }
             else
             {
-                // checking of contents goes here, then escape early
+                assertThat(firstLine(nameerrors), is(nameResolver.getNameResolutionErrors().get(0)));
                 return true;
             }
         }
         else
         {
-            if(replaceExtension(file, "nameerror").exists())
+            if(nameerrors.exists())
             {
                 errorCollector.add(String.format("Expected name errors for %s", file.getName()));
             }

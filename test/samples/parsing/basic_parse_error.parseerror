@@ -1,1 +1,1 @@
-description of parse error goes here
+syntax error at line 1, column 10: missing 'is' at 'brown'
