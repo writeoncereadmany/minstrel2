@@ -15,6 +15,7 @@ TERMINATOR: ';';
 // Keywords
 IS: 'is';
 FUNCTION: 'function';
+ARROW: '->';
 
 IDENTIFIER: LETTER (LETTER | DIGIT)* ;
 
@@ -30,15 +31,21 @@ parameter: type name;
 argument_list: '[' (expression (',' expression)*)? ']';
 parameter_list: '[' (parameter (',' parameter)*)? ']';
 
-block: '{' statement* '}';
 
-statement: expression TERMINATOR                                # expression_statement
+
+statement: expression_statement                                 # standalone_expression_statement
          | declaration                                          # declaration_statement
          ;
 
+expression_statement: expression TERMINATOR;
+
 declaration: type name IS expression TERMINATOR                   # variable_declaration
-           | FUNCTION name parameter_list block                   # function_declaration
+           | FUNCTION name parameter_list body                    # function_declaration
            ;
+
+body: '{' statement* '}'                                        # block
+    | ARROW expression_statement                                # expression_body
+    ;
 
 expression: '(' expression ')'                                                           # parenthesised_expression
           | NUMBER_LITERAL                                                               # number_literal

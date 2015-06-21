@@ -5,11 +5,11 @@ import com.writeoncereadmany.minstrel.names.NameResolver;
 
 import java.util.List;
 
-public class Block implements AstNode
+public class Body implements AstNode
 {
     private final List<Statement> statements;
 
-    public Block(List<Statement> statements)
+    public Body(List<Statement> statements)
     {
         this.statements = statements;
     }

@@ -1,7 +1,7 @@
 package com.writeoncereadmany.minstrel.astbuilders.statements;
 
 import com.writeoncereadmany.minstrel.ast.AstNode;
-import com.writeoncereadmany.minstrel.ast.Block;
+import com.writeoncereadmany.minstrel.ast.Body;
 import com.writeoncereadmany.minstrel.ast.Terminal;
 import com.writeoncereadmany.minstrel.ast.fragments.ParameterList;
 import com.writeoncereadmany.minstrel.ast.statements.FunctionDeclaration;
@@ -11,7 +11,7 @@ public class FunctionDeclarationBuilder implements AstNodeBuilder
 {
     private Terminal name;
     private ParameterList parameters;
-    private Block body;
+    private Body body;
 
     @Override
     public AstNode build() {
@@ -38,13 +38,13 @@ public class FunctionDeclarationBuilder implements AstNodeBuilder
         }
         else if(body == null)
         {
-            if(node instanceof Block)
+            if(node instanceof Body)
             {
-                body = (Block)node;
+                body = (Body)node;
             }
             else
             {
-                throw new IllegalArgumentException("Expecting a block: got " + node);
+                throw new IllegalArgumentException("Expecting a body: got " + node);
             }
         }
         else

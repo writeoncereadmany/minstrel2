@@ -53,7 +53,7 @@ public class SampleProgramRunner
     public void testASingleScript() throws Exception
     {
         final List<String> errorCollector = new ArrayList<>();
-        runFileAndVerifyResults(new File(ROOT_SCRIPT_DIR, "lexing/basic_lex_error.minstrel"), errorCollector);
+        runFileAndVerifyResults(new File(ROOT_SCRIPT_DIR, "functions/simple_defined_expression_function.minstrel"), errorCollector);
         assertThat(errorCollector, is(empty()));
     }
 

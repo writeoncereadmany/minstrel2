@@ -1,6 +1,6 @@
 package com.writeoncereadmany.minstrel.ast.statements;
 
-import com.writeoncereadmany.minstrel.ast.Block;
+import com.writeoncereadmany.minstrel.ast.Body;
 import com.writeoncereadmany.minstrel.ast.Terminal;
 import com.writeoncereadmany.minstrel.ast.fragments.ParameterList;
 import com.writeoncereadmany.minstrel.names.NameResolver;
@@ -9,11 +9,11 @@ public class FunctionDeclaration implements Statement
 {
     private final Terminal name;
     private final ParameterList parameters;
-    private final Block body;
+    private final Body body;
 
     private int bodyScope;
 
-    public FunctionDeclaration(Terminal name, ParameterList parameters, Block body)
+    public FunctionDeclaration(Terminal name, ParameterList parameters, Body body)
     {
         this.name = name;
         this.parameters = parameters;

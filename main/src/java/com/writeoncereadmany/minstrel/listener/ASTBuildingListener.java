@@ -3,7 +3,7 @@ package com.writeoncereadmany.minstrel.listener;
 import com.writeoncereadmany.minstrel.ast.expressions.NumberLiteral;
 import com.writeoncereadmany.minstrel.ast.expressions.StringLiteral;
 import com.writeoncereadmany.minstrel.ast.expressions.Variable;
-import com.writeoncereadmany.minstrel.astbuilders.BlockBuilder;
+import com.writeoncereadmany.minstrel.astbuilders.BodyBuilder;
 import com.writeoncereadmany.minstrel.astbuilders.ProgramBuilder;
 import com.writeoncereadmany.minstrel.astbuilders.expressions.FunctionCallBuilder;
 import com.writeoncereadmany.minstrel.astbuilders.expressions.PlusExpressionBuilder;
@@ -50,7 +50,8 @@ public class ASTBuildingListener extends MinstrelBaseListener
     private static List<RuleProcessor> allRules = asList(
             new BuildRootNode(MinstrelParser.ProgramContext.class, ProgramBuilder::new),
 
-            new BuildCompoundNode(MinstrelParser.BlockContext.class, BlockBuilder::new),
+            new BuildCompoundNode(MinstrelParser.Expression_bodyContext.class, BodyBuilder::new),
+            new BuildCompoundNode(MinstrelParser.BlockContext.class, BodyBuilder::new),
             new BuildCompoundNode(MinstrelParser.Variable_declarationContext.class, VariableDeclarationBuilder::new),
             new BuildCompoundNode(MinstrelParser.Function_declarationContext.class, FunctionDeclarationBuilder::new),
             new BuildCompoundNode(MinstrelParser.Expression_statementContext.class, ExpressionStatementBuilder::new),
