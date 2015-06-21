@@ -1,10 +1,11 @@
 package com.writeoncereadmany.minstrel.ast.expressions;
 
+import com.writeoncereadmany.minstrel.ast.Terminal;
 import com.writeoncereadmany.minstrel.names.NameResolver;
 
 public class NumberLiteral implements Expression
 {
-    public NumberLiteral(String value)
+    public NumberLiteral(Terminal value)
     {
 
     }

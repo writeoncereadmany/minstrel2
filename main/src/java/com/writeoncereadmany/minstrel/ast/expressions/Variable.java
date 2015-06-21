@@ -1,14 +1,15 @@
 package com.writeoncereadmany.minstrel.ast.expressions;
 
+import com.writeoncereadmany.minstrel.ast.Terminal;
 import com.writeoncereadmany.minstrel.names.NameResolver;
 import com.writeoncereadmany.minstrel.names.ScopeIndex;
 
 public class Variable implements Expression
 {
-    private final String name;
+    private final Terminal name;
     private ScopeIndex index;
 
-    public Variable(String name)
+    public Variable(Terminal name)
     {
         this.name = name;
     }

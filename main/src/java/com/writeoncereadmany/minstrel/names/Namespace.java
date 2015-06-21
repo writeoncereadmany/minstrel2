@@ -1,6 +1,8 @@
 package com.writeoncereadmany.minstrel.names;
 
 
+import com.writeoncereadmany.minstrel.ast.Terminal;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -10,15 +12,16 @@ public class Namespace
     private final Map<String, Integer> names = new HashMap<>();
     private int currentIndex = 0;
 
-    public void define(String name, Consumer<String> errorListener)
+    public void define(Terminal name, Consumer<String> errorListener)
     {
-        if(names.containsKey(name))
+        if(names.containsKey(name.text))
         {
-            errorListener.accept("Name " + name + " already defined in this scope");
+            errorListener.accept("Name error on line " + name.line + ", column " + name.column +
+                                 ": " + name.text + " already defined in this scope");
         }
         else
         {
-            names.put(name, currentIndex++);
+            names.put(name.text, currentIndex++);
         }
     }
 

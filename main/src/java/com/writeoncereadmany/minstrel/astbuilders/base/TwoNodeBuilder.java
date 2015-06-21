@@ -1,6 +1,7 @@
 package com.writeoncereadmany.minstrel.astbuilders.base;
 
 import com.writeoncereadmany.minstrel.ast.AstNode;
+import com.writeoncereadmany.minstrel.ast.Terminal;
 import com.writeoncereadmany.minstrel.astbuilders.AstNodeBuilder;
 
 public class TwoNodeBuilder<N1 extends AstNode, N2 extends AstNode, T extends AstNode> implements AstNodeBuilder<T>
@@ -57,7 +58,7 @@ public class TwoNodeBuilder<N1 extends AstNode, N2 extends AstNode, T extends As
     }
 
     @Override
-    public void addTerminal(String text)
+    public void addTerminal(Terminal text)
     {
         throw new IllegalArgumentException("Should not add terminals: expecting only two nodes");
     }

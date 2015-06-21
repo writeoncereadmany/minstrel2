@@ -189,7 +189,7 @@ public class SampleProgramRunner
             }
             else
             {
-                assertThat(firstLine(nameerrors), is(nameResolver.getNameResolutionErrors().get(0)));
+                assertThat("Name error in " + file.getName(), firstLine(nameerrors), is(nameResolver.getNameResolutionErrors().get(0)));
                 return true;
             }
         }

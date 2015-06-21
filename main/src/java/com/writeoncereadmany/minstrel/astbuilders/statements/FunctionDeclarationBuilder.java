@@ -2,13 +2,14 @@ package com.writeoncereadmany.minstrel.astbuilders.statements;
 
 import com.writeoncereadmany.minstrel.ast.AstNode;
 import com.writeoncereadmany.minstrel.ast.Block;
+import com.writeoncereadmany.minstrel.ast.Terminal;
 import com.writeoncereadmany.minstrel.ast.fragments.ParameterList;
 import com.writeoncereadmany.minstrel.ast.statements.FunctionDeclaration;
 import com.writeoncereadmany.minstrel.astbuilders.AstNodeBuilder;
 
 public class FunctionDeclarationBuilder implements AstNodeBuilder
 {
-    private String name;
+    private Terminal name;
     private ParameterList parameters;
     private Block body;
 
@@ -53,7 +54,7 @@ public class FunctionDeclarationBuilder implements AstNodeBuilder
     }
 
     @Override
-    public void addTerminal(String text)
+    public void addTerminal(Terminal text)
     {
         if(name == null)
         {

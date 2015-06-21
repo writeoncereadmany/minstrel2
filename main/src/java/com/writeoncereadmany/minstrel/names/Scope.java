@@ -1,5 +1,7 @@
 package com.writeoncereadmany.minstrel.names;
 
+import com.writeoncereadmany.minstrel.ast.Terminal;
+
 import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -24,17 +26,17 @@ public class Scope
         stream(Kind.values()).forEach(kind -> namespaces.put(kind, new Namespace()));
     }
 
-    public void define(String name, Kind kind)
+    public void define(Terminal name, Kind kind)
     {
         namespaces.get(kind).define(name, errorListener);
     }
 
-    public ScopeIndex resolve(String name, Kind kind)
+    public ScopeIndex resolve(Terminal name, Kind kind)
     {
         Namespace namespace = namespaces.get(kind);
-        if(namespace.contains(name))
+        if(namespace.contains(name.text))
         {
-            return new ScopeIndex(index, namespace.indexOf(name));
+            return new ScopeIndex(index, namespace.indexOf(name.text));
         }
         else if(parentScope != null)
         {
@@ -42,7 +44,8 @@ public class Scope
         }
         else
         {
-            errorListener.accept("Could not find a definition for " + name);
+            errorListener.accept("Name error on line " + name.line + ", column " + name.column +
+                                 ": Could not find a definition for " + name.text);
             return ScopeIndex.UNDEFINED;
         }
     }

@@ -1,7 +1,11 @@
 package com.writeoncereadmany.minstrel.listener;
 
 import com.writeoncereadmany.minstrel.ast.AstNode;
+import com.writeoncereadmany.minstrel.ast.Terminal;
 import org.antlr.v4.runtime.ParserRuleContext;
+
+import static com.writeoncereadmany.minstrel.listener.ContextUtils.getColumn;
+import static com.writeoncereadmany.minstrel.listener.ContextUtils.getLine;
 
 public class BuildTextNode extends RuleProcessor
 {
@@ -16,7 +20,7 @@ public class BuildTextNode extends RuleProcessor
     @Override
     public void onEnter(ParserRuleContext ctx, ASTBuilder builder)
     {
-        builder.addNodeToCurrent(constructor.construct(ctx.getText()));
+        builder.addNodeToCurrent(constructor.construct(new Terminal(ctx.getText(), getLine(ctx), getColumn(ctx))));
     }
 
     @Override
@@ -28,6 +32,6 @@ public class BuildTextNode extends RuleProcessor
     @FunctionalInterface
     interface Constructor
     {
-        AstNode construct(String text);
+        AstNode construct(Terminal terminal);
     }
 }

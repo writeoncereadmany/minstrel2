@@ -1,6 +1,7 @@
 package com.writeoncereadmany.minstrel.astbuilders.base;
 
 import com.writeoncereadmany.minstrel.ast.AstNode;
+import com.writeoncereadmany.minstrel.ast.Terminal;
 import com.writeoncereadmany.minstrel.astbuilders.AstNodeBuilder;
 
 public class SingleNodeBuilder<N extends AstNode, T extends AstNode> implements AstNodeBuilder<T>
@@ -45,7 +46,7 @@ public class SingleNodeBuilder<N extends AstNode, T extends AstNode> implements 
     }
 
     @Override
-    public void addTerminal(String text)
+    public void addTerminal(Terminal text)
     {
         throw new IllegalArgumentException("Should not add terminals: expecting a single node");
     }

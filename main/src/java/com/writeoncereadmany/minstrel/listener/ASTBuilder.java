@@ -2,6 +2,7 @@ package com.writeoncereadmany.minstrel.listener;
 
 import com.writeoncereadmany.minstrel.ast.AstNode;
 import com.writeoncereadmany.minstrel.ast.Program;
+import com.writeoncereadmany.minstrel.ast.Terminal;
 import com.writeoncereadmany.minstrel.astbuilders.AstNodeBuilder;
 
 import java.util.Stack;
@@ -31,9 +32,9 @@ public class ASTBuilder
         beingBuilt.peek().addNode(node);
     }
 
-    void addTerminalToCurrent(String text)
+    void addTerminalToCurrent(Terminal terminal)
     {
-        beingBuilt.peek().addTerminal(text);
+        beingBuilt.peek().addTerminal(terminal);
     }
 
     void finish(Program program)

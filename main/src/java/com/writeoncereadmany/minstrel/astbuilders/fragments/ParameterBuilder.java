@@ -1,13 +1,14 @@
 package com.writeoncereadmany.minstrel.astbuilders.fragments;
 
 import com.writeoncereadmany.minstrel.ast.AstNode;
+import com.writeoncereadmany.minstrel.ast.Terminal;
 import com.writeoncereadmany.minstrel.ast.fragments.Parameter;
 import com.writeoncereadmany.minstrel.astbuilders.AstNodeBuilder;
 
 public class ParameterBuilder implements AstNodeBuilder<Parameter>
 {
-    private String type;
-    private String name;
+    private Terminal type;
+    private Terminal name;
 
     @Override
     public Parameter build()
@@ -26,15 +27,15 @@ public class ParameterBuilder implements AstNodeBuilder<Parameter>
     }
 
     @Override
-    public void addTerminal(String text)
+    public void addTerminal(Terminal terminal)
     {
         if(type == null)
         {
-            type = text;
+            type = terminal;
         }
         else if(name == null)
         {
-            name = text;
+            name = terminal;
         }
         else
         {

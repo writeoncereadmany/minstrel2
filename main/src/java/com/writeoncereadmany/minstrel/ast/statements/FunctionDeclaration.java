@@ -1,18 +1,19 @@
 package com.writeoncereadmany.minstrel.ast.statements;
 
 import com.writeoncereadmany.minstrel.ast.Block;
+import com.writeoncereadmany.minstrel.ast.Terminal;
 import com.writeoncereadmany.minstrel.ast.fragments.ParameterList;
 import com.writeoncereadmany.minstrel.names.NameResolver;
 
 public class FunctionDeclaration implements Statement
 {
-    private final String name;
+    private final Terminal name;
     private final ParameterList parameters;
     private final Block body;
 
     private int bodyScope;
 
-    public FunctionDeclaration(String name, ParameterList parameters, Block body)
+    public FunctionDeclaration(Terminal name, ParameterList parameters, Block body)
     {
         this.name = name;
         this.parameters = parameters;

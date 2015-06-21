@@ -1,5 +1,7 @@
 package com.writeoncereadmany.minstrel.names;
 
+import com.writeoncereadmany.minstrel.ast.Terminal;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,22 +14,22 @@ public class NameResolver
     private int nextScopeIndex = 0;
     private Scope currentScope = Scope.createRootScope(nextScopeIndex++, nameResolutionErrors::add);
 
-    public void defineType(String name)
+    public void defineType(Terminal name)
     {
         currentScope.define(name, Kind.TYPE);
     }
 
-    public void defineValue(String name)
+    public void defineValue(Terminal name)
     {
         currentScope.define(name, Kind.VALUE);
     }
 
-    public ScopeIndex resolveType(String name)
+    public ScopeIndex resolveType(Terminal name)
     {
         return currentScope.resolve(name, Kind.TYPE);
     }
 
-    public ScopeIndex resolveValue(String name)
+    public ScopeIndex resolveValue(Terminal name)
     {
         return currentScope.resolve(name, Kind.VALUE);
     }

@@ -1,12 +1,13 @@
 package com.writeoncereadmany.minstrel.ast.expressions;
 
+import com.writeoncereadmany.minstrel.ast.Terminal;
 import com.writeoncereadmany.minstrel.names.NameResolver;
 
 public class StringLiteral implements Expression
 {
-    private final String value;
+    private final Terminal value;
 
-    public StringLiteral(String value)
+    public StringLiteral(Terminal value)
     {
         this.value = value;
     }

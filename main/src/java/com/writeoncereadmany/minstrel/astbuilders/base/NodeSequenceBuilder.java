@@ -2,6 +2,7 @@ package com.writeoncereadmany.minstrel.astbuilders.base;
 
 
 import com.writeoncereadmany.minstrel.ast.AstNode;
+import com.writeoncereadmany.minstrel.ast.Terminal;
 import com.writeoncereadmany.minstrel.astbuilders.AstNodeBuilder;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class NodeSequenceBuilder<N extends AstNode, T extends AstNode> implement
     }
 
     @Override
-    public void addTerminal(String text)
+    public void addTerminal(Terminal text)
     {
         throw new IllegalArgumentException("Should not add terminals: expecting a sequence of nodes. Received " + text);
     }

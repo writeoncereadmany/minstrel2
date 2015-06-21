@@ -1,17 +1,18 @@
 package com.writeoncereadmany.minstrel.ast.fragments;
 
 import com.writeoncereadmany.minstrel.ast.AstNode;
+import com.writeoncereadmany.minstrel.ast.Terminal;
 import com.writeoncereadmany.minstrel.names.NameResolver;
 import com.writeoncereadmany.minstrel.names.ScopeIndex;
 
 public class Parameter implements AstNode
 {
-    private final String type;
-    private final String name;
+    private final Terminal type;
+    private final Terminal name;
 
     private ScopeIndex typeIndex;
 
-    public Parameter(String type, String name)
+    public Parameter(Terminal type, Terminal name)
     {
         this.type = type;
         this.name = name;
