@@ -28,7 +28,6 @@ public class NodeSequenceBuilder<N extends AstNode, T extends AstNode> implement
     @SuppressWarnings("unchecked")
     public void addNode(AstNode node)
     {
-        // TODO: is this the right way round? I can never remember
         if(!nodeClass.isAssignableFrom(node.getClass()))
         {
             throw new IllegalArgumentException("Cannot assign " + node.getClass().getSimpleName() +

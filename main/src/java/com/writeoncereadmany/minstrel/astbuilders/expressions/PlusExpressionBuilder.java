@@ -6,7 +6,8 @@ import com.writeoncereadmany.minstrel.astbuilders.base.TwoNodeBuilder;
 
 public class PlusExpressionBuilder extends TwoNodeBuilder<Expression, Expression, PlusExpression>
 {
-    public PlusExpressionBuilder() {
+    public PlusExpressionBuilder()
+    {
         super(PlusExpression::new, Expression.class, Expression.class);
     }
 }

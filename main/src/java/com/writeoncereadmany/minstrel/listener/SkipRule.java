@@ -11,12 +11,12 @@ public class SkipRule extends RuleProcessor
     }
 
     @Override
-    void onEnter(ParserRuleContext ctx, ASTBuilder builder) {
-
+    void onEnter(ParserRuleContext ctx, ASTBuilder builder)
+    {
     }
 
     @Override
-    void onExit(ParserRuleContext ctx, ASTBuilder builder) {
-
+    void onExit(ParserRuleContext ctx, ASTBuilder builder)
+    {
     }
 }

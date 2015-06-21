@@ -17,7 +17,8 @@ public class MinstrelOrchestrator
     private final ANTLRErrorListener lexErrorListener;
     private final ANTLRErrorListener parseErrorListener;
 
-    public MinstrelOrchestrator(ANTLRErrorListener lexErrorListener, ANTLRErrorListener parseErrorListener) {
+    public MinstrelOrchestrator(ANTLRErrorListener lexErrorListener, ANTLRErrorListener parseErrorListener)
+    {
         this.lexErrorListener = lexErrorListener;
         this.parseErrorListener = parseErrorListener;
     }

@@ -8,12 +8,14 @@ public class BuildRootNode extends BuildCompoundNode
 {
     AstNode rootNode;
 
-    public BuildRootNode(Class<? extends ParserRuleContext> contextType, Constructor constructor) {
+    public BuildRootNode(Class<? extends ParserRuleContext> contextType, Constructor constructor)
+    {
         super(contextType, constructor);
     }
 
     @Override
-    public void onExit(ParserRuleContext ctx, ASTBuilder builder) {
+    public void onExit(ParserRuleContext ctx, ASTBuilder builder)
+    {
         Program program = (Program) builder.finishBuildingNode();
         builder.finish(program);
     }

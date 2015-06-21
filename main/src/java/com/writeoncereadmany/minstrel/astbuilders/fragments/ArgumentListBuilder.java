@@ -6,7 +6,8 @@ import com.writeoncereadmany.minstrel.astbuilders.base.NodeSequenceBuilder;
 
 public class ArgumentListBuilder extends NodeSequenceBuilder<Expression, ArgumentList>
 {
-    public ArgumentListBuilder() {
+    public ArgumentListBuilder()
+    {
         super(ArgumentList::new, Expression.class);
     }
 }

@@ -16,8 +16,8 @@ public class BuildTerminal extends RuleProcessor
     }
 
     @Override
-    public void onExit(ParserRuleContext ctx, ASTBuilder builder) {
-
+    public void onExit(ParserRuleContext ctx, ASTBuilder builder)
+    {
     }
 
 }
