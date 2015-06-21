@@ -48,7 +48,7 @@ public class SampleProgramRunner
     public void testASingleScript()
     {
         final List<String> errorCollector = new ArrayList<>();
-        runFileAndVerifyResults(new File(ROOT_SCRIPT_DIR, "expressions/number_expression.minstrel"), errorCollector);
+        runFileAndVerifyResults(new File(ROOT_SCRIPT_DIR, "parsing/basic_lex_error.minstrel"), errorCollector);
         assertThat(errorCollector, is(empty()));
     }
 
@@ -86,6 +86,11 @@ public class SampleProgramRunner
                 {
                     errorCollector.add(String.format("Expected no lex errors for %s", file.getName()));
                 }
+                else
+                {
+                    // checking of contents goes here, then escape early
+                    return;
+                }
             }
             else
             {
@@ -102,6 +107,11 @@ public class SampleProgramRunner
                 if(!replaceExtension(file, "parseerror").exists())
                 {
                     errorCollector.add(String.format("Expected no parse errors for %s", file.getName()));
+                }
+                else
+                {
+                    // checking of contents goes here, then escape early
+                    return;
                 }
             }
             else

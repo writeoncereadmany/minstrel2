@@ -1,2 +1,2 @@
-String greeting is "Hello, World"
-print[greeting]
+String greeting is "Hello, World";
+print[greeting];

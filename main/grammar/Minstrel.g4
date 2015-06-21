@@ -6,11 +6,11 @@ grammar Minstrel;
 
 fragment LETTER: [a-zA-Z];
 fragment DIGIT: [0-9];
-SPACE: [ \t]+ -> skip;
-NEWLINE: [\n];
+SPACE: [ \t\r\n]+ -> skip;
 
 NUMBER_LITERAL: DIGIT+('.'DIGIT+)?;
 STRING_LITERAL: '"' ~["]* '"';
+TERMINATOR: ';';
 
 // Keywords
 IS: 'is';
@@ -19,9 +19,7 @@ IDENTIFIER: LETTER (LETTER | DIGIT)* ;
 
 // Parser rules
 
-terminator: NEWLINE | EOF;
-
-program: ((statement terminator) | NEWLINE)*;
+program: (statement TERMINATOR)*;
 
 name: IDENTIFIER;
 type: IDENTIFIER;
