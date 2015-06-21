@@ -7,34 +7,28 @@ import java.util.function.Consumer;
 
 public class Namespace
 {
-    private final Map<String, ScopeIndex> types = new HashMap<>();
-    private final Consumer<String> onNameResolutionError;
-    private int currentTypeIndex = 0;
+    private final Map<String, Integer> names = new HashMap<>();
+    private int currentIndex = 0;
 
-    public Namespace(Consumer<String> onNameResolutionError)
+    public void define(String name, Consumer<String> errorListener)
     {
-        this.onNameResolutionError = onNameResolutionError;
-    }
-
-    public void define(String name)
-    {
-        if(types.containsKey(name))
+        if(names.containsKey(name))
         {
-            onNameResolutionError.accept("Type " + name + " already defined");
-        }
-        types.put(name, new ScopeIndex(0, currentTypeIndex++));
-    }
-
-    public ScopeIndex resolve(String name)
-    {
-        if(types.containsKey(name))
-        {
-            return types.get(name);
+            errorListener.accept("Name " + name + " already defined in this scope");
         }
         else
         {
-            onNameResolutionError.accept("Cannot resolve type " + name);
-            return ScopeIndex.UNDEFINED;
+            names.put(name, currentIndex++);
         }
+    }
+
+    public boolean contains(String name)
+    {
+        return names.containsKey(name);
+    }
+
+    public int indexOf(String name)
+    {
+        return names.getOrDefault(name, -1);
     }
 }

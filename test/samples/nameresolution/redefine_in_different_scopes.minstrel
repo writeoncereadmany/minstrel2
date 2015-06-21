@@ -1,0 +1,13 @@
+Number var is 42;
+function fun1[Number var]
+{
+    print[var];
+}
+
+function fun2[Number a]
+{
+    print[a + var];
+}
+
+fun1[var];
+fun2[43];

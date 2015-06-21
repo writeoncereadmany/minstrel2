@@ -10,6 +10,8 @@ public class FunctionDeclaration implements Statement
     private final ParameterList parameters;
     private final Block body;
 
+    private int bodyScope;
+
     public FunctionDeclaration(String name, ParameterList parameters, Block body)
     {
         this.name = name;
@@ -20,12 +22,19 @@ public class FunctionDeclaration implements Statement
     @Override
     public void defineNames(NameResolver nameResolver)
     {
-
+        nameResolver.defineValue(name);
+        bodyScope = nameResolver.enterNewScope();
+        parameters.defineNames(nameResolver);
+        body.defineNames(nameResolver);
+        nameResolver.exitScope(bodyScope);
     }
 
     @Override
     public void resolveNames(NameResolver nameResolver)
     {
-
+        nameResolver.enterExistingScope(bodyScope);
+        parameters.resolveNames(nameResolver);
+        body.resolveNames(nameResolver);
+        nameResolver.exitScope(bodyScope);
     }
 }
