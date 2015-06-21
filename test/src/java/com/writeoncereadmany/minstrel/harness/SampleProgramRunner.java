@@ -1,9 +1,11 @@
 package com.writeoncereadmany.minstrel.harness;
 
 import com.writeoncereadmany.minstrel.ast.Program;
+import com.writeoncereadmany.minstrel.names.NameResolver;
 import com.writeoncereadmany.minstrel.orchestrator.MinstrelOrchestrator;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -45,10 +47,11 @@ public class SampleProgramRunner
     }
 
     @Test
+    @Ignore
     public void testASingleScript()
     {
         final List<String> errorCollector = new ArrayList<>();
-        runFileAndVerifyResults(new File(ROOT_SCRIPT_DIR, "parsing/basic_lex_error.minstrel"), errorCollector);
+        runFileAndVerifyResults(new File(ROOT_SCRIPT_DIR, "lexing/basic_lex_error.minstrel"), errorCollector);
         assertThat(errorCollector, is(empty()));
     }
 
@@ -79,51 +82,30 @@ public class SampleProgramRunner
             TokenStream lexed = orchestrator.lex(new FileInputStream(file));
             ParseTree parseTree = orchestrator.parse(lexed);
 
-            if(lexErrorListener.hasErrors())
+            if (hasExpectedLexErrors(file, errorCollector, lexErrorListener))
             {
-                // for now, just check the file exists. we'll verify its contents later.
-                if(!replaceExtension(file, "lexerror").exists())
-                {
-                    errorCollector.add(String.format("Expected no lex errors for %s", file.getName()));
-                }
-                else
-                {
-                    // checking of contents goes here, then escape early
-                    return;
-                }
-            }
-            else
-            {
-                // for now, just check the file exists. we'll verify its contents later.
-                if(replaceExtension(file, "lexerror").exists())
-                {
-                    errorCollector.add(String.format("Expected lex errors for %s", file.getName()));
-                }
+                return;
             }
 
-            if(parseErrorListener.hasErrors())
+            if (hasExpectedParseErrors(file, errorCollector, parseErrorListener))
             {
-                // for now, just check the file exists. we'll verify its contents later
-                if(!replaceExtension(file, "parseerror").exists())
-                {
-                    errorCollector.add(String.format("Expected no parse errors for %s", file.getName()));
-                }
-                else
-                {
-                    // checking of contents goes here, then escape early
-                    return;
-                }
-            }
-            else
-            {
-                if(replaceExtension(file, "parseerror").exists())
-                {
-                    errorCollector.add(String.format("Expected parse errors for %s", file.getName()));
-                }
+                return;
             }
 
             // turn parse tree into program, then run it
             Program program = orchestrator.build(parseTree);
+
+            NameResolver nameResolver = new NameResolver();
+            Builtins.defineBuiltins(nameResolver);
+
+            program.defineNames(nameResolver);
+            program.resolveNames(nameResolver);
+
+            if(hasExpectedNameErrors(file, errorCollector, nameResolver))
+            {
+                return;
+            }
+
 
         } catch (IOException ex)
         {
@@ -133,6 +115,85 @@ public class SampleProgramRunner
             throw new RuntimeException("Error when parsing " + file.getName(), ex);
         }
     }
+
+    private boolean hasExpectedLexErrors(File file, List<String> errorCollector, TestErrorListener lexErrorListener)
+    {
+        if(lexErrorListener.hasErrors())
+        {
+            // for now, just check the file exists. we'll verify its contents later.
+            if(!replaceExtension(file, "lexerror").exists())
+            {
+                errorCollector.add(String.format("Expected no lex errors for %s", file.getName()));
+            }
+            else
+            {
+                // checking of contents goes here, then escape early
+                return true;
+            }
+        }
+        else
+        {
+            // for now, just check the file exists. we'll verify its contents later.
+            if(replaceExtension(file, "lexerror").exists())
+            {
+                errorCollector.add(String.format("Expected lex errors for %s", file.getName()));
+            }
+        }
+        return false;
+    }
+
+    private boolean hasExpectedParseErrors(File file, List<String> errorCollector, TestErrorListener parseErrorListener)
+    {
+        if(parseErrorListener.hasErrors())
+        {
+            // for now, just check the file exists. we'll verify its contents later
+            if(!replaceExtension(file, "parseerror").exists())
+            {
+                errorCollector.add(String.format("Expected no parse errors for %s", file.getName()));
+            }
+            else
+            {
+                // checking of contents goes here, then escape early
+                return true;
+            }
+        }
+        else
+        {
+            if(replaceExtension(file, "parseerror").exists())
+            {
+                errorCollector.add(String.format("Expected parse errors for %s", file.getName()));
+            }
+        }
+        return false;
+    }
+
+    private boolean hasExpectedNameErrors(File file, List<String> errorCollector, NameResolver nameResolver)
+    {
+        if(!nameResolver.getNameResolutionErrors().isEmpty())
+        {
+            // for now, just check the file exists. we'll verify its contents later
+            if(!replaceExtension(file, "nameerror").exists())
+            {
+                errorCollector.add(String.format("Expected no name errors for %s, got: %s",
+                                                 file.getName(),
+                                                 nameResolver.getNameResolutionErrors()));
+            }
+            else
+            {
+                // checking of contents goes here, then escape early
+                return true;
+            }
+        }
+        else
+        {
+            if(replaceExtension(file, "nameerror").exists())
+            {
+                errorCollector.add(String.format("Expected name errors for %s", file.getName()));
+            }
+        }
+        return false;
+    }
+
 
     private File replaceExtension(File file, String newExtension)
     {
