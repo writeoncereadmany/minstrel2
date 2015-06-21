@@ -9,7 +9,6 @@ public class Builtins
     {
         resolver.defineType("String");
         resolver.defineType("Number");
-        resolver.defineType("Showable");
 
         resolver.defineValue("print");
     }
