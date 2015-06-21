@@ -2,19 +2,19 @@ package com.writeoncereadmany.minstrel.astbuilders.statements;
 
 import com.writeoncereadmany.minstrel.ast.AstNode;
 import com.writeoncereadmany.minstrel.ast.expressions.Expression;
-import com.writeoncereadmany.minstrel.ast.statements.DeclarationStatement;
+import com.writeoncereadmany.minstrel.ast.statements.VariableDeclaration;
 import com.writeoncereadmany.minstrel.astbuilders.AstNodeBuilder;
 
-public class DeclarationStatementBuilder implements AstNodeBuilder<DeclarationStatement>
+public class VariableDeclarationBuilder implements AstNodeBuilder<VariableDeclaration>
 {
     private String type;
     private String name;
     private Expression expression;
 
     @Override
-    public DeclarationStatement build()
+    public VariableDeclaration build()
     {
-        return new DeclarationStatement(type, name, expression);
+        return new VariableDeclaration(type, name, expression);
     }
 
     @Override

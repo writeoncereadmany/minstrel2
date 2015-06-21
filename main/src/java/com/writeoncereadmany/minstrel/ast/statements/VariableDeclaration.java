@@ -4,7 +4,7 @@ import com.writeoncereadmany.minstrel.ast.expressions.Expression;
 import com.writeoncereadmany.minstrel.names.NameResolver;
 import com.writeoncereadmany.minstrel.names.ScopeIndex;
 
-public class DeclarationStatement implements Statement
+public class VariableDeclaration implements Statement
 {
     private final String type;
     private final String name;
@@ -12,7 +12,7 @@ public class DeclarationStatement implements Statement
 
     private ScopeIndex typeIndex;
 
-    public DeclarationStatement(String type, String name, Expression expression)
+    public VariableDeclaration(String type, String name, Expression expression)
     {
         this.type = type;
         this.name = name;

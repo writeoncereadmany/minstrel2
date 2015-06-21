@@ -7,7 +7,7 @@ import com.writeoncereadmany.minstrel.astbuilders.ProgramBuilder;
 import com.writeoncereadmany.minstrel.astbuilders.expressions.FunctionCallBuilder;
 import com.writeoncereadmany.minstrel.astbuilders.expressions.PlusExpressionBuilder;
 import com.writeoncereadmany.minstrel.astbuilders.fragments.ArgumentListBuilder;
-import com.writeoncereadmany.minstrel.astbuilders.statements.DeclarationStatementBuilder;
+import com.writeoncereadmany.minstrel.astbuilders.statements.VariableDeclarationBuilder;
 import com.writeoncereadmany.minstrel.astbuilders.statements.ExpressionStatementBuilder;
 import com.writeoncereadmany.minstrel.generated.grammar.MinstrelBaseListener;
 import com.writeoncereadmany.minstrel.generated.grammar.MinstrelParser;
@@ -46,7 +46,7 @@ public class ASTBuildingListener extends MinstrelBaseListener
     private static List<RuleProcessor> allRules = asList(
             new BuildRootNode(MinstrelParser.ProgramContext.class, ProgramBuilder::new),
 
-            new BuildCompoundNode(MinstrelParser.Declaration_statementContext.class, DeclarationStatementBuilder::new),
+            new BuildCompoundNode(MinstrelParser.Variable_declarationContext.class, VariableDeclarationBuilder::new),
             new BuildCompoundNode(MinstrelParser.Expression_statementContext.class, ExpressionStatementBuilder::new),
             new BuildCompoundNode(MinstrelParser.Function_callContext.class, FunctionCallBuilder::new),
             new BuildCompoundNode(MinstrelParser.Plus_expressionContext.class, PlusExpressionBuilder::new),
