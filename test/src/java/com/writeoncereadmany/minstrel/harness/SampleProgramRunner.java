@@ -10,9 +10,11 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import static java.util.Arrays.stream;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -39,7 +41,7 @@ public class SampleProgramRunner
 
 
     @Test
-    public void allScriptsHaveExpectedResults()
+    public void allScriptsHaveExpectedResults() throws Exception
     {
         final List<String> errorCollector = new ArrayList<>();
         testScriptsIn(ROOT_SCRIPT_DIR, errorCollector);
@@ -48,7 +50,7 @@ public class SampleProgramRunner
 
     @Test
     @Ignore
-    public void testASingleScript()
+    public void testASingleScript() throws Exception
     {
         final List<String> errorCollector = new ArrayList<>();
         runFileAndVerifyResults(new File(ROOT_SCRIPT_DIR, "lexing/basic_lex_error.minstrel"), errorCollector);
@@ -116,30 +118,42 @@ public class SampleProgramRunner
         }
     }
 
-    private boolean hasExpectedLexErrors(File file, List<String> errorCollector, TestErrorListener lexErrorListener)
+    private boolean hasExpectedLexErrors(File file, List<String> errorCollector, TestErrorListener lexErrorListener) throws FileNotFoundException
     {
+        File lexerrors = replaceExtension(file, "lexerror");
         if(lexErrorListener.hasErrors())
         {
             // for now, just check the file exists. we'll verify its contents later.
-            if(!replaceExtension(file, "lexerror").exists())
+            if(!lexerrors.exists())
             {
                 errorCollector.add(String.format("Expected no lex errors for %s", file.getName()));
             }
             else
             {
-                // checking of contents goes here, then escape early
+                List<String> expected = readLines(lexerrors);
+                assertThat(expected, is(lexErrorListener.errors()));
                 return true;
             }
         }
         else
         {
             // for now, just check the file exists. we'll verify its contents later.
-            if(replaceExtension(file, "lexerror").exists())
+            if(lexerrors.exists())
             {
                 errorCollector.add(String.format("Expected lex errors for %s", file.getName()));
             }
         }
         return false;
+    }
+
+    private List<String> readLines(File lexerrors) throws FileNotFoundException {
+        List<String> expected = new ArrayList<>();
+        Scanner scanner = new Scanner(lexerrors);
+        while(scanner.hasNext())
+        {
+            expected.add(scanner.nextLine());
+        }
+        return expected;
     }
 
     private boolean hasExpectedParseErrors(File file, List<String> errorCollector, TestErrorListener parseErrorListener)

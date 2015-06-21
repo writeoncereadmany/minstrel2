@@ -7,37 +7,44 @@ import org.antlr.v4.runtime.Recognizer;
 import org.antlr.v4.runtime.atn.ATNConfigSet;
 import org.antlr.v4.runtime.dfa.DFA;
 
+import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.List;
 
 public class TestErrorListener implements ANTLRErrorListener
 {
-    private boolean hasErrors = false;
+    private List<String> errors = new ArrayList<>();
 
     @Override
-    public void syntaxError(Recognizer<?, ?> recognizer, Object o, int i, int i1, String s, RecognitionException e)
+    public void syntaxError(Recognizer<?, ?> recognizer, Object o, int line, int column, String s, RecognitionException e)
     {
-        hasErrors = true;
+        errors.add("syntax error at line " + line + ", column " + column + ": " +  s);
     }
 
     @Override
     public void reportAmbiguity(Parser parser, DFA dfa, int i, int i1, boolean b, BitSet bitSet, ATNConfigSet atnConfigSet)
     {
-        hasErrors = true;
+        throw new IllegalStateException("Poop!");
     }
 
     @Override
     public void reportAttemptingFullContext(Parser parser, DFA dfa, int i, int i1, BitSet bitSet, ATNConfigSet atnConfigSet)
     {
-        hasErrors = true;
+        throw new IllegalStateException("Fart!");
     }
 
     @Override
     public void reportContextSensitivity(Parser parser, DFA dfa, int i, int i1, int i2, ATNConfigSet atnConfigSet)
     {
-        hasErrors = true;
+        throw new IllegalStateException("Weewee!");
     }
 
     public boolean hasErrors() {
-        return hasErrors;
+        return !errors.isEmpty();
+    }
+
+    public List<String> errors()
+    {
+        return errors;
     }
 }
