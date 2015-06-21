@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import static com.writeoncereadmany.minstrel.harness.FileUtils.readLines;
 import static java.util.Arrays.stream;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
@@ -120,17 +121,17 @@ public class SampleProgramRunner
 
     private boolean hasExpectedLexErrors(File file, List<String> errorCollector, TestErrorListener lexErrorListener) throws FileNotFoundException
     {
-        File lexerrors = replaceExtension(file, "lexerror");
+        File lexErrors = replaceExtension(file, "lexerror");
         if(lexErrorListener.hasErrors())
         {
             // for now, just check the file exists. we'll verify its contents later.
-            if(!lexerrors.exists())
+            if(!lexErrors.exists())
             {
                 errorCollector.add(String.format("Expected no lex errors for %s", file.getName()));
             }
             else
             {
-                List<String> expected = readLines(lexerrors);
+                List<String> expected = readLines(lexErrors);
                 assertThat(expected, is(lexErrorListener.errors()));
                 return true;
             }
@@ -138,7 +139,7 @@ public class SampleProgramRunner
         else
         {
             // for now, just check the file exists. we'll verify its contents later.
-            if(lexerrors.exists())
+            if(lexErrors.exists())
             {
                 errorCollector.add(String.format("Expected lex errors for %s", file.getName()));
             }
@@ -146,15 +147,6 @@ public class SampleProgramRunner
         return false;
     }
 
-    private List<String> readLines(File lexerrors) throws FileNotFoundException {
-        List<String> expected = new ArrayList<>();
-        Scanner scanner = new Scanner(lexerrors);
-        while(scanner.hasNext())
-        {
-            expected.add(scanner.nextLine());
-        }
-        return expected;
-    }
 
     private boolean hasExpectedParseErrors(File file, List<String> errorCollector, TestErrorListener parseErrorListener)
     {
