@@ -20,7 +20,7 @@ IDENTIFIER: LETTER (LETTER | DIGIT)* ;
 
 // Parser rules
 
-program: (statement TERMINATOR)*;
+program: statement*;
 
 name: IDENTIFIER;
 type: IDENTIFIER;
@@ -30,13 +30,13 @@ parameter: type name;
 argument_list: '[' (expression (',' expression)*)? ']';
 parameter_list: '[' (parameter (',' parameter)*)? ']';
 
-block: '{' (statement TERMINATOR)* '}';
+block: '{' statement* '}';
 
-statement: expression                                           # expression_statement
+statement: expression TERMINATOR                                # expression_statement
          | declaration                                          # declaration_statement
          ;
 
-declaration: type name IS expression                              # variable_declaration
+declaration: type name IS expression TERMINATOR                   # variable_declaration
            | FUNCTION name parameter_list block                   # function_declaration
            ;
 

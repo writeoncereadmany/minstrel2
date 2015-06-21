@@ -7,7 +7,6 @@ import com.writeoncereadmany.minstrel.astbuilders.base.TwoNodeBuilder;
 
 public class FunctionCallBuilder extends TwoNodeBuilder<Expression, ArgumentList, FunctionCall>
 {
-
     public FunctionCallBuilder()
     {
         super(FunctionCall::new, Expression.class, ArgumentList.class);

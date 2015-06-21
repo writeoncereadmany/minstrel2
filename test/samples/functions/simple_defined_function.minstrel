@@ -1,0 +1,7 @@
+function printTwice[String toPrint]
+{
+    print[toPrint];
+    print[toPrint];
+}
+
+printTwice["Hello"];
