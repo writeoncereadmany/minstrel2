@@ -1,0 +1,3 @@
+printy["Hello, World!"];
+
+function printy[String string] -> print[string];
