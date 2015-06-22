@@ -1,6 +1,8 @@
 package com.writeoncereadmany.minstrel.harness;
 
 import com.writeoncereadmany.minstrel.ast.Program;
+import com.writeoncereadmany.minstrel.harness.builtins.Builtins;
+import com.writeoncereadmany.minstrel.harness.utils.TestErrorListener;
 import com.writeoncereadmany.minstrel.names.NameResolver;
 import com.writeoncereadmany.minstrel.orchestrator.MinstrelOrchestrator;
 import org.antlr.v4.runtime.TokenStream;
@@ -15,7 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.writeoncereadmany.minstrel.harness.FileUtils.firstLine;
+import static com.writeoncereadmany.minstrel.harness.utils.FileUtils.firstLine;
 import static java.util.Arrays.stream;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;

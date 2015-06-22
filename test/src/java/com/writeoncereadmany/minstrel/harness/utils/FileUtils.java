@@ -1,4 +1,4 @@
-package com.writeoncereadmany.minstrel.harness;
+package com.writeoncereadmany.minstrel.harness.utils;
 
 import java.io.File;
 import java.io.FileNotFoundException;

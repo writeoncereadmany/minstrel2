@@ -1,4 +1,4 @@
-package com.writeoncereadmany.minstrel.harness;
+package com.writeoncereadmany.minstrel.harness.utils;
 
 import org.antlr.v4.runtime.ANTLRErrorListener;
 import org.antlr.v4.runtime.Parser;

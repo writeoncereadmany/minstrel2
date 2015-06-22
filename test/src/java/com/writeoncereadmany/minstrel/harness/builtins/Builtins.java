@@ -1,4 +1,4 @@
-package com.writeoncereadmany.minstrel.harness;
+package com.writeoncereadmany.minstrel.harness.builtins;
 
 
 import com.writeoncereadmany.minstrel.ast.Terminal;
