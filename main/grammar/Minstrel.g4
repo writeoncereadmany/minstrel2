@@ -55,6 +55,7 @@ expression: '(' expression ')'                                                  
           | function                                                                     # function_expression
           | expression argument_list                                                     # function_call
           | expression '.' IDENTIFIER                                                    # member_access
+          | expression '+' expression                                                    # plus_expression
           ;
 
 function: parameter_list body;

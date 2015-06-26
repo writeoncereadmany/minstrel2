@@ -59,6 +59,7 @@ public class ASTBuildingListener extends MinstrelBaseListener
             new BuildCompoundNode(MinstrelParser.Expression_statementContext.class, ExpressionStatementBuilder::new),
             new BuildCompoundNode(MinstrelParser.Function_callContext.class, FunctionCallBuilder::new),
             new BuildCompoundNode(MinstrelParser.Member_accessContext.class, MemberAccessBuilder::new),
+            new BuildCompoundNode(MinstrelParser.Plus_expressionContext.class, PlusExpressionBuilder::new),
             new BuildCompoundNode(MinstrelParser.Argument_listContext.class, ArgumentListBuilder::new),
             new BuildCompoundNode(MinstrelParser.FunctionContext.class, FunctionBuilder::new),
             new BuildCompoundNode(MinstrelParser.Parameter_listContext.class, ParameterListBuilder::new),
