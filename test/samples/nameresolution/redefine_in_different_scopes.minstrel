@@ -6,7 +6,7 @@ function fun1[Number var]
 
 function fun2[Number a]
 {
-    print[a + var];
+    print[a.plus[var]];
 };
 
 fun1[var];

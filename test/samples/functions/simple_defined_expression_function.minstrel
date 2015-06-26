@@ -1,2 +1,2 @@
-function double[Number num] -> num + num;
+function double[Number num] -> num.plus[num];
 print[double[5]];
