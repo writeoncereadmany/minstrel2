@@ -1,0 +1,2 @@
+Function printTwice is [String string] { print[string]; print[string]; };
+printTwice["Hello!"];

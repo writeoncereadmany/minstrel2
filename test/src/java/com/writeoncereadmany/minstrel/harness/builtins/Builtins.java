@@ -10,6 +10,7 @@ public class Builtins
     {
         resolver.defineType(new Terminal("String", -1, -1));
         resolver.defineType(new Terminal("Number", -1, -1));
+        resolver.defineType(new Terminal("Function", -1, -1));
 
         resolver.defineValue(new Terminal("print", -1, -1));
     }

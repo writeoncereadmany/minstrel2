@@ -3,6 +3,7 @@ package com.writeoncereadmany.minstrel.astbuilders.statements;
 import com.writeoncereadmany.minstrel.ast.AstNode;
 import com.writeoncereadmany.minstrel.ast.Body;
 import com.writeoncereadmany.minstrel.ast.Terminal;
+import com.writeoncereadmany.minstrel.ast.expressions.Function;
 import com.writeoncereadmany.minstrel.ast.fragments.ParameterList;
 import com.writeoncereadmany.minstrel.ast.statements.FunctionDeclaration;
 import com.writeoncereadmany.minstrel.astbuilders.AstNodeBuilder;
@@ -10,12 +11,11 @@ import com.writeoncereadmany.minstrel.astbuilders.AstNodeBuilder;
 public class FunctionDeclarationBuilder implements AstNodeBuilder
 {
     private Terminal name;
-    private ParameterList parameters;
-    private Body body;
+    private Function function;
 
     @Override
     public AstNode build() {
-        return new FunctionDeclaration(name, parameters, body);
+        return new FunctionDeclaration(name, function);
     }
 
     @Override
@@ -25,26 +25,15 @@ public class FunctionDeclarationBuilder implements AstNodeBuilder
         {
             throw new IllegalStateException("Expecting a name before being given a node: got " + node);
         }
-        else if(parameters == null)
+        else if(function == null)
         {
-            if(node instanceof ParameterList)
+            if(node instanceof Function)
             {
-                parameters = (ParameterList)node;
+                function = (Function)node;
             }
             else
             {
-                throw new IllegalArgumentException("Expecting a parameter list: got " + node);
-            }
-        }
-        else if(body == null)
-        {
-            if(node instanceof Body)
-            {
-                body = (Body)node;
-            }
-            else
-            {
-                throw new IllegalArgumentException("Expecting a body: got " + node);
+                throw new IllegalArgumentException("Expecting a function: got " + node);
             }
         }
         else

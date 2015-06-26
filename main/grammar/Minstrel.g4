@@ -41,7 +41,7 @@ statement_body: expression_statement                                 # standalon
 expression_statement: expression;
 
 declaration: type name IS expression                            # variable_declaration
-           | FUNCTION name parameter_list body                  # function_declaration
+           | FUNCTION name function                             # function_declaration
            ;
 
 body: '{' statement* '}'                                        # block
@@ -52,7 +52,9 @@ expression: '(' expression ')'                                                  
           | NUMBER_LITERAL                                                               # number_literal
           | STRING_LITERAL                                                               # string_literal
           | IDENTIFIER	                                                                 # variable
+          | function                                                                     # function_expression
           | expression argument_list                                                     # function_call
           | expression '+' expression                                                    # plus_expression
           ;
-          
+
+function: parameter_list body;

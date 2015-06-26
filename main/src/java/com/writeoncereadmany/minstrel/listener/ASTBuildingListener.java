@@ -5,6 +5,7 @@ import com.writeoncereadmany.minstrel.ast.expressions.StringLiteral;
 import com.writeoncereadmany.minstrel.ast.expressions.Variable;
 import com.writeoncereadmany.minstrel.astbuilders.BodyBuilder;
 import com.writeoncereadmany.minstrel.astbuilders.ProgramBuilder;
+import com.writeoncereadmany.minstrel.astbuilders.expressions.FunctionBuilder;
 import com.writeoncereadmany.minstrel.astbuilders.expressions.FunctionCallBuilder;
 import com.writeoncereadmany.minstrel.astbuilders.expressions.PlusExpressionBuilder;
 import com.writeoncereadmany.minstrel.astbuilders.fragments.ArgumentListBuilder;
@@ -58,6 +59,7 @@ public class ASTBuildingListener extends MinstrelBaseListener
             new BuildCompoundNode(MinstrelParser.Function_callContext.class, FunctionCallBuilder::new),
             new BuildCompoundNode(MinstrelParser.Plus_expressionContext.class, PlusExpressionBuilder::new),
             new BuildCompoundNode(MinstrelParser.Argument_listContext.class, ArgumentListBuilder::new),
+            new BuildCompoundNode(MinstrelParser.FunctionContext.class, FunctionBuilder::new),
             new BuildCompoundNode(MinstrelParser.Parameter_listContext.class, ParameterListBuilder::new),
             new BuildCompoundNode(MinstrelParser.ParameterContext.class, ParameterBuilder::new),
 
