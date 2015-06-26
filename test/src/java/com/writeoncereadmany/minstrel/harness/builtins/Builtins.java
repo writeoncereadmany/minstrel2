@@ -13,5 +13,6 @@ public class Builtins
         resolver.defineType(new Terminal("Function", -1, -1));
 
         resolver.defineValue(new Terminal("print", -1, -1));
+        resolver.defineValue(new Terminal("plus", -1, -1));
     }
 }

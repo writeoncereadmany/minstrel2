@@ -31,7 +31,6 @@ parameter: type name;
 argument_list: '[' (expression (',' expression)*)? ']';
 parameter_list: '[' (parameter (',' parameter)*)? ']';
 
-
 statement: statement_body TERMINATOR;
 
 statement_body: expression_statement                                 # standalone_expression_statement
@@ -55,7 +54,12 @@ expression: '(' expression ')'                                                  
           | function                                                                     # function_expression
           | expression argument_list                                                     # function_call
           | expression '.' IDENTIFIER                                                    # member_access
-          | expression '+' expression                                                    # plus_expression
+          | expression multiply_or_divide expression                                     # factor_expression
+          | expression add_or_subtract expression                                        # term_expression
           ;
+
+add_or_subtract: '+' | '-';
+multiply_or_divide: '*' | '/';
+comparison: '=' | '=/=' | '<' | '>' | '<=' | '>=';
 
 function: parameter_list body;

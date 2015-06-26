@@ -8,7 +8,7 @@ import com.writeoncereadmany.minstrel.astbuilders.fragments.BodyBuilder;
 import com.writeoncereadmany.minstrel.astbuilders.ProgramBuilder;
 import com.writeoncereadmany.minstrel.astbuilders.expressions.FunctionBuilder;
 import com.writeoncereadmany.minstrel.astbuilders.expressions.FunctionCallBuilder;
-import com.writeoncereadmany.minstrel.astbuilders.expressions.PlusExpressionBuilder;
+import com.writeoncereadmany.minstrel.astbuilders.expressions.BinaryOperatorExpressionBuilder;
 import com.writeoncereadmany.minstrel.astbuilders.fragments.ArgumentListBuilder;
 import com.writeoncereadmany.minstrel.astbuilders.fragments.ParameterBuilder;
 import com.writeoncereadmany.minstrel.astbuilders.fragments.ParameterListBuilder;
@@ -59,7 +59,8 @@ public class ASTBuildingListener extends MinstrelBaseListener
             new BuildCompoundNode(MinstrelParser.Expression_statementContext.class, ExpressionStatementBuilder::new),
             new BuildCompoundNode(MinstrelParser.Function_callContext.class, FunctionCallBuilder::new),
             new BuildCompoundNode(MinstrelParser.Member_accessContext.class, MemberAccessBuilder::new),
-            new BuildCompoundNode(MinstrelParser.Plus_expressionContext.class, PlusExpressionBuilder::new),
+            new BuildCompoundNode(MinstrelParser.Term_expressionContext.class, BinaryOperatorExpressionBuilder::new),
+            new BuildCompoundNode(MinstrelParser.Factor_expressionContext.class, BinaryOperatorExpressionBuilder::new),
             new BuildCompoundNode(MinstrelParser.Argument_listContext.class, ArgumentListBuilder::new),
             new BuildCompoundNode(MinstrelParser.FunctionContext.class, FunctionBuilder::new),
             new BuildCompoundNode(MinstrelParser.Parameter_listContext.class, ParameterListBuilder::new),
@@ -69,6 +70,8 @@ public class ASTBuildingListener extends MinstrelBaseListener
             new BuildTextNode(MinstrelParser.String_literalContext.class, StringLiteral::new),
             new BuildTextNode(MinstrelParser.VariableContext.class, Variable::new),
 
+            new BuildTerminal(MinstrelParser.Add_or_subtractContext.class),
+            new BuildTerminal(MinstrelParser.Multiply_or_divideContext.class),
             new BuildTerminal(MinstrelParser.TypeContext.class),
             new BuildTerminal(MinstrelParser.NameContext.class)
             );
