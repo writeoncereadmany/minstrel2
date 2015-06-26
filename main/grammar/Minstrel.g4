@@ -32,15 +32,16 @@ argument_list: '[' (expression (',' expression)*)? ']';
 parameter_list: '[' (parameter (',' parameter)*)? ']';
 
 
+statement: statement_body TERMINATOR;
 
-statement: expression_statement                                 # standalone_expression_statement
-         | declaration                                          # declaration_statement
-         ;
+statement_body: expression_statement                                 # standalone_expression_statement
+              | declaration                                          # declaration_statement
+              ;
 
-expression_statement: expression TERMINATOR;
+expression_statement: expression;
 
-declaration: type name IS expression TERMINATOR                   # variable_declaration
-           | FUNCTION name parameter_list body                    # function_declaration
+declaration: type name IS expression                            # variable_declaration
+           | FUNCTION name parameter_list body                  # function_declaration
            ;
 
 body: '{' statement* '}'                                        # block
