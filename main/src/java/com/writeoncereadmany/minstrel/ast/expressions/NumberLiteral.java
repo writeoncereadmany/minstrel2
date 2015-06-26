@@ -1,6 +1,6 @@
 package com.writeoncereadmany.minstrel.ast.expressions;
 
-import com.writeoncereadmany.minstrel.ast.Terminal;
+import com.writeoncereadmany.minstrel.ast.fragments.Terminal;
 import com.writeoncereadmany.minstrel.names.NameResolver;
 
 public class NumberLiteral implements Expression

@@ -1,7 +1,7 @@
 package com.writeoncereadmany.minstrel.harness.builtins;
 
 
-import com.writeoncereadmany.minstrel.ast.Terminal;
+import com.writeoncereadmany.minstrel.ast.fragments.Terminal;
 import com.writeoncereadmany.minstrel.names.NameResolver;
 
 public class Builtins

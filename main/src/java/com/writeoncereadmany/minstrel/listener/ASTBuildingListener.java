@@ -3,7 +3,7 @@ package com.writeoncereadmany.minstrel.listener;
 import com.writeoncereadmany.minstrel.ast.expressions.NumberLiteral;
 import com.writeoncereadmany.minstrel.ast.expressions.StringLiteral;
 import com.writeoncereadmany.minstrel.ast.expressions.Variable;
-import com.writeoncereadmany.minstrel.astbuilders.BodyBuilder;
+import com.writeoncereadmany.minstrel.astbuilders.fragments.BodyBuilder;
 import com.writeoncereadmany.minstrel.astbuilders.ProgramBuilder;
 import com.writeoncereadmany.minstrel.astbuilders.expressions.FunctionBuilder;
 import com.writeoncereadmany.minstrel.astbuilders.expressions.FunctionCallBuilder;

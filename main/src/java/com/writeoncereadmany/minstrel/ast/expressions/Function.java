@@ -1,6 +1,6 @@
 package com.writeoncereadmany.minstrel.ast.expressions;
 
-import com.writeoncereadmany.minstrel.ast.Body;
+import com.writeoncereadmany.minstrel.ast.fragments.Body;
 import com.writeoncereadmany.minstrel.ast.fragments.ParameterList;
 import com.writeoncereadmany.minstrel.names.NameResolver;
 

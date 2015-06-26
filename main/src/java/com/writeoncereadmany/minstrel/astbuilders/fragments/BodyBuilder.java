@@ -1,6 +1,6 @@
-package com.writeoncereadmany.minstrel.astbuilders;
+package com.writeoncereadmany.minstrel.astbuilders.fragments;
 
-import com.writeoncereadmany.minstrel.ast.Body;
+import com.writeoncereadmany.minstrel.ast.fragments.Body;
 import com.writeoncereadmany.minstrel.ast.statements.Statement;
 import com.writeoncereadmany.minstrel.astbuilders.base.NodeSequenceBuilder;
 

@@ -1,4 +1,4 @@
-package com.writeoncereadmany.minstrel.ast;
+package com.writeoncereadmany.minstrel.ast.fragments;
 
 public class Terminal
 {

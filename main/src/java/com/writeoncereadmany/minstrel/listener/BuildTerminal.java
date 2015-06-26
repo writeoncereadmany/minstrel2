@@ -1,6 +1,6 @@
 package com.writeoncereadmany.minstrel.listener;
 
-import com.writeoncereadmany.minstrel.ast.Terminal;
+import com.writeoncereadmany.minstrel.ast.fragments.Terminal;
 import org.antlr.v4.runtime.ParserRuleContext;
 
 import static com.writeoncereadmany.minstrel.listener.ContextUtils.getColumn;

@@ -1,6 +1,6 @@
 package com.writeoncereadmany.minstrel.names;
 
-import com.writeoncereadmany.minstrel.ast.Terminal;
+import com.writeoncereadmany.minstrel.ast.fragments.Terminal;
 
 import java.util.EnumMap;
 import java.util.HashSet;

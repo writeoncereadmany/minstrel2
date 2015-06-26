@@ -2,7 +2,7 @@ package com.writeoncereadmany.minstrel.listener;
 
 import com.writeoncereadmany.minstrel.ast.AstNode;
 import com.writeoncereadmany.minstrel.ast.Program;
-import com.writeoncereadmany.minstrel.ast.Terminal;
+import com.writeoncereadmany.minstrel.ast.fragments.Terminal;
 import com.writeoncereadmany.minstrel.astbuilders.AstNodeBuilder;
 
 import java.util.Stack;

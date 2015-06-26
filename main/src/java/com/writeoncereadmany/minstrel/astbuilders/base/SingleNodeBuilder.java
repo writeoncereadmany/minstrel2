@@ -1,7 +1,7 @@
 package com.writeoncereadmany.minstrel.astbuilders.base;
 
 import com.writeoncereadmany.minstrel.ast.AstNode;
-import com.writeoncereadmany.minstrel.ast.Terminal;
+import com.writeoncereadmany.minstrel.ast.fragments.Terminal;
 import com.writeoncereadmany.minstrel.astbuilders.AstNodeBuilder;
 
 public class SingleNodeBuilder<N extends AstNode, T extends AstNode> implements AstNodeBuilder<T>
