@@ -1,7 +1,7 @@
-package com.writeoncereadmany.minstrel.types;
+package com.writeoncereadmany.minstrel.types.concerns;
 
 import com.writeoncereadmany.minstrel.names.ScopeIndex;
-import com.writeoncereadmany.minstrel.types.concerns.Implementation;
+import com.writeoncereadmany.minstrel.types.Type;
 import com.writeoncereadmany.minstrel.types.validators.ImplementationGuaranteed;
 import com.writeoncereadmany.minstrel.types.validators.TypingRule;
 import org.junit.Test;
@@ -12,7 +12,7 @@ import static java.util.Collections.singletonList;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
-public class TypeTest
+public class ImplementationTest
 {
     public static final List<TypingRule> TYPING_RULES = singletonList(new ImplementationGuaranteed());
 
@@ -66,7 +66,6 @@ public class TypeTest
 
         assertThat(aThing.isSubtypeOf(differentThing, TYPING_RULES), is(not(empty())));
     }
-
 
     @Test
     public void aTypeWhichSpecifiesASubsetOfAnothersImplementationsIsItsSubtype()
