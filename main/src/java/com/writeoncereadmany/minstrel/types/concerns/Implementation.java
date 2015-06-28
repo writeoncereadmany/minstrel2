@@ -4,24 +4,37 @@ import com.writeoncereadmany.minstrel.names.ScopeIndex;
 import com.writeoncereadmany.minstrel.types.TypeError;
 
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static java.util.Arrays.stream;
 
 public class Implementation implements Concern
 {
-    private final ScopeIndex definition;
+    private final Set<ScopeIndex> possibleImplementations;
 
-    public Implementation(ScopeIndex definition)
+    public Implementation(ScopeIndex... implementations)
     {
-        this.definition = definition;
+        if(implementations.length == 0)
+        {
+            throw new IllegalArgumentException("An implementation with no possible implementations contains no instances");
+        }
+        this.possibleImplementations = stream(implementations).collect(Collectors.toSet());
     }
 
-    public Stream<TypeError> isSubtype(Optional<Implementation> ofSubtype)
+    public Stream<TypeError> isSubtype(Optional<Implementation> ofPotentialSubtype)
     {
-        return ofSubtype.map(this::checkTypesMatch).orElse(Stream.of(new TypeError("Specifying an implementation on the subtype where none is specified on the supertype")));
+        return ofPotentialSubtype.map(this::checkTypesMatch)
+                .orElse(Stream.of(new TypeError("Specifying an implementation on the supertype where none is specified on the subtype")));
     }
 
-    private Stream<TypeError> checkTypesMatch(Implementation implementation)
+    private Stream<TypeError> checkTypesMatch(Implementation ofPotentialSubtype)
     {
-        return implementation.definition.equals(this.definition) ? Stream.empty() : Stream.of(new TypeError("Different implementations are specified on both types"));
+        return ofPotentialSubtype.possibleImplementations
+                .stream()
+                .flatMap((ScopeIndex si) -> possibleImplementations.contains(si)
+                            ? Stream.empty()
+                            : Stream.of(new TypeError("An implementation required by the supertype is not")));
     }
 }

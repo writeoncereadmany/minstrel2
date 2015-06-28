@@ -3,58 +3,86 @@ package com.writeoncereadmany.minstrel.types;
 import com.writeoncereadmany.minstrel.names.ScopeIndex;
 import com.writeoncereadmany.minstrel.types.concerns.Implementation;
 import com.writeoncereadmany.minstrel.types.validators.ImplementationGuaranteed;
+import com.writeoncereadmany.minstrel.types.validators.TypingRule;
 import org.junit.Test;
 
-import static java.util.Arrays.asList;
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
+import java.util.List;
+
+import static java.util.Collections.singletonList;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
 public class TypeTest
 {
+    public static final List<TypingRule> TYPING_RULES = singletonList(new ImplementationGuaranteed());
+
+    public static final ScopeIndex NUMBER = new ScopeIndex(3, 2);
+    public static final ScopeIndex STRING = new ScopeIndex(3, 4);
+    public static final ScopeIndex TRUE = new ScopeIndex(2, 4);
+    public static final ScopeIndex FALSE = new ScopeIndex(2, 5);
+
     @Test
     public void aTypeWhichDoNotSpecifyImplementationIsASubtypeOfAnotherWhichDoesNotSpecifyImplementation()
     {
-        Type type1 = new Type();
-        Type type2 = new Type();
+        Type anything1 = new Type();
+        Type anything2 = new Type();
 
-        assertThat(type1.isSubtypeOf(type2, asList(new ImplementationGuaranteed())), is(empty()));
+        assertThat(anything1.isSubtypeOf(anything2, TYPING_RULES), is(empty()));
     }
 
-    @Test
-    public void aTypeWhichDoesNotSpecifyImplementationIsASubtypeOfOneWhichDoes()
-    {
-        Type type1 = new Type();
-        Type type2 = new Type(new Implementation(new ScopeIndex(3, 2)));
-
-        assertThat(type1.isSubtypeOf(type2, asList(new ImplementationGuaranteed())), is(empty()));
-    }
 
     @Test
     public void anImplementationIsASubtypeOfItself()
     {
-        Type type1 = new Type(new Implementation(new ScopeIndex(3, 2)));
-        Type type2 = new Type(new Implementation(new ScopeIndex(3, 2)));
+        Type aThing = new Type(new Implementation(NUMBER));
+        Type sameThing = new Type(new Implementation(NUMBER));
 
-        assertThat(type1.isSubtypeOf(type2, asList(new ImplementationGuaranteed())), is(empty()));
+        assertThat(aThing.isSubtypeOf(sameThing, TYPING_RULES), is(empty()));
+    }
+
+    @Test
+    public void aTypeWhichSpecifiesImplementationsIsASubtypeOfATypeWhichDoesNotSpecifyImplementation()
+    {
+        Type bool = new Type(new Implementation(TRUE, FALSE));
+        Type anything = new Type();
+
+        assertThat(bool.isSubtypeOf(anything, TYPING_RULES), is(empty()));
+    }
+
+    @Test
+    public void aTypeWhichDoesNotSpecifyImplementationIsNotASubtypeOfATypeWhichDoes()
+    {
+        Type bool = new Type(new Implementation(TRUE, FALSE));
+        Type anything = new Type();
+
+        assertThat(anything.isSubtypeOf(bool, TYPING_RULES), is(not(empty())));
     }
 
     @Test
     public void anImplementationIsNotASubtypeOfAnotherImplementation()
     {
-        Type type1 = new Type(new Implementation(new ScopeIndex(3, 2)));
-        Type type2 = new Type(new Implementation(new ScopeIndex(3, 4)));
+        Type aThing = new Type(new Implementation(NUMBER));
+        Type differentThing = new Type(new Implementation(STRING));
 
-        assertThat(type1.isSubtypeOf(type2, asList(new ImplementationGuaranteed())), is(not(empty())));
+        assertThat(aThing.isSubtypeOf(differentThing, TYPING_RULES), is(not(empty())));
+    }
+
+
+    @Test
+    public void aTypeWhichSpecifiesASubsetOfAnothersImplementationsIsItsSubtype()
+    {
+        Type bool = new Type(new Implementation(TRUE, FALSE));
+        Type truth = new Type(new Implementation(TRUE));
+
+        assertThat(truth.isSubtypeOf(bool, TYPING_RULES), is(empty()));
     }
 
     @Test
-    public void aTypeWhichSpecifiesImplementationIsNotASubtypeOfOneWhichDoesNot()
+    public void aTypeIsNotASubtypeIfItHasImplementationsTheOtherDoesNot()
     {
-        Type type1 = new Type(new Implementation(new ScopeIndex(3, 2)));
-        Type type2 = new Type();
+        Type bool = new Type(new Implementation(TRUE, FALSE));
+        Type truth = new Type(new Implementation(TRUE));
 
-        assertThat(type1.isSubtypeOf(type2, asList(new ImplementationGuaranteed())), is(not(empty())));
+        assertThat(bool.isSubtypeOf(truth, TYPING_RULES), is(not(empty())));
     }
 }

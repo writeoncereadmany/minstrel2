@@ -19,9 +19,9 @@ public class Type
         this.concerns = stream(concerns).collect(Collectors.toMap(concern -> concern.getClass(), concern -> concern));
     }
 
-    public List<TypeError> isSubtypeOf(Type otherType, List<TypingRule> typingRules)
+    public List<TypeError> isSubtypeOf(Type supertype, List<TypingRule> typingRules)
     {
-        return typingRules.stream().flatMap(rule -> rule.isSubtypeOf(this, otherType)).collect(Collectors.toList());
+        return typingRules.stream().flatMap(rule -> rule.isSubtypeOf(supertype, this)).collect(Collectors.toList());
     }
 
     @SuppressWarnings("unchecked")
