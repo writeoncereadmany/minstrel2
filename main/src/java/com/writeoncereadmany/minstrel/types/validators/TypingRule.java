@@ -7,5 +7,5 @@ import java.util.stream.Stream;
 
 public interface TypingRule
 {
-    Stream<TypeError> isSubtypeOf(Type supertype, Type subtype);
+    Stream<TypeError> isAssignableTo(Type target, Type source);
 }

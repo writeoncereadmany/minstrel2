@@ -19,9 +19,9 @@ public class Type
         this.concerns = stream(concerns).collect(Collectors.toMap(concern -> concern.getClass(), concern -> concern));
     }
 
-    public List<TypeError> isSubtypeOf(Type supertype, List<TypingRule> typingRules)
+    public List<TypeError> isAssignableTo(Type target, List<TypingRule> typingRules)
     {
-        return typingRules.stream().flatMap(rule -> rule.isSubtypeOf(supertype, this)).collect(Collectors.toList());
+        return typingRules.stream().flatMap(rule -> rule.isAssignableTo(target, this)).collect(Collectors.toList());
     }
 
     @SuppressWarnings("unchecked")

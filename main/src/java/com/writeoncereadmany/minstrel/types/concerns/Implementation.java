@@ -23,18 +23,13 @@ public class Implementation implements Concern
         this.possibleImplementations = stream(implementations).collect(Collectors.toSet());
     }
 
-    public Stream<TypeError> isSubtype(Optional<Implementation> ofPotentialSubtype)
+    public Stream<TypeError> isSupersetOf(Optional<Implementation> otherImplementations)
     {
-        return ofPotentialSubtype.map(this::checkTypesMatch)
-                .orElse(Stream.of(new TypeError("Specifying an implementation on the supertype where none is specified on the subtype")));
-    }
-
-    private Stream<TypeError> checkTypesMatch(Implementation ofPotentialSubtype)
-    {
-        return ofPotentialSubtype.possibleImplementations
+        return otherImplementations.map(that -> that.possibleImplementations
                 .stream()
                 .flatMap((ScopeIndex si) -> possibleImplementations.contains(si)
-                            ? Stream.empty()
-                            : Stream.of(new TypeError("An implementation required by the supertype is not")));
+                        ? Stream.empty()
+                        : Stream.of(new TypeError("An implementation required by the supertype is not"))))
+                .orElse(Stream.of(new TypeError("Specifying an implementation on the supertype where none is specified on the subtype")));
     }
 }

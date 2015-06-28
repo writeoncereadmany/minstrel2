@@ -10,15 +10,11 @@ import java.util.stream.Stream;
 public class ImplementationGuaranteed implements TypingRule
 {
     @Override
-    public Stream<TypeError> isSubtypeOf(Type supertype, Type subtype)
+    public Stream<TypeError> isAssignableTo(Type target, Type source)
     {
-        Optional<Implementation> ofSupertype = supertype.getConcern(Implementation.class);
-        Optional<Implementation> ofSubtype = subtype.getConcern(Implementation.class);
+        Optional<Implementation> targetImplementation = target.getConcern(Implementation.class);
+        Optional<Implementation> sourceImplementation = source.getConcern(Implementation.class);
 
-        if(!ofSupertype.isPresent())
-        {
-            return Stream.empty();
-        }
-        return ofSupertype.map(i -> i.isSubtype(ofSubtype)).orElse(Stream.empty());
+        return targetImplementation.map(targetImpl -> targetImpl.isSupersetOf(sourceImplementation)).orElse(Stream.empty());
     }
 }

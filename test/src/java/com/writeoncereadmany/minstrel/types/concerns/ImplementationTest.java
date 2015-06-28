@@ -27,7 +27,7 @@ public class ImplementationTest
         Type anything1 = new Type();
         Type anything2 = new Type();
 
-        assertThat(anything1.isSubtypeOf(anything2, IMPLEMENTATION_TYPING_RULES), is(empty()));
+        assertThat(anything1.isAssignableTo(anything2, IMPLEMENTATION_TYPING_RULES), is(empty()));
     }
 
 
@@ -37,7 +37,7 @@ public class ImplementationTest
         Type aThing = new Type(new Implementation(NUMBER));
         Type sameThing = new Type(new Implementation(NUMBER));
 
-        assertThat(aThing.isSubtypeOf(sameThing, IMPLEMENTATION_TYPING_RULES), is(empty()));
+        assertThat(aThing.isAssignableTo(sameThing, IMPLEMENTATION_TYPING_RULES), is(empty()));
     }
 
     @Test
@@ -46,7 +46,7 @@ public class ImplementationTest
         Type bool = new Type(new Implementation(TRUE, FALSE));
         Type anything = new Type();
 
-        assertThat(bool.isSubtypeOf(anything, IMPLEMENTATION_TYPING_RULES), is(empty()));
+        assertThat(bool.isAssignableTo(anything, IMPLEMENTATION_TYPING_RULES), is(empty()));
     }
 
     @Test
@@ -55,7 +55,7 @@ public class ImplementationTest
         Type bool = new Type(new Implementation(TRUE, FALSE));
         Type anything = new Type();
 
-        assertThat(anything.isSubtypeOf(bool, IMPLEMENTATION_TYPING_RULES), is(not(empty())));
+        assertThat(anything.isAssignableTo(bool, IMPLEMENTATION_TYPING_RULES), is(not(empty())));
     }
 
     @Test
@@ -64,7 +64,7 @@ public class ImplementationTest
         Type aThing = new Type(new Implementation(NUMBER));
         Type differentThing = new Type(new Implementation(STRING));
 
-        assertThat(aThing.isSubtypeOf(differentThing, IMPLEMENTATION_TYPING_RULES), is(not(empty())));
+        assertThat(aThing.isAssignableTo(differentThing, IMPLEMENTATION_TYPING_RULES), is(not(empty())));
     }
 
     @Test
@@ -73,7 +73,7 @@ public class ImplementationTest
         Type bool = new Type(new Implementation(TRUE, FALSE));
         Type truth = new Type(new Implementation(TRUE));
 
-        assertThat(truth.isSubtypeOf(bool, IMPLEMENTATION_TYPING_RULES), is(empty()));
+        assertThat(truth.isAssignableTo(bool, IMPLEMENTATION_TYPING_RULES), is(empty()));
     }
 
     @Test
@@ -82,6 +82,6 @@ public class ImplementationTest
         Type bool = new Type(new Implementation(TRUE, FALSE));
         Type truth = new Type(new Implementation(TRUE));
 
-        assertThat(bool.isSubtypeOf(truth, IMPLEMENTATION_TYPING_RULES), is(not(empty())));
+        assertThat(bool.isAssignableTo(truth, IMPLEMENTATION_TYPING_RULES), is(not(empty())));
     }
 }

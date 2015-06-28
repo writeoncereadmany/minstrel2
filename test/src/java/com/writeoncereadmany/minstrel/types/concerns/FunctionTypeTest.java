@@ -6,7 +6,6 @@ import com.writeoncereadmany.minstrel.types.validators.FunctionTypingRules;
 import com.writeoncereadmany.minstrel.types.validators.TypingRule;
 import org.junit.Test;
 
-import java.util.Collections;
 import java.util.List;
 
 import static java.util.Collections.singletonList;
@@ -32,6 +31,6 @@ public class FunctionTypeTest
         Type aFunction = new Type(new FunctionType(singletonList(MAMMAL), MAMMAL));
         Type sameFunction = new Type(new FunctionType(singletonList(MAMMAL), MAMMAL));
 
-        assertThat(aFunction.isSubtypeOf(sameFunction, FUNCTION_TYPING_RULES), is(empty()));
+        assertThat(aFunction.isAssignableTo(sameFunction, FUNCTION_TYPING_RULES), is(empty()));
     }
 }
