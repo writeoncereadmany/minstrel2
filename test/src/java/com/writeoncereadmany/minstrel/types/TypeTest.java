@@ -16,8 +16,8 @@ public class TypeTest
     @Test
     public void aTypeWhichDoNotSpecifyImplementationIsASubtypeOfAnotherWhichDoesNotSpecifyImplementation()
     {
-        DiscreteType type1 = new DiscreteType();
-        DiscreteType type2 = new DiscreteType();
+        Type type1 = new Type();
+        Type type2 = new Type();
 
         assertThat(type1.isSubtypeOf(type2, asList(new ImplementationGuaranteed())), is(empty()));
     }
@@ -25,8 +25,8 @@ public class TypeTest
     @Test
     public void aTypeWhichDoesNotSpecifyImplementationIsASubtypeOfOneWhichDoes()
     {
-        DiscreteType type1 = new DiscreteType();
-        DiscreteType type2 = new DiscreteType(new Implementation(new ScopeIndex(3, 2)));
+        Type type1 = new Type();
+        Type type2 = new Type(new Implementation(new ScopeIndex(3, 2)));
 
         assertThat(type1.isSubtypeOf(type2, asList(new ImplementationGuaranteed())), is(empty()));
     }
@@ -34,8 +34,8 @@ public class TypeTest
     @Test
     public void anImplementationIsASubtypeOfItself()
     {
-        DiscreteType type1 = new DiscreteType(new Implementation(new ScopeIndex(3, 2)));
-        DiscreteType type2 = new DiscreteType(new Implementation(new ScopeIndex(3, 2)));
+        Type type1 = new Type(new Implementation(new ScopeIndex(3, 2)));
+        Type type2 = new Type(new Implementation(new ScopeIndex(3, 2)));
 
         assertThat(type1.isSubtypeOf(type2, asList(new ImplementationGuaranteed())), is(empty()));
     }
@@ -43,8 +43,8 @@ public class TypeTest
     @Test
     public void anImplementationIsNotASubtypeOfAnotherImplementation()
     {
-        DiscreteType type1 = new DiscreteType(new Implementation(new ScopeIndex(3, 2)));
-        DiscreteType type2 = new DiscreteType(new Implementation(new ScopeIndex(3, 4)));
+        Type type1 = new Type(new Implementation(new ScopeIndex(3, 2)));
+        Type type2 = new Type(new Implementation(new ScopeIndex(3, 4)));
 
         assertThat(type1.isSubtypeOf(type2, asList(new ImplementationGuaranteed())), is(not(empty())));
     }
@@ -52,8 +52,8 @@ public class TypeTest
     @Test
     public void aTypeWhichSpecifiesImplementationIsNotASubtypeOfOneWhichDoesNot()
     {
-        DiscreteType type1 = new DiscreteType(new Implementation(new ScopeIndex(3, 2)));
-        DiscreteType type2 = new DiscreteType();
+        Type type1 = new Type(new Implementation(new ScopeIndex(3, 2)));
+        Type type2 = new Type();
 
         assertThat(type1.isSubtypeOf(type2, asList(new ImplementationGuaranteed())), is(not(empty())));
     }
