@@ -21,7 +21,7 @@ public class Type
 
     public List<TypeError> isAssignableTo(Type target, List<TypingRule> typingRules)
     {
-        return typingRules.stream().flatMap(rule -> rule.isAssignableTo(target, this)).collect(Collectors.toList());
+        return typingRules.stream().flatMap(rule -> rule.isAssignableTo(this, target)).collect(Collectors.toList());
     }
 
     @SuppressWarnings("unchecked")

@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 public class FunctionTypingRules implements TypingRule
 {
     @Override
-    public Stream<TypeError> isAssignableTo(Type target, Type source)
+    public Stream<TypeError> isAssignableTo(Type source, Type target)
     {
         return Stream.empty();
     }

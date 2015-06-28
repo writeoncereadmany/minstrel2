@@ -7,5 +7,5 @@ import java.util.stream.Stream;
 
 public interface TypingRule
 {
-    Stream<TypeError> isAssignableTo(Type target, Type source);
+    Stream<TypeError> isAssignableTo(Type source, Type target);
 }

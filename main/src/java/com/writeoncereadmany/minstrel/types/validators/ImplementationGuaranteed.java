@@ -10,10 +10,10 @@ import java.util.stream.Stream;
 public class ImplementationGuaranteed implements TypingRule
 {
     @Override
-    public Stream<TypeError> isAssignableTo(Type target, Type source)
+    public Stream<TypeError> isAssignableTo(Type source, Type target)
     {
-        Optional<Implementation> targetImplementation = target.getConcern(Implementation.class);
         Optional<Implementation> sourceImplementation = source.getConcern(Implementation.class);
+        Optional<Implementation> targetImplementation = target.getConcern(Implementation.class);
 
         return targetImplementation.map(targetImpl -> targetImpl.isSupersetOf(sourceImplementation)).orElse(Stream.empty());
     }
