@@ -15,6 +15,8 @@ TERMINATOR: ';';
 // Keywords
 IS: 'is';
 FUNCTION: 'function';
+
+// Symbols
 ARROW: '->';
 
 IDENTIFIER: LETTER (LETTER | DIGIT)* ;
@@ -56,6 +58,7 @@ expression: '(' expression ')'                                                  
           | expression '.' IDENTIFIER                                                    # member_access
           | expression multiply_or_divide expression                                     # factor_expression
           | expression add_or_subtract expression                                        # term_expression
+          | expression comparison expression                                             # comparison_expression
           ;
 
 add_or_subtract: '+' | '-';
