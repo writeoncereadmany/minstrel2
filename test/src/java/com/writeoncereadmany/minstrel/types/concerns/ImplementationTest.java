@@ -9,6 +9,7 @@ import org.junit.Test;
 import java.util.List;
 
 import static java.util.Collections.singletonList;
+import static java.util.stream.Collectors.toList;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
@@ -27,7 +28,7 @@ public class ImplementationTest
         Type anything1 = new Type();
         Type anything2 = new Type();
 
-        assertThat(anything1.isAssignableTo(anything2, IMPLEMENTATION_TYPING_RULES), is(empty()));
+        assertThat(anything1.isAssignableTo(anything2, IMPLEMENTATION_TYPING_RULES, null).collect(toList()), is(empty()));
     }
 
 
@@ -37,7 +38,7 @@ public class ImplementationTest
         Type aThing = new Type(new Implementation(NUMBER));
         Type sameThing = new Type(new Implementation(NUMBER));
 
-        assertThat(aThing.isAssignableTo(sameThing, IMPLEMENTATION_TYPING_RULES), is(empty()));
+        assertThat(aThing.isAssignableTo(sameThing, IMPLEMENTATION_TYPING_RULES, null).collect(toList()), is(empty()));
     }
 
     @Test
@@ -46,7 +47,7 @@ public class ImplementationTest
         Type bool = new Type(new Implementation(TRUE, FALSE));
         Type anything = new Type();
 
-        assertThat(bool.isAssignableTo(anything, IMPLEMENTATION_TYPING_RULES), is(empty()));
+        assertThat(bool.isAssignableTo(anything, IMPLEMENTATION_TYPING_RULES, null).collect(toList()), is(empty()));
     }
 
     @Test
@@ -55,7 +56,7 @@ public class ImplementationTest
         Type bool = new Type(new Implementation(TRUE, FALSE));
         Type anything = new Type();
 
-        assertThat(anything.isAssignableTo(bool, IMPLEMENTATION_TYPING_RULES), is(not(empty())));
+        assertThat(anything.isAssignableTo(bool, IMPLEMENTATION_TYPING_RULES, null).collect(toList()), is(not(empty())));
     }
 
     @Test
@@ -64,7 +65,7 @@ public class ImplementationTest
         Type aThing = new Type(new Implementation(NUMBER));
         Type differentThing = new Type(new Implementation(STRING));
 
-        assertThat(aThing.isAssignableTo(differentThing, IMPLEMENTATION_TYPING_RULES), is(not(empty())));
+        assertThat(aThing.isAssignableTo(differentThing, IMPLEMENTATION_TYPING_RULES, null).collect(toList()), is(not(empty())));
     }
 
     @Test
@@ -73,7 +74,7 @@ public class ImplementationTest
         Type bool = new Type(new Implementation(TRUE, FALSE));
         Type truth = new Type(new Implementation(TRUE));
 
-        assertThat(truth.isAssignableTo(bool, IMPLEMENTATION_TYPING_RULES), is(empty()));
+        assertThat(truth.isAssignableTo(bool, IMPLEMENTATION_TYPING_RULES, null).collect(toList()), is(empty()));
     }
 
     @Test
@@ -82,6 +83,6 @@ public class ImplementationTest
         Type bool = new Type(new Implementation(TRUE, FALSE));
         Type truth = new Type(new Implementation(TRUE));
 
-        assertThat(bool.isAssignableTo(truth, IMPLEMENTATION_TYPING_RULES), is(not(empty())));
+        assertThat(bool.isAssignableTo(truth, IMPLEMENTATION_TYPING_RULES, null).collect(toList()), is(not(empty())));
     }
 }
