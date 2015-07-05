@@ -3,6 +3,7 @@ package com.writeoncereadmany.minstrel.types;
 import com.writeoncereadmany.minstrel.names.ScopeIndex;
 import com.writeoncereadmany.minstrel.types.defintions.TypeDefinition;
 import com.writeoncereadmany.minstrel.types.validators.TypingRule;
+import com.writeoncereadmany.util.Multimap;
 
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ public class TypeChecker
 {
     private final List<TypingRule> rules;
     private final Map<ScopeIndex, Type> types;
+    private final Multimap<TypeDefinition, TypeDefinition> alreadyVisitedDefinitions = new Multimap<>();
 
     public TypeChecker(List<TypingRule> rules, Map<ScopeIndex, Type> types)
     {
@@ -31,6 +33,16 @@ public class TypeChecker
 
     public Stream<TypeError> canAssign(TypeDefinition sourceTypeDefinition, TypeDefinition targetTypeDefinition)
     {
+        if(alreadyVisitedDefinitions.contains(sourceTypeDefinition, targetTypeDefinition))
+        {
+            return Stream.empty();
+        }
+        alreadyVisitedDefinitions.put(sourceTypeDefinition, targetTypeDefinition);
         return canAssign(sourceTypeDefinition.getType(this), targetTypeDefinition.getType(this));
+    }
+
+    public void clear()
+    {
+        alreadyVisitedDefinitions.clear();
     }
 }
