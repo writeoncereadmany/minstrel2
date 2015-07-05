@@ -4,6 +4,7 @@ import com.writeoncereadmany.minstrel.types.Type;
 import com.writeoncereadmany.minstrel.types.TypeChecker;
 import com.writeoncereadmany.minstrel.types.TypeError;
 import com.writeoncereadmany.minstrel.types.concerns.Interface;
+import com.writeoncereadmany.minstrel.types.defintions.TypeDefinition;
 
 import java.util.stream.Stream;
 
@@ -26,8 +27,8 @@ public class InterfaceRule implements TypingRule
 
         return targetInterface.members.keySet().stream().flatMap(member ->
         {
-            Type sourceType = sourceInterface.members.get(member);
-            Type targetType = targetInterface.members.get(member);
+            TypeDefinition sourceType = sourceInterface.members.get(member);
+            TypeDefinition targetType = targetInterface.members.get(member);
             if(sourceType == null)
             {
                 return Stream.of(new TypeError("Source type does not have member " + member));

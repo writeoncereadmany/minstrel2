@@ -39,4 +39,12 @@ public class ScopeIndex
     {
         return Objects.hash(scopeIndex, positionIndex);
     }
+
+    @Override
+    public String toString() {
+        return "ScopeIndex{" +
+                "scopeIndex=" + scopeIndex +
+                ", positionIndex=" + positionIndex +
+                '}';
+    }
 }
