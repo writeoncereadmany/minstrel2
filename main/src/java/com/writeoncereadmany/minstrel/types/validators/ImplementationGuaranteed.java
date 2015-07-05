@@ -2,6 +2,7 @@ package com.writeoncereadmany.minstrel.types.validators;
 
 import com.writeoncereadmany.minstrel.names.ScopeIndex;
 import com.writeoncereadmany.minstrel.types.Type;
+import com.writeoncereadmany.minstrel.types.TypeEngine;
 import com.writeoncereadmany.minstrel.types.TypeError;
 import com.writeoncereadmany.minstrel.types.concerns.Implementation;
 
@@ -12,7 +13,7 @@ import java.util.stream.Stream;
 public class ImplementationGuaranteed implements TypingRule
 {
     @Override
-    public Stream<TypeError> isAssignableTo(Type source, Type target, Function<ScopeIndex, Type> provider, List<TypingRule> rules)
+    public Stream<TypeError> isAssignableTo(Type source, Type target, TypeEngine engine)
     {
         Implementation sourceImplementation = source.getConcern(Implementation.class);
         Implementation targetImplementation = target.getConcern(Implementation.class);

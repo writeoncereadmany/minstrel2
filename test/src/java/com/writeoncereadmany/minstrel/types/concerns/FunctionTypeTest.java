@@ -2,14 +2,13 @@ package com.writeoncereadmany.minstrel.types.concerns;
 
 import com.writeoncereadmany.minstrel.names.ScopeIndex;
 import com.writeoncereadmany.minstrel.types.Type;
+import com.writeoncereadmany.minstrel.types.TypeEngine;
 import com.writeoncereadmany.minstrel.types.defintions.TypeDefinition;
 import com.writeoncereadmany.minstrel.types.defintions.ConcreteTypeDefinition;
 import com.writeoncereadmany.minstrel.types.validators.FunctionTypingRules;
-import com.writeoncereadmany.minstrel.types.validators.TypingRule;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.List;
 import java.util.Map;
 
 import static com.writeoncereadmany.util.TypeSafeMapBuilder.entry;
@@ -39,13 +38,7 @@ public class FunctionTypeTest
     private final TypeDefinition MAMMAL = new ConcreteTypeDefinition(MAMMAL_DEF);
     private final TypeDefinition CAT = new ConcreteTypeDefinition(CAT_DEF);
 
-    private final List<TypingRule> FUNCTION_TYPING_RULES = singletonList(new FunctionTypingRules());
-
-    @Before
-    public void setUp()
-    {
-
-    }
+    private final TypeEngine typeEngine = new TypeEngine(singletonList(new FunctionTypingRules()), definitions);
 
 
     @Test
@@ -54,7 +47,7 @@ public class FunctionTypeTest
         Type aFunction = new Type(new FunctionType(singletonList(MAMMAL), MAMMAL));
         Type sameFunction = new Type(new FunctionType(singletonList(MAMMAL), MAMMAL));
 
-        assertThat(aFunction.isAssignableTo(sameFunction, FUNCTION_TYPING_RULES, definitions::get).collect(toList()), is(empty()));
+        assertThat(aFunction.isAssignableTo(sameFunction, typeEngine).collect(toList()), is(empty()));
     }
 
     @Test
@@ -63,7 +56,7 @@ public class FunctionTypeTest
         Type aFunction = new Type(new FunctionType(singletonList(MAMMAL), MAMMAL));
         Type notAFunction = new Type();
 
-        assertThat(notAFunction.isAssignableTo(aFunction, FUNCTION_TYPING_RULES, definitions::get).collect(toList()), is(not(empty())));
+        assertThat(notAFunction.isAssignableTo(aFunction, typeEngine).collect(toList()), is(not(empty())));
     }
 
     @Test
@@ -72,7 +65,7 @@ public class FunctionTypeTest
         Type oneArgFunction = new Type(new FunctionType(singletonList(MAMMAL), MAMMAL));
         Type zeroArgFunction = new Type(new FunctionType(emptyList(), MAMMAL));
 
-        assertThat(oneArgFunction.isAssignableTo(zeroArgFunction, FUNCTION_TYPING_RULES, definitions::get).collect(toList()), is(not(empty())));
-        assertThat(zeroArgFunction.isAssignableTo(oneArgFunction, FUNCTION_TYPING_RULES, definitions::get).collect(toList()), is(not(empty())));
+        assertThat(oneArgFunction.isAssignableTo(zeroArgFunction, typeEngine).collect(toList()), is(not(empty())));
+        assertThat(zeroArgFunction.isAssignableTo(oneArgFunction, typeEngine).collect(toList()), is(not(empty())));
     }
 }

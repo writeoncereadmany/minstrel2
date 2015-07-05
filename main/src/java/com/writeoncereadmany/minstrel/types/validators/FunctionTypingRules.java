@@ -2,6 +2,7 @@ package com.writeoncereadmany.minstrel.types.validators;
 
 import com.writeoncereadmany.minstrel.names.ScopeIndex;
 import com.writeoncereadmany.minstrel.types.Type;
+import com.writeoncereadmany.minstrel.types.TypeEngine;
 import com.writeoncereadmany.minstrel.types.TypeError;
 import com.writeoncereadmany.minstrel.types.concerns.FunctionType;
 
@@ -13,7 +14,7 @@ import java.util.stream.Stream;
 public class FunctionTypingRules implements TypingRule
 {
     @Override
-    public Stream<TypeError> isAssignableTo(Type source, Type target, Function<ScopeIndex, Type> provider, List<TypingRule> rules)
+    public Stream<TypeError> isAssignableTo(Type source, Type target, TypeEngine engine)
     {
         FunctionType sourceType = source.getConcern(FunctionType.class);
         FunctionType targetType = target.getConcern(FunctionType.class);
@@ -36,19 +37,20 @@ public class FunctionTypingRules implements TypingRule
         }
         // if we have same arities, then the source's return type must be assignable to the target's return type,
         // and the target's argument types must each be assignable to the equivalent source's argument types
-        Stream<TypeError> argumentMismatches = getArgumentTypeMismatches(targetType, sourceType, provider, rules);
-        Type sourceReturnType = sourceType.returnType.getType(provider);
-        Type targetReturnType = targetType.returnType.getType(provider);
-        return Stream.concat(argumentMismatches, sourceReturnType.isAssignableTo(targetReturnType, rules, provider));
+        Stream<TypeError> argumentMismatches = getArgumentTypeMismatches(targetType, sourceType, engine);
+        Type sourceReturnType = sourceType.returnType.getType(engine);
+        Type targetReturnType = targetType.returnType.getType(engine);
+        return Stream.concat(argumentMismatches, sourceReturnType.isAssignableTo(targetReturnType, engine));
     }
 
-    private Stream<TypeError> getArgumentTypeMismatches(FunctionType targetType, FunctionType sourceType, Function<ScopeIndex, Type> provider, List<TypingRule> rules) {
+    private Stream<TypeError> getArgumentTypeMismatches(FunctionType targetType, FunctionType sourceType, TypeEngine engine)
+    {
         return IntStream.range(0, targetType.argumentTypes.size())
                         .boxed()
                         .flatMap(i -> {
-                            Type sourceArgType = sourceType.argumentTypes.get(i).getType(provider);
-                            Type targetArgType = targetType.argumentTypes.get(i).getType(provider);
-                            return targetArgType.isAssignableTo(sourceArgType, rules, provider);
+                            Type sourceArgType = sourceType.argumentTypes.get(i).getType(engine);
+                            Type targetArgType = targetType.argumentTypes.get(i).getType(engine);
+                            return targetArgType.isAssignableTo(sourceArgType, engine);
                         });
     }
 }

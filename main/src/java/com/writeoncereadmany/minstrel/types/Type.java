@@ -22,9 +22,9 @@ public class Type
         this.concerns = stream(concerns).collect(Collectors.toMap(concern -> concern.getClass(), concern -> concern));
     }
 
-    public Stream<TypeError> isAssignableTo(Type target, List<TypingRule> typingRules, Function<ScopeIndex, Type> provider)
+    public Stream<TypeError> isAssignableTo(Type target, TypeEngine engine)
     {
-        return typingRules.stream().flatMap(rule -> rule.isAssignableTo(this, target, provider, typingRules));
+        return engine.getRules().stream().flatMap(rule -> rule.isAssignableTo(this, target, engine));
     }
 
     @SuppressWarnings("unchecked")
