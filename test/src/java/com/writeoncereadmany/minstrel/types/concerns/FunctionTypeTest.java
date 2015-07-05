@@ -87,4 +87,22 @@ public class FunctionTypeTest
 
         assertThat(typeChecker.canAssign(returnsCat, returnsMammal).collect(toList()), is(empty()));
     }
+
+    @Test
+    public void canAssignFunctionToFunctionWithSubtypeArguments()
+    {
+        Type takesCat = new Type(new FunctionType(asList(CAT, CAT), MAMMAL));
+        Type takesAnimal = new Type(new FunctionType(asList(ANIMAL, ANIMAL), MAMMAL));
+
+        assertThat(typeChecker.canAssign(takesAnimal, takesCat).collect(toList()), is(empty()));
+    }
+
+    @Test
+    public void cannotAssignFunctionToFunctionWithSupertypeArguments()
+    {
+        Type takesAnimal = new Type(new FunctionType(asList(ANIMAL, ANIMAL), MAMMAL));
+        Type takesCat = new Type(new FunctionType(asList(CAT, CAT), MAMMAL));
+
+        assertThat(typeChecker.canAssign(takesCat, takesAnimal).collect(toList()), is(not(empty())));
+    }
 }

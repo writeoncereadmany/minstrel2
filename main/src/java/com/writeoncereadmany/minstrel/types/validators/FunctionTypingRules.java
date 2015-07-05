@@ -35,25 +35,25 @@ public class FunctionTypingRules implements TypingRule
         }
         // if we have same arities, then the source's return type must be assignable to the target's return type,
         // and the target's argument types must each be assignable to the equivalent source's argument types
-        return Stream.concat(getArgumentTypeMismatches(targetType, sourceType, checker),
-                             getReturnTypeMismatches(checker, sourceType, targetType));
+        return Stream.concat(getArgumentTypeMismatches(sourceType, targetType, checker),
+                             getReturnTypeMismatches(sourceType, targetType, checker));
     }
 
-    private Stream<TypeError> getReturnTypeMismatches(TypeChecker checker, FunctionType sourceType, FunctionType targetType)
+    private Stream<TypeError> getReturnTypeMismatches(FunctionType sourceType, FunctionType targetType, TypeChecker checker)
     {
         TypeDefinition sourceReturnType = sourceType.returnType;
         TypeDefinition targetReturnType = targetType.returnType;
         return checker.canAssign(sourceReturnType, targetReturnType);
     }
 
-    private Stream<TypeError> getArgumentTypeMismatches(FunctionType targetType, FunctionType sourceType, TypeChecker checker)
+    private Stream<TypeError> getArgumentTypeMismatches(FunctionType sourceType, FunctionType targetType, TypeChecker checker)
     {
         return IntStream.range(0, targetType.argumentTypes.size())
                         .boxed()
                         .flatMap(i -> {
                             TypeDefinition sourceArgType = sourceType.argumentTypes.get(i);
                             TypeDefinition targetArgType = targetType.argumentTypes.get(i);
-                            return checker.canAssign(sourceArgType, targetArgType);
+                            return checker.canAssign(targetArgType, sourceArgType);
                         });
     }
 }
