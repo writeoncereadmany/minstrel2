@@ -3,9 +3,10 @@ package com.writeoncereadmany.minstrel.types.concerns;
 import com.writeoncereadmany.minstrel.names.ScopeIndex;
 import com.writeoncereadmany.minstrel.types.Type;
 import com.writeoncereadmany.minstrel.types.TypeChecker;
-import com.writeoncereadmany.minstrel.types.validators.ImplementationGuaranteed;
+import com.writeoncereadmany.minstrel.types.validators.ImplementationRule;
 import org.junit.Test;
 
+import static com.writeoncereadmany.minstrel.types.concerns.EmptyStreamMatcher.emptyStream;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.Matchers.*;
@@ -14,7 +15,7 @@ import static org.junit.Assert.assertThat;
 public class ImplementationTest
 {
 
-    private static final TypeChecker TYPE_CHECKER = new TypeChecker(singletonList(new ImplementationGuaranteed()), null);
+    private static final TypeChecker TYPE_CHECKER = new TypeChecker(singletonList(new ImplementationRule()), null);
 
     public static final ScopeIndex NUMBER = new ScopeIndex(3, 2);
     public static final ScopeIndex STRING = new ScopeIndex(3, 4);
@@ -37,7 +38,7 @@ public class ImplementationTest
         Type aThing = new Type(new Implementation(NUMBER));
         Type sameThing = new Type(new Implementation(NUMBER));
 
-        assertThat(TYPE_CHECKER.canAssign(aThing, sameThing).collect(toList()), is(empty()));
+        assertThat(TYPE_CHECKER.canAssign(aThing, sameThing), is(emptyStream()));
     }
 
     @Test
@@ -46,7 +47,7 @@ public class ImplementationTest
         Type bool = new Type(new Implementation(TRUE, FALSE));
         Type anything = new Type();
 
-        assertThat(TYPE_CHECKER.canAssign(bool, anything).collect(toList()), is(empty()));
+        assertThat(TYPE_CHECKER.canAssign(bool, anything), is(emptyStream()));
     }
 
     @Test
@@ -55,7 +56,7 @@ public class ImplementationTest
         Type bool = new Type(new Implementation(TRUE, FALSE));
         Type anything = new Type();
 
-        assertThat(TYPE_CHECKER.canAssign(anything, bool).collect(toList()), is(not(empty())));
+        assertThat(TYPE_CHECKER.canAssign(anything, bool), is(not(emptyStream())));
     }
 
     @Test
@@ -64,7 +65,7 @@ public class ImplementationTest
         Type aThing = new Type(new Implementation(NUMBER));
         Type differentThing = new Type(new Implementation(STRING));
 
-        assertThat(TYPE_CHECKER.canAssign(aThing, differentThing).collect(toList()), is(not(empty())));
+        assertThat(TYPE_CHECKER.canAssign(aThing, differentThing), is(not(emptyStream())));
     }
 
     @Test
@@ -73,7 +74,7 @@ public class ImplementationTest
         Type bool = new Type(new Implementation(TRUE, FALSE));
         Type truth = new Type(new Implementation(TRUE));
 
-        assertThat(TYPE_CHECKER.canAssign(truth, bool).collect(toList()), is(empty()));
+        assertThat(TYPE_CHECKER.canAssign(truth, bool), is(emptyStream()));
     }
 
     @Test
@@ -82,6 +83,6 @@ public class ImplementationTest
         Type bool = new Type(new Implementation(TRUE, FALSE));
         Type truth = new Type(new Implementation(TRUE));
 
-        assertThat(TYPE_CHECKER.canAssign(bool, truth).collect(toList()), is(not(empty())));
+        assertThat(TYPE_CHECKER.canAssign(bool, truth), is(not(emptyStream())));
     }
 }

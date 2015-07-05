@@ -9,7 +9,7 @@ import com.writeoncereadmany.minstrel.types.defintions.TypeDefinition;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class FunctionTypingRules implements TypingRule
+public class FunctionRules implements TypingRule
 {
     @Override
     public Stream<TypeError> isAssignableTo(Type source, Type target, TypeChecker checker)

@@ -8,5 +8,5 @@ import java.util.stream.Stream;
 
 public interface TypingRule
 {
-    Stream<TypeError> isAssignableTo(Type source, Type target, TypeChecker engine);
+    Stream<TypeError> isAssignableTo(Type source, Type target, TypeChecker checker);
 }

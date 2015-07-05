@@ -7,10 +7,10 @@ import com.writeoncereadmany.minstrel.types.concerns.Implementation;
 
 import java.util.stream.Stream;
 
-public class ImplementationGuaranteed implements TypingRule
+public class ImplementationRule implements TypingRule
 {
     @Override
-    public Stream<TypeError> isAssignableTo(Type source, Type target, TypeChecker engine)
+    public Stream<TypeError> isAssignableTo(Type source, Type target, TypeChecker checker)
     {
         Implementation sourceImplementation = source.getConcern(Implementation.class);
         Implementation targetImplementation = target.getConcern(Implementation.class);
