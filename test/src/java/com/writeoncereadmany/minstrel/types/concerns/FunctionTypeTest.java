@@ -6,12 +6,14 @@ import com.writeoncereadmany.minstrel.types.TypeChecker;
 import com.writeoncereadmany.minstrel.types.defintions.TypeDefinition;
 import com.writeoncereadmany.minstrel.types.defintions.ConcreteTypeDefinition;
 import com.writeoncereadmany.minstrel.types.validators.FunctionTypingRules;
+import com.writeoncereadmany.minstrel.types.validators.ImplementationGuaranteed;
 import org.junit.Test;
 
 import java.util.Map;
 
 import static com.writeoncereadmany.util.TypeSafeMapBuilder.entry;
 import static com.writeoncereadmany.util.TypeSafeMapBuilder.mapOf;
+import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
@@ -37,7 +39,7 @@ public class FunctionTypeTest
     private final TypeDefinition MAMMAL = new ConcreteTypeDefinition(MAMMAL_DEF);
     private final TypeDefinition CAT = new ConcreteTypeDefinition(CAT_DEF);
 
-    private final TypeChecker typeChecker = new TypeChecker(singletonList(new FunctionTypingRules()), definitions);
+    private final TypeChecker typeChecker = new TypeChecker(asList(new ImplementationGuaranteed(), new FunctionTypingRules()), definitions);
 
 
     @Test
@@ -66,5 +68,23 @@ public class FunctionTypeTest
 
         assertThat(typeChecker.canAssign(oneArgFunction, zeroArgFunction).collect(toList()), is(not(empty())));
         assertThat(typeChecker.canAssign(zeroArgFunction, oneArgFunction).collect(toList()), is(not(empty())));
+    }
+
+    @Test
+    public void cannotAssignFunctionToFunctionWithSubtypeReturnType()
+    {
+        Type returnsMammal = new Type(new FunctionType(emptyList(), MAMMAL));
+        Type returnsAnimal = new Type(new FunctionType(emptyList(), ANIMAL));
+
+        assertThat(typeChecker.canAssign(returnsAnimal, returnsMammal).collect(toList()), is(not(empty())));
+    }
+
+    @Test
+    public void canAssignFunctionToFunctionWithSupertypeReturnType()
+    {
+        Type returnsMammal = new Type(new FunctionType(emptyList(), MAMMAL));
+        Type returnsCat = new Type(new FunctionType(emptyList(), CAT));
+
+        assertThat(typeChecker.canAssign(returnsCat, returnsMammal).collect(toList()), is(empty()));
     }
 }
