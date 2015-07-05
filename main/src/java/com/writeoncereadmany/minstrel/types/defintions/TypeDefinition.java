@@ -1,7 +1,8 @@
-package com.writeoncereadmany.minstrel.types;
+package com.writeoncereadmany.minstrel.types.defintions;
 
 
 import com.writeoncereadmany.minstrel.names.ScopeIndex;
+import com.writeoncereadmany.minstrel.types.Type;
 
 import java.util.function.Function;
 

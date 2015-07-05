@@ -2,7 +2,7 @@ package com.writeoncereadmany.minstrel.types.concerns;
 
 import com.writeoncereadmany.minstrel.names.ScopeIndex;
 import com.writeoncereadmany.minstrel.types.Type;
-import com.writeoncereadmany.minstrel.types.TypeDefinition;
+import com.writeoncereadmany.minstrel.types.defintions.TypeDefinition;
 import com.writeoncereadmany.minstrel.types.defintions.ConcreteTypeDefinition;
 import com.writeoncereadmany.minstrel.types.validators.FunctionTypingRules;
 import com.writeoncereadmany.minstrel.types.validators.TypingRule;

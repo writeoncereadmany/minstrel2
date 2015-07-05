@@ -28,8 +28,8 @@ public class Type
     }
 
     @SuppressWarnings("unchecked")
-    public <T extends Concern> Optional<T> getConcern(Class<T> concernType)
+    public <T extends Concern> T getConcern(Class<T> concernType)
     {
-        return Optional.ofNullable((T)concerns.get(concernType));
+        return (T)concerns.get(concernType);
     }
 }
