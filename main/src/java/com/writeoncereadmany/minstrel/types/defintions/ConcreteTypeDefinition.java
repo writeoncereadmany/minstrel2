@@ -2,9 +2,7 @@ package com.writeoncereadmany.minstrel.types.defintions;
 
 import com.writeoncereadmany.minstrel.names.ScopeIndex;
 import com.writeoncereadmany.minstrel.types.Type;
-import com.writeoncereadmany.minstrel.types.TypeEngine;
-
-import java.util.function.Function;
+import com.writeoncereadmany.minstrel.types.TypeChecker;
 
 public class ConcreteTypeDefinition implements TypeDefinition
 {
@@ -16,7 +14,7 @@ public class ConcreteTypeDefinition implements TypeDefinition
     }
 
     @Override
-    public Type getType(TypeEngine engine)
+    public Type getType(TypeChecker engine)
     {
         return engine.lookupType(index);
     }
