@@ -1,5 +1,6 @@
 package com.writeoncereadmany.minstrel.ast.statements;
 
+import com.writeoncereadmany.minstrel.visitors.AstVisitor;
 import com.writeoncereadmany.minstrel.ast.fragments.Terminal;
 import com.writeoncereadmany.minstrel.ast.expressions.Function;
 import com.writeoncereadmany.minstrel.names.NameResolver;
@@ -13,6 +14,12 @@ public class FunctionDeclaration implements Statement
     {
         this.name = name;
         this.function = function;
+    }
+
+    @Override
+    public void visit(AstVisitor visitor)
+    {
+        visitor.visitFunctionDeclaration(name, function);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.writeoncereadmany.minstrel.ast.expressions;
 
+import com.writeoncereadmany.minstrel.visitors.AstVisitor;
 import com.writeoncereadmany.minstrel.ast.fragments.Terminal;
 import com.writeoncereadmany.minstrel.names.NameResolver;
 
@@ -10,6 +11,12 @@ public class StringLiteral implements Expression
     public StringLiteral(Terminal value)
     {
         this.value = value;
+    }
+
+    @Override
+    public void visit(AstVisitor visitor)
+    {
+        visitor.visitStringLiteral(value);
     }
 
     @Override

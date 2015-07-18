@@ -1,5 +1,6 @@
 package com.writeoncereadmany.minstrel.ast.expressions;
 
+import com.writeoncereadmany.minstrel.visitors.AstVisitor;
 import com.writeoncereadmany.minstrel.ast.fragments.ArgumentList;
 import com.writeoncereadmany.minstrel.names.NameResolver;
 
@@ -12,6 +13,12 @@ public class FunctionCall implements Expression
     {
         this.function = function;
         this.args = args;
+    }
+
+    @Override
+    public void visit(AstVisitor visitor)
+    {
+        visitor.visitFunctionCall(function, args);
     }
 
     @Override

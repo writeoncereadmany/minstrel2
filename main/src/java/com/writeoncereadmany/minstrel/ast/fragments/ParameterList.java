@@ -1,6 +1,7 @@
 package com.writeoncereadmany.minstrel.ast.fragments;
 
 import com.writeoncereadmany.minstrel.ast.AstNode;
+import com.writeoncereadmany.minstrel.visitors.AstVisitor;
 import com.writeoncereadmany.minstrel.names.NameResolver;
 
 import java.util.List;
@@ -12,6 +13,12 @@ public class ParameterList implements AstNode
     public ParameterList(List<Parameter> parameters)
     {
         this.parameters = parameters;
+    }
+
+    @Override
+    public void visit(AstVisitor visitor)
+    {
+        visitor.visitParameterList(parameters);
     }
 
     @Override

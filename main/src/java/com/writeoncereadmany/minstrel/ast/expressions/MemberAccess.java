@@ -1,5 +1,6 @@
 package com.writeoncereadmany.minstrel.ast.expressions;
 
+import com.writeoncereadmany.minstrel.visitors.AstVisitor;
 import com.writeoncereadmany.minstrel.ast.fragments.Terminal;
 import com.writeoncereadmany.minstrel.names.NameResolver;
 
@@ -12,6 +13,12 @@ public class MemberAccess implements Expression
     {
         this.expression = expression;
         this.memberName = memberName;
+    }
+
+    @Override
+    public void visit(AstVisitor visitor)
+    {
+        visitor.visitMemberAccess(expression, memberName);    
     }
 
     @Override
