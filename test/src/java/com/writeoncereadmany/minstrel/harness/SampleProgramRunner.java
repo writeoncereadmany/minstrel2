@@ -5,6 +5,7 @@ import com.writeoncereadmany.minstrel.harness.builtins.Builtins;
 import com.writeoncereadmany.minstrel.harness.utils.TestErrorListener;
 import com.writeoncereadmany.minstrel.names.NameResolver;
 import com.writeoncereadmany.minstrel.orchestrator.MinstrelOrchestrator;
+import com.writeoncereadmany.minstrel.visitors.DefineNames;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Ignore;
@@ -102,6 +103,7 @@ public class SampleProgramRunner
             NameResolver nameResolver = new NameResolver();
             Builtins.defineBuiltins(nameResolver);
 
+//            program.visit(new DefineNames(nameResolver));
             program.defineNames(nameResolver);
             program.resolveNames(nameResolver);
 
