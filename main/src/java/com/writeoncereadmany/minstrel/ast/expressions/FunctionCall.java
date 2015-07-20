@@ -2,7 +2,6 @@ package com.writeoncereadmany.minstrel.ast.expressions;
 
 import com.writeoncereadmany.minstrel.visitors.AstVisitor;
 import com.writeoncereadmany.minstrel.ast.fragments.ArgumentList;
-import com.writeoncereadmany.minstrel.names.NameResolver;
 
 public class FunctionCall implements Expression
 {
@@ -21,17 +20,4 @@ public class FunctionCall implements Expression
         visitor.visitFunctionCall(function, args);
     }
 
-    @Override
-    public void defineNames(NameResolver nameResolver)
-    {
-        function.defineNames(nameResolver);
-        args.defineNames(nameResolver);
-    }
-
-    @Override
-    public void resolveNames(NameResolver nameResolver)
-    {
-        function.resolveNames(nameResolver);
-        args.resolveNames(nameResolver);
-    }
 }

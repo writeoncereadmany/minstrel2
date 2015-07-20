@@ -1,7 +1,6 @@
 package com.writeoncereadmany.minstrel.ast;
 
 import com.writeoncereadmany.minstrel.ast.statements.Statement;
-import com.writeoncereadmany.minstrel.names.NameResolver;
 import com.writeoncereadmany.minstrel.visitors.AstVisitor;
 
 import java.util.List;
@@ -21,15 +20,4 @@ public class Program implements AstNode
         visitor.visitProgram(statements);
     }
 
-    @Override
-    public void defineNames(NameResolver nameResolver)
-    {
-        statements.forEach(statement -> statement.defineNames(nameResolver));
-    }
-
-    @Override
-    public void resolveNames(NameResolver nameResolver)
-    {
-        statements.forEach(statement -> statement.resolveNames(nameResolver));
-    }
 }

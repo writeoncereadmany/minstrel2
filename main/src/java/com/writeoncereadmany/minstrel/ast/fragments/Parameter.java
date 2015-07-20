@@ -2,7 +2,6 @@ package com.writeoncereadmany.minstrel.ast.fragments;
 
 import com.writeoncereadmany.minstrel.ast.AstNode;
 import com.writeoncereadmany.minstrel.visitors.AstVisitor;
-import com.writeoncereadmany.minstrel.names.NameResolver;
 import com.writeoncereadmany.minstrel.names.ScopeIndex;
 
 public class Parameter implements AstNode
@@ -24,15 +23,4 @@ public class Parameter implements AstNode
         visitor.visitParameter(type, name);    
     }
 
-    @Override
-    public void defineNames(NameResolver nameResolver)
-    {
-        nameResolver.defineValue(name);
-    }
-
-    @Override
-    public void resolveNames(NameResolver nameResolver)
-    {
-        typeIndex = nameResolver.resolveType(type);
-    }
 }

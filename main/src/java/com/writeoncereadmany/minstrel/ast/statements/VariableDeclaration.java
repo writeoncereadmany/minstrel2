@@ -3,7 +3,6 @@ package com.writeoncereadmany.minstrel.ast.statements;
 import com.writeoncereadmany.minstrel.visitors.AstVisitor;
 import com.writeoncereadmany.minstrel.ast.fragments.Terminal;
 import com.writeoncereadmany.minstrel.ast.expressions.Expression;
-import com.writeoncereadmany.minstrel.names.NameResolver;
 import com.writeoncereadmany.minstrel.names.ScopeIndex;
 
 public class VariableDeclaration implements Statement
@@ -27,17 +26,4 @@ public class VariableDeclaration implements Statement
         visitor.visitVariableDeclaration(type, name, expression);
     }
 
-    @Override
-    public void defineNames(NameResolver nameResolver)
-    {
-        nameResolver.defineValue(name);
-        expression.defineNames(nameResolver);
-    }
-
-    @Override
-    public void resolveNames(NameResolver nameResolver)
-    {
-        typeIndex = nameResolver.resolveType(type);
-        expression.resolveNames(nameResolver);
-    }
 }

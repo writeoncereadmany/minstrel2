@@ -2,7 +2,6 @@ package com.writeoncereadmany.minstrel.ast.fragments;
 
 import com.writeoncereadmany.minstrel.ast.AstNode;
 import com.writeoncereadmany.minstrel.visitors.AstVisitor;
-import com.writeoncereadmany.minstrel.names.NameResolver;
 
 import java.util.List;
 
@@ -21,15 +20,4 @@ public class ParameterList implements AstNode
         visitor.visitParameterList(parameters);
     }
 
-    @Override
-    public void defineNames(NameResolver nameResolver)
-    {
-        parameters.forEach(parameter -> parameter.defineNames(nameResolver));
-    }
-
-    @Override
-    public void resolveNames(NameResolver nameResolver)
-    {
-        parameters.forEach(parameter -> parameter.resolveNames(nameResolver));
-    }
 }

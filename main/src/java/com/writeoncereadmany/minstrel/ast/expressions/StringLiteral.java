@@ -2,7 +2,6 @@ package com.writeoncereadmany.minstrel.ast.expressions;
 
 import com.writeoncereadmany.minstrel.visitors.AstVisitor;
 import com.writeoncereadmany.minstrel.ast.fragments.Terminal;
-import com.writeoncereadmany.minstrel.names.NameResolver;
 
 public class StringLiteral implements Expression
 {
@@ -19,15 +18,4 @@ public class StringLiteral implements Expression
         visitor.visitStringLiteral(value);
     }
 
-    @Override
-    public void defineNames(NameResolver nameResolver)
-    {
-        // name-agnostic
-    }
-
-    @Override
-    public void resolveNames(NameResolver nameResolver)
-    {
-        // name-agnostic
-    }
 }

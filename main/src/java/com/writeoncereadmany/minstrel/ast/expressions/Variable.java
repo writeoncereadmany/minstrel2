@@ -2,7 +2,6 @@ package com.writeoncereadmany.minstrel.ast.expressions;
 
 import com.writeoncereadmany.minstrel.visitors.AstVisitor;
 import com.writeoncereadmany.minstrel.ast.fragments.Terminal;
-import com.writeoncereadmany.minstrel.names.NameResolver;
 import com.writeoncereadmany.minstrel.names.ScopeIndex;
 
 public class Variable implements Expression
@@ -21,15 +20,4 @@ public class Variable implements Expression
         visitor.visitVariable(name);
     }
 
-    @Override
-    public void defineNames(NameResolver nameResolver)
-    {
-        // can't define anything
-    }
-
-    @Override
-    public void resolveNames(NameResolver nameResolver)
-    {
-        index = nameResolver.resolveValue(name);
-    }
 }
