@@ -1,8 +1,8 @@
 package com.writeoncereadmany.minstrel.ast.expressions;
 
-import com.writeoncereadmany.minstrel.visitors.AstVisitor;
 import com.writeoncereadmany.minstrel.ast.fragments.Body;
 import com.writeoncereadmany.minstrel.ast.fragments.ParameterList;
+import com.writeoncereadmany.minstrel.visitors.AstVisitor;
 
 public class Function implements Expression
 {

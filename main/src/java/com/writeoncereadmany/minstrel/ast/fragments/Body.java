@@ -1,8 +1,8 @@
 package com.writeoncereadmany.minstrel.ast.fragments;
 
 import com.writeoncereadmany.minstrel.ast.AstNode;
-import com.writeoncereadmany.minstrel.visitors.AstVisitor;
 import com.writeoncereadmany.minstrel.ast.statements.Statement;
+import com.writeoncereadmany.minstrel.visitors.AstVisitor;
 
 import java.util.List;
 

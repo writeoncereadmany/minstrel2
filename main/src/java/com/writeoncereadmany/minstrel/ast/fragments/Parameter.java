@@ -1,8 +1,8 @@
 package com.writeoncereadmany.minstrel.ast.fragments;
 
 import com.writeoncereadmany.minstrel.ast.AstNode;
-import com.writeoncereadmany.minstrel.visitors.AstVisitor;
 import com.writeoncereadmany.minstrel.names.ScopeIndex;
+import com.writeoncereadmany.minstrel.visitors.AstVisitor;
 
 public class Parameter implements AstNode
 {

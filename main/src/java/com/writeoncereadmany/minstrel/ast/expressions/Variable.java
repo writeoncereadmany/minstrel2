@@ -1,8 +1,8 @@
 package com.writeoncereadmany.minstrel.ast.expressions;
 
-import com.writeoncereadmany.minstrel.visitors.AstVisitor;
 import com.writeoncereadmany.minstrel.ast.fragments.Terminal;
 import com.writeoncereadmany.minstrel.names.ScopeIndex;
+import com.writeoncereadmany.minstrel.visitors.AstVisitor;
 
 public class Variable implements Expression
 {

@@ -3,7 +3,6 @@ package com.writeoncereadmany.minstrel.astbuilders.expressions;
 import com.writeoncereadmany.minstrel.ast.AstNode;
 import com.writeoncereadmany.minstrel.ast.expressions.Expression;
 import com.writeoncereadmany.minstrel.ast.expressions.FunctionCall;
-import com.writeoncereadmany.minstrel.ast.expressions.MemberAccess;
 import com.writeoncereadmany.minstrel.ast.expressions.Variable;
 import com.writeoncereadmany.minstrel.ast.fragments.ArgumentList;
 import com.writeoncereadmany.minstrel.ast.fragments.Terminal;
@@ -14,7 +13,6 @@ import java.util.Map;
 import static com.writeoncereadmany.util.TypeSafeMapBuilder.entry;
 import static com.writeoncereadmany.util.TypeSafeMapBuilder.mapOf;
 import static java.util.Arrays.asList;
-import static java.util.Collections.singletonList;
 
 public class BinaryOperatorExpressionBuilder implements AstNodeBuilder<Expression>
 {

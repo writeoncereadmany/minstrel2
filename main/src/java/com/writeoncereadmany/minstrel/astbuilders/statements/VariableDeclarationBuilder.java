@@ -1,8 +1,8 @@
 package com.writeoncereadmany.minstrel.astbuilders.statements;
 
 import com.writeoncereadmany.minstrel.ast.AstNode;
-import com.writeoncereadmany.minstrel.ast.fragments.Terminal;
 import com.writeoncereadmany.minstrel.ast.expressions.Expression;
+import com.writeoncereadmany.minstrel.ast.fragments.Terminal;
 import com.writeoncereadmany.minstrel.ast.statements.VariableDeclaration;
 import com.writeoncereadmany.minstrel.astbuilders.AstNodeBuilder;
 

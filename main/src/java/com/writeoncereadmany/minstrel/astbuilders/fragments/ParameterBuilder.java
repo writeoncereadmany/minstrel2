@@ -1,8 +1,8 @@
 package com.writeoncereadmany.minstrel.astbuilders.fragments;
 
 import com.writeoncereadmany.minstrel.ast.AstNode;
-import com.writeoncereadmany.minstrel.ast.fragments.Terminal;
 import com.writeoncereadmany.minstrel.ast.fragments.Parameter;
+import com.writeoncereadmany.minstrel.ast.fragments.Terminal;
 import com.writeoncereadmany.minstrel.astbuilders.AstNodeBuilder;
 
 public class ParameterBuilder implements AstNodeBuilder<Parameter>

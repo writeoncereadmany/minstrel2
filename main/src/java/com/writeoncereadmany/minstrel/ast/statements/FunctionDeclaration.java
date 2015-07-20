@@ -1,8 +1,8 @@
 package com.writeoncereadmany.minstrel.ast.statements;
 
-import com.writeoncereadmany.minstrel.visitors.AstVisitor;
-import com.writeoncereadmany.minstrel.ast.fragments.Terminal;
 import com.writeoncereadmany.minstrel.ast.expressions.Function;
+import com.writeoncereadmany.minstrel.ast.fragments.Terminal;
+import com.writeoncereadmany.minstrel.visitors.AstVisitor;
 
 public class FunctionDeclaration implements Statement
 {
