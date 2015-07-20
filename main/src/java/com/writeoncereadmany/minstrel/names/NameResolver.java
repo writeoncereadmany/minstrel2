@@ -11,8 +11,10 @@ public class NameResolver
 {
     private final List<String> nameResolutionErrors = new ArrayList<>();
     private final Map<Integer, Scope> scopesByIndex = new HashMap<>();
-    private int nextScopeIndex = 0;
-    private Scope currentScope = Scope.createRootScope(nextScopeIndex++, nameResolutionErrors::add);
+    private final Map<Terminal, ScopeIndex> types = new HashMap<>();
+    private final Map<Terminal, ScopeIndex> values = new HashMap<>();
+    private int nextScopeIndex = 1;
+    private Scope currentScope = Scope.createRootScope(0, nameResolutionErrors::add);
 
     public void defineType(Terminal name)
     {
@@ -26,12 +28,16 @@ public class NameResolver
 
     public ScopeIndex resolveType(Terminal name)
     {
-        return currentScope.resolve(name, Kind.TYPE);
+        ScopeIndex typeIndex = currentScope.resolve(name, Kind.TYPE);
+        types.put(name, typeIndex);
+        return typeIndex;
     }
 
     public ScopeIndex resolveValue(Terminal name)
     {
-        return currentScope.resolve(name, Kind.VALUE);
+        ScopeIndex valueIndex = currentScope.resolve(name, Kind.VALUE);
+        values.put(name, valueIndex);
+        return valueIndex;
     }
 
     public List<String> getNameResolutionErrors()
@@ -41,9 +47,11 @@ public class NameResolver
 
     public int enterNewScope()
     {
-        currentScope = currentScope.createChildScope(nextScopeIndex++);
+        final int scopeIndex = nextScopeIndex;
+        nextScopeIndex++;
+        currentScope = currentScope.createChildScope(scopeIndex);
         scopesByIndex.put(currentScope.getIndex(), currentScope);
-        return currentScope.getIndex();
+        return scopeIndex;
     }
 
     public void enterExistingScope(int scopeToEnter)
