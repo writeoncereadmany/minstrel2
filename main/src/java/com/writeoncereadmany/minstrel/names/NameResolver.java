@@ -11,33 +11,20 @@ public class NameResolver
 {
     private final List<String> nameResolutionErrors = new ArrayList<>();
     private final Map<Integer, Scope> scopesByIndex = new HashMap<>();
-    private final Map<Terminal, ScopeIndex> types = new HashMap<>();
-    private final Map<Terminal, ScopeIndex> values = new HashMap<>();
+    private final Map<Kind, Map<Terminal, ScopeIndex>> namespaces = new HashMap<>();
     private int nextScopeIndex = 1;
     private Scope currentScope = Scope.createRootScope(0, nameResolutionErrors::add);
 
-    public void defineType(Terminal name)
+    public void define(Terminal name, Kind kind)
     {
-        currentScope.define(name, Kind.TYPE);
+        currentScope.define(name, kind);
     }
 
-    public void defineValue(Terminal name)
+    public ScopeIndex resolve(Terminal name, Kind kind)
     {
-        currentScope.define(name, Kind.VALUE);
-    }
-
-    public ScopeIndex resolveType(Terminal name)
-    {
-        ScopeIndex typeIndex = currentScope.resolve(name, Kind.TYPE);
-        types.put(name, typeIndex);
-        return typeIndex;
-    }
-
-    public ScopeIndex resolveValue(Terminal name)
-    {
-        ScopeIndex valueIndex = currentScope.resolve(name, Kind.VALUE);
-        values.put(name, valueIndex);
-        return valueIndex;
+        ScopeIndex index = currentScope.resolve(name, kind);
+        namespaces.computeIfAbsent(kind, x -> new HashMap<>()).put(name, index);
+        return index;
     }
 
     public List<String> getNameResolutionErrors()

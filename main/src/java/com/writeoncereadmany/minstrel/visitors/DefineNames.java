@@ -4,6 +4,7 @@ import com.writeoncereadmany.minstrel.ast.expressions.Expression;
 import com.writeoncereadmany.minstrel.ast.expressions.Function;
 import com.writeoncereadmany.minstrel.ast.fragments.*;
 import com.writeoncereadmany.minstrel.ast.statements.Statement;
+import com.writeoncereadmany.minstrel.names.Kind;
 import com.writeoncereadmany.minstrel.names.NameResolver;
 
 import java.util.List;
@@ -26,14 +27,14 @@ public class DefineNames extends NoOpVisitor
     @Override
     public void visitVariableDeclaration(Terminal type, Terminal name, Expression expression)
     {
-        nameResolver.defineValue(name);
+        nameResolver.define(name, Kind.VALUE);
         expression.visit(this);
     }
 
     @Override
     public void visitFunctionDeclaration(Terminal name, Function function)
     {
-        nameResolver.defineValue(name);
+        nameResolver.define(name, Kind.VALUE);
         function.visit(this);
     }
 
@@ -52,7 +53,7 @@ public class DefineNames extends NoOpVisitor
     @Override
     public void visitParameter(Terminal type, Terminal name)
     {
-        nameResolver.defineValue(name);
+        nameResolver.define(name, Kind.VALUE);
     }
 
     @Override
