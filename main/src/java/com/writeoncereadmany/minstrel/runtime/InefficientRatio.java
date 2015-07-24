@@ -56,6 +56,31 @@ public final class InefficientRatio
         return new InefficientRatio(numerator, denominator);
     }
 
+    public static InefficientRatio parse(String numericLiteral)
+    {
+        try
+        {
+            String[] parts = numericLiteral.split("\\.");
+            if (parts.length == 1)
+            {
+                return integer(new BigInteger(parts[0]));
+            }
+            if (parts.length != 2)
+            {
+                throw new NumberFormatException();
+            }
+            BigInteger integerPart = new BigInteger(parts[0]);
+            BigInteger decimalPart = new BigInteger(parts[1]);
+            int decimalPlaces = parts[1].length();
+            BigInteger denominator = BigInteger.TEN.pow(decimalPlaces);
+            return ratioOf(integerPart.multiply(denominator).add(decimalPart), denominator);
+        }
+        catch(NumberFormatException ex)
+        {
+            throw new IllegalArgumentException("Cannot parse illegal number literal: " + numericLiteral);
+        }
+    }
+
     public InefficientRatio plus(InefficientRatio addend)
     {
         BigInteger commonDenominator = denominator.multiply(addend.denominator);
