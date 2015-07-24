@@ -62,27 +62,33 @@ public final class InefficientRatio
         BigInteger myNewNumerator = numerator.multiply(addend.denominator);
         BigInteger hisNewNumerator = addend.numerator.multiply(denominator);
 
-        return ratioOf(myNewNumerator.add(hisNewNumerator), commonDenominator);
+        return new InefficientRatio(myNewNumerator.add(hisNewNumerator), commonDenominator);
     }
 
     public InefficientRatio subtract(InefficientRatio subtrahend)
     {
-        return this;
+        return plus(subtrahend.negate());
     }
 
     public InefficientRatio multiply(InefficientRatio factor)
     {
-        return this;
+        return new InefficientRatio(numerator.multiply(factor.numerator),
+                                    denominator.multiply(factor.denominator));
     }
 
     public InefficientRatio divide(InefficientRatio divisor)
     {
-        return this;
+        return multiply(divisor.inverse());
     }
 
     public InefficientRatio negate()
     {
-        return this;
+        return new InefficientRatio(numerator.negate(), denominator);
+    }
+
+    public InefficientRatio inverse()
+    {
+        return new InefficientRatio(denominator, numerator);
     }
 
     @Override

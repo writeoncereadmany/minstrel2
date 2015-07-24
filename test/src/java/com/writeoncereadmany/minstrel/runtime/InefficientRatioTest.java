@@ -9,6 +9,15 @@ import static org.junit.Assert.assertThat;
 public class InefficientRatioTest
 {
     @Test
+    public void fractionsAreSimplified()
+    {
+        InefficientRatio eighteenSixths = InefficientRatio.ratioOf(18, 6);
+        InefficientRatio three = InefficientRatio.integer(3);
+
+        assertThat(eighteenSixths, equalTo(three));
+    }
+
+    @Test
     public void integersAddTogetherNicely()
     {
         InefficientRatio two = InefficientRatio.integer(2);
@@ -29,15 +38,6 @@ public class InefficientRatioTest
     }
 
     @Test
-    public void fractionsAreSimplified()
-    {
-        InefficientRatio eighteenSixths = InefficientRatio.ratioOf(18, 6);
-        InefficientRatio three = InefficientRatio.integer(3);
-
-        assertThat(eighteenSixths, equalTo(three));
-    }
-
-    @Test
     public void resultOfAdditionIsSimplified()
     {
         InefficientRatio oneThird = InefficientRatio.ratioOf(1, 3);
@@ -54,5 +54,44 @@ public class InefficientRatioTest
         InefficientRatio negativeDenominator = InefficientRatio.ratioOf(2, -7);
 
         assertThat(negativeNumerator, equalTo(negativeDenominator));
+    }
+
+    @Test
+    public void canNegateANumber()
+    {
+        InefficientRatio nineteenHalves = InefficientRatio.ratioOf(19, 2);
+        InefficientRatio minusNineteenHalves = InefficientRatio.ratioOf(-19, 2);
+
+        assertThat(nineteenHalves.negate(), equalTo(minusNineteenHalves));
+    }
+
+    @Test
+    public void canSubtractNumbers()
+    {
+        InefficientRatio twelveSevenths = InefficientRatio.ratioOf(12, 7);
+        InefficientRatio fourFifths = InefficientRatio.ratioOf(4, 5);
+        InefficientRatio thirtyTwoThirtyFifths = InefficientRatio.ratioOf(32, 35);
+
+        assertThat(twelveSevenths.subtract(fourFifths), equalTo(thirtyTwoThirtyFifths));
+    }
+
+    @Test
+    public void canMultiplyIntegers()
+    {
+        InefficientRatio nineteen = InefficientRatio.integer(19);
+        InefficientRatio seven = InefficientRatio.integer(7);
+        InefficientRatio oneHundredAndThirtyThree = InefficientRatio.integer(133);
+
+        assertThat(nineteen.multiply(seven), equalTo(oneHundredAndThirtyThree));
+    }
+
+    @Test
+    public void canDivideIntegers()
+    {
+        InefficientRatio nineteen = InefficientRatio.integer(19);
+        InefficientRatio seven = InefficientRatio.integer(7);
+        InefficientRatio nineteenSevenths = InefficientRatio.ratioOf(19, 7);
+
+        assertThat(nineteen.divide(seven), equalTo(nineteenSevenths));
     }
 }
