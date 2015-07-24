@@ -1,10 +1,10 @@
 package com.writeoncereadmany.minstrel.orchestrator;
 
-import com.writeoncereadmany.minstrel.ast.Program;
+import com.writeoncereadmany.minstrel.compile.ast.Program;
 import com.writeoncereadmany.minstrel.generated.grammar.MinstrelLexer;
 import com.writeoncereadmany.minstrel.generated.grammar.MinstrelParser;
-import com.writeoncereadmany.minstrel.listener.ASTBuilder;
-import com.writeoncereadmany.minstrel.listener.ASTBuildingListener;
+import com.writeoncereadmany.minstrel.compile.listener.ASTBuilder;
+import com.writeoncereadmany.minstrel.compile.listener.ASTBuildingListener;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
