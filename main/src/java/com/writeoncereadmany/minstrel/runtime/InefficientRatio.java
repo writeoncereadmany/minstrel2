@@ -4,7 +4,8 @@ import java.math.BigInteger;
 import java.util.Objects;
 
 /**
- * Ratio class which implements the functional requirements, albeit not in a particularly efficient way
+ * Ratio class which implements the functional requirements, albeit not in a particularly efficient way.
+ * Guarantees that all instances are expressed in their simplest possible form.
  */
 public final class InefficientRatio
 {
@@ -13,8 +14,26 @@ public final class InefficientRatio
 
     private InefficientRatio(BigInteger numerator, BigInteger denominator)
     {
-        this.numerator = numerator;
-        this.denominator = denominator;
+        BigInteger gcd = numerator.gcd(denominator);
+        BigInteger simplifiedNumerator = numerator.divide(gcd);
+        BigInteger simplifiedDenominator = denominator.divide(gcd);
+
+        int compareDenominatorToZero = denominator.compareTo(BigInteger.ZERO);
+
+        if(compareDenominatorToZero > 0)
+        {
+            this.numerator = simplifiedNumerator;
+            this.denominator = simplifiedDenominator;
+        }
+        else if(compareDenominatorToZero < 0)
+        {
+            this.numerator = simplifiedNumerator.negate();
+            this.denominator = simplifiedDenominator.negate();
+        }
+        else
+        {
+            throw new IllegalArgumentException("Cannot make a number with denominator 0");
+        }
     }
 
     public static InefficientRatio integer(long value)
@@ -34,24 +53,7 @@ public final class InefficientRatio
 
     public static InefficientRatio ratioOf(BigInteger numerator, BigInteger denominator)
     {
-        BigInteger gcd = numerator.gcd(denominator);
-        BigInteger simplifiedNumerator = numerator.divide(gcd);
-        BigInteger simplifiedDenominator = denominator.divide(gcd);
-
-        int compareDenominatorToZero = denominator.compareTo(BigInteger.ZERO);
-
-        if(compareDenominatorToZero > 0)
-        {
-            return new InefficientRatio(simplifiedNumerator, simplifiedDenominator);
-        }
-        else if(compareDenominatorToZero < 0)
-        {
-            return new InefficientRatio(simplifiedNumerator.negate(), simplifiedDenominator.negate());
-        }
-        else
-        {
-            throw new IllegalArgumentException("Cannot make a number with denominator 0");
-        }
+        return new InefficientRatio(numerator, denominator);
     }
 
     public InefficientRatio plus(InefficientRatio addend)
