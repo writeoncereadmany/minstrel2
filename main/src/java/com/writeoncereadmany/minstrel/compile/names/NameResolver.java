@@ -20,11 +20,17 @@ public class NameResolver
         currentScope.define(name, kind);
     }
 
-    public ScopeIndex resolve(Terminal name, Kind kind)
+    public void resolve(Terminal name, Kind kind)
     {
         ScopeIndex index = currentScope.resolve(name, kind);
         namespaces.computeIfAbsent(kind, x -> new HashMap<>()).put(name, index);
-        return index;
+    }
+
+    public ScopeIndex lookup(Terminal name, Kind kind)
+    {
+        return namespaces
+                .computeIfAbsent(kind, x -> { throw new IllegalArgumentException("Undefined kind " + kind);})
+                .computeIfAbsent(name, x -> { throw new IllegalArgumentException("Undefined value " + name.text);});
     }
 
     public List<String> getNameResolutionErrors()
