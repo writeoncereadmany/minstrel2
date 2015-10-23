@@ -4,15 +4,18 @@ import com.writeoncereadmany.minstrel.compile.ast.AstNode;
 import com.writeoncereadmany.minstrel.compile.ast.expressions.Expression;
 import com.writeoncereadmany.minstrel.compile.visitors.AstVisitor;
 
+import java.util.Collections;
 import java.util.List;
+
+import static java.util.Collections.unmodifiableList;
 
 public class ArgumentList implements AstNode
 {
-    private final List<Expression> expressions;
+    public final List<Expression> expressions;
 
     public ArgumentList(List<Expression> expressions)
     {
-        this.expressions = expressions;
+        this.expressions = unmodifiableList(expressions);
     }
 
     @Override

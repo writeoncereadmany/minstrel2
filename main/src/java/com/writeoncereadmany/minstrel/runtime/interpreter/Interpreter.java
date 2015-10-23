@@ -8,7 +8,7 @@ import com.writeoncereadmany.minstrel.compile.ast.statements.Statement;
 import com.writeoncereadmany.minstrel.compile.names.Kind;
 import com.writeoncereadmany.minstrel.compile.names.NameResolver;
 import com.writeoncereadmany.minstrel.compile.names.ScopeIndex;
-import com.writeoncereadmany.minstrel.compile.visitors.AstVisitor;
+import com.writeoncereadmany.minstrel.compile.visitors.UnsupportedVisitor;
 import com.writeoncereadmany.minstrel.runtime.environment.Environment;
 import com.writeoncereadmany.minstrel.runtime.number.InefficientRatio;
 import com.writeoncereadmany.minstrel.runtime.values.Value;
@@ -24,14 +24,12 @@ import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
 
-public class Interpreter implements AstVisitor
+public class Interpreter extends UnsupportedVisitor
 {
     private final NameResolver nameResolver;
     private final Stack<Environment> stackFrames = new Stack<>();
     private final Stack<Value> evaluationStack = new Stack<>();
     private Value lastEvaluatedValue = null;
-    private Stack<Queue<Value>> arguments = new Stack<>();
-    private Queue<Value> currentArguments = null;
 
     public Interpreter(NameResolver nameResolver, Environment prelude)
     {
@@ -67,30 +65,10 @@ public class Interpreter implements AstVisitor
     }
 
     @Override
-    public void visitParameterList(List<Parameter> parameters)
-    {
-        currentArguments = arguments.pop();
-        parameters.forEach(this::visit);
-        currentArguments = null;
-    }
-
-    @Override
-    public void visitParameter(Terminal type, Terminal name)
-    {
-        currentEnvironment().declare(valueFor(name), nextArgument());
-    }
-
-    @Override
     public void visitBody(List<Statement> statements)
     {
         statements.forEach(this::visit);
         store(lastEvaluatedValue);
-    }
-
-    @Override
-    public void visitArgumentList(List<Expression> expressions)
-    {
-        arguments.push(expressions.stream().map(this::evaluate).collect(Collectors.toCollection(ArrayDeque::new)));
     }
 
     @Override
@@ -122,8 +100,8 @@ public class Interpreter implements AstVisitor
     public void visitFunctionCall(Expression function, ArgumentList args)
     {
         Value toCall = evaluate(function);
-        visit(args);
-        store(toCall.call(this, arguments.pop().toArray(new Value[arguments.size()])));
+        final List<Value> arguments = args.expressions.stream().map(this::evaluate).collect(Collectors.toList());
+        store(toCall.call(this, arguments));
     }
 
     @Override
@@ -169,24 +147,9 @@ public class Interpreter implements AstVisitor
         stackFrames.pop();
     }
 
-    private Value nextArgument()
-    {
-        return currentArguments.poll();
-    }
-
     public Value consume()
     {
         return evaluationStack.pop();
-    }
-
-    public Queue<Value> getArguments()
-    {
-        return arguments.pop();
-    }
-
-    public void setArguments(Value... addend)
-    {
-        arguments.push(new ArrayDeque<>(asList(addend)));
     }
 
     public void populateArguments(ParameterList parameterList, List<Value> objects)
