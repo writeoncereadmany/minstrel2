@@ -5,10 +5,8 @@ import com.writeoncereadmany.minstrel.compile.types.defintions.TypeDefinition;
 import com.writeoncereadmany.minstrel.compile.types.validators.TypingRule;
 import com.writeoncereadmany.util.Multimap;
 
-import java.nio.file.Files;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class TypeChecker

@@ -6,7 +6,6 @@ import com.writeoncereadmany.minstrel.runtime.values.functions.ConstantFunction;
 import com.writeoncereadmany.minstrel.runtime.values.functions.Function;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Atom implements Value

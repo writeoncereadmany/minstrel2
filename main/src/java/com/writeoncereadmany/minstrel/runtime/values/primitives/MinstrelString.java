@@ -1,12 +1,11 @@
 package com.writeoncereadmany.minstrel.runtime.values.primitives;
 
 import com.writeoncereadmany.minstrel.runtime.interpreter.Interpreter;
+import com.writeoncereadmany.minstrel.runtime.values.Value;
 import com.writeoncereadmany.minstrel.runtime.values.functions.ConstantFunction;
 import com.writeoncereadmany.minstrel.runtime.values.functions.Function;
-import com.writeoncereadmany.minstrel.runtime.values.Value;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

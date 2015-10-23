@@ -2,7 +2,6 @@ package com.writeoncereadmany.minstrel.runtime.values;
 
 import com.writeoncereadmany.minstrel.runtime.interpreter.Interpreter;
 
-import java.util.List;
 import java.util.Map;
 
 public class Record implements Value

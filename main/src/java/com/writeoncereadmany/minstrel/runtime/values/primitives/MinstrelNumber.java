@@ -2,14 +2,12 @@ package com.writeoncereadmany.minstrel.runtime.values.primitives;
 
 import com.writeoncereadmany.minstrel.runtime.interpreter.Interpreter;
 import com.writeoncereadmany.minstrel.runtime.number.RationalNumber;
+import com.writeoncereadmany.minstrel.runtime.values.Value;
 import com.writeoncereadmany.minstrel.runtime.values.functions.ConstantFunction;
 import com.writeoncereadmany.minstrel.runtime.values.functions.Function;
-import com.writeoncereadmany.minstrel.runtime.values.Value;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 import java.util.function.BiFunction;
 
 public class MinstrelNumber implements Value

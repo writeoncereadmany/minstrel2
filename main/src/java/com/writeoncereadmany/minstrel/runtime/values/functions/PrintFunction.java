@@ -5,10 +5,6 @@ import com.writeoncereadmany.minstrel.runtime.values.Value;
 import com.writeoncereadmany.minstrel.runtime.values.primitives.MinstrelString;
 
 import java.io.PrintStream;
-import java.util.Collections;
-import java.util.List;
-
-import static java.util.Collections.emptyList;
 
 public class PrintFunction extends Function
 {

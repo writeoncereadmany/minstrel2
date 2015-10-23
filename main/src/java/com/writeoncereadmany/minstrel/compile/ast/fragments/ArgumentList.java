@@ -4,7 +4,6 @@ import com.writeoncereadmany.minstrel.compile.ast.AstNode;
 import com.writeoncereadmany.minstrel.compile.ast.expressions.Expression;
 import com.writeoncereadmany.minstrel.compile.visitors.AstVisitor;
 
-import java.util.Collections;
 import java.util.List;
 
 import static java.util.Collections.unmodifiableList;
