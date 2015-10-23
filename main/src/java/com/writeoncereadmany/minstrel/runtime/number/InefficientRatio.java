@@ -1,4 +1,4 @@
-package com.writeoncereadmany.minstrel.runtime;
+package com.writeoncereadmany.minstrel.runtime.number;
 
 import java.math.BigInteger;
 import java.util.Objects;
@@ -7,7 +7,7 @@ import java.util.Objects;
  * Ratio class which implements the functional requirements, albeit not in a particularly efficient way.
  * Guarantees that all instances are expressed in their simplest possible form.
  */
-public final class InefficientRatio
+public final class InefficientRatio implements RationalNumber
 {
     private final BigInteger numerator;
     private final BigInteger denominator;
@@ -81,39 +81,57 @@ public final class InefficientRatio
         }
     }
 
-    public InefficientRatio plus(InefficientRatio addend)
+    @Override
+    public RationalNumber plus(RationalNumber addend)
     {
-        BigInteger commonDenominator = denominator.multiply(addend.denominator);
-        BigInteger myNewNumerator = numerator.multiply(addend.denominator);
-        BigInteger hisNewNumerator = addend.numerator.multiply(denominator);
+        BigInteger commonDenominator = denominator.multiply(addend.denominator());
+        BigInteger myNewNumerator = numerator.multiply(addend.denominator());
+        BigInteger hisNewNumerator = addend.numerator().multiply(denominator);
 
         return new InefficientRatio(myNewNumerator.add(hisNewNumerator), commonDenominator);
     }
 
-    public InefficientRatio subtract(InefficientRatio subtrahend)
+    @Override
+    public RationalNumber subtract(RationalNumber subtrahend)
     {
         return plus(subtrahend.negate());
     }
 
-    public InefficientRatio multiply(InefficientRatio factor)
+    @Override
+    public RationalNumber multiply(RationalNumber factor)
     {
-        return new InefficientRatio(numerator.multiply(factor.numerator),
-                                    denominator.multiply(factor.denominator));
+        return new InefficientRatio(numerator.multiply(factor.numerator()),
+                                    denominator.multiply(factor.denominator()));
     }
 
-    public InefficientRatio divide(InefficientRatio divisor)
+    @Override
+    public RationalNumber divide(RationalNumber divisor)
     {
         return multiply(divisor.inverse());
     }
 
-    public InefficientRatio negate()
+    @Override
+    public RationalNumber negate()
     {
         return new InefficientRatio(numerator.negate(), denominator);
     }
 
-    public InefficientRatio inverse()
+    @Override
+    public RationalNumber inverse()
     {
         return new InefficientRatio(denominator, numerator);
+    }
+
+    @Override
+    public BigInteger numerator()
+    {
+        return numerator;
+    }
+
+    @Override
+    public BigInteger denominator()
+    {
+        return denominator;
     }
 
     @Override

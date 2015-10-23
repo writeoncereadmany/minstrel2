@@ -1,12 +1,13 @@
 package com.writeoncereadmany.minstrel.runtime;
 
+import com.writeoncereadmany.minstrel.runtime.number.InefficientRatio;
 import org.junit.Test;
 
 import java.math.BigInteger;
 
-import static com.writeoncereadmany.minstrel.runtime.InefficientRatio.integer;
-import static com.writeoncereadmany.minstrel.runtime.InefficientRatio.parse;
-import static com.writeoncereadmany.minstrel.runtime.InefficientRatio.ratioOf;
+import static com.writeoncereadmany.minstrel.runtime.number.InefficientRatio.integer;
+import static com.writeoncereadmany.minstrel.runtime.number.InefficientRatio.parse;
+import static com.writeoncereadmany.minstrel.runtime.number.InefficientRatio.ratioOf;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 
