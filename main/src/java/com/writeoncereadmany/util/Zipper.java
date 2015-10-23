@@ -17,7 +17,7 @@ public class Zipper
             throw new IllegalArgumentException("Lists are not the same size");
         }
         ArrayList<Pair<L, R>> zipped = new ArrayList<>();
-        for(int i = left.size(); i < left.size(); i++)
+        for(int i = 0; i < left.size(); i++)
         {
             zipped.add(new Pair<>(left.get(i), right.get(i)));
         }

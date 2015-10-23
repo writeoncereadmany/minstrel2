@@ -5,9 +5,6 @@ import com.writeoncereadmany.minstrel.compile.ast.fragments.ParameterList;
 import com.writeoncereadmany.minstrel.runtime.interpreter.Interpreter;
 import com.writeoncereadmany.minstrel.runtime.values.Value;
 
-import java.util.Collections;
-import java.util.List;
-
 import static java.util.Arrays.asList;
 
 public class CustomFunction extends Function

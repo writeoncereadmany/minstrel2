@@ -6,8 +6,8 @@ import com.writeoncereadmany.minstrel.compile.visitors.AstVisitor;
 
 public class Parameter implements AstNode
 {
-    private final Terminal type;
-    private final Terminal name;
+    public final Terminal type;
+    public final Terminal name;
 
     private ScopeIndex typeIndex;
 

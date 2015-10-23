@@ -1,12 +1,12 @@
 package com.writeoncereadmany.minstrel.harness;
 
 import com.writeoncereadmany.minstrel.compile.ast.Program;
-import com.writeoncereadmany.minstrel.harness.builtins.Builtins;
-import com.writeoncereadmany.minstrel.harness.utils.TestErrorListener;
 import com.writeoncereadmany.minstrel.compile.names.NameResolver;
-import com.writeoncereadmany.minstrel.orchestrator.MinstrelOrchestrator;
 import com.writeoncereadmany.minstrel.compile.visitors.DefineNames;
 import com.writeoncereadmany.minstrel.compile.visitors.ResolveNames;
+import com.writeoncereadmany.minstrel.harness.builtins.Builtins;
+import com.writeoncereadmany.minstrel.harness.utils.TestErrorListener;
+import com.writeoncereadmany.minstrel.orchestrator.MinstrelOrchestrator;
 import com.writeoncereadmany.minstrel.runtime.interpreter.Interpreter;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -16,7 +16,6 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -26,9 +25,7 @@ import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
 
 /**
  * Test harness for running Minstrel scripts and ensuring the results are as expected: either compilation fails at the

@@ -15,14 +15,12 @@ import com.writeoncereadmany.minstrel.runtime.values.Value;
 import com.writeoncereadmany.minstrel.runtime.values.functions.CustomFunction;
 import com.writeoncereadmany.minstrel.runtime.values.primitives.MinstrelNumber;
 import com.writeoncereadmany.minstrel.runtime.values.primitives.MinstrelString;
+import com.writeoncereadmany.util.Pair;
+import com.writeoncereadmany.util.Zipper;
 
-import java.util.ArrayDeque;
 import java.util.List;
-import java.util.Queue;
 import java.util.Stack;
 import java.util.stream.Collectors;
-
-import static java.util.Arrays.asList;
 
 public class Interpreter extends UnsupportedVisitor
 {
@@ -152,9 +150,14 @@ public class Interpreter extends UnsupportedVisitor
         return evaluationStack.pop();
     }
 
-    public void populateArguments(ParameterList parameterList, List<Value> objects)
+    public void populateArguments(ParameterList parameterList, List<Value> arguments)
     {
-        FunctionEnvironmentPopulator populator = new FunctionEnvironmentPopulator(nameResolver, currentEnvironment(), objects);
-        parameterList.visit(populator);
+        List<Pair<Parameter, Value>> parameters = Zipper.zip(parameterList.parameters, arguments);
+        parameters.stream().forEach(pair ->
+        {
+            Parameter parameter = pair.left;
+            Value argument = pair.right;
+            currentEnvironment().declare(nameResolver.lookup(parameter.name, Kind.VALUE), argument);
+        });
     }
 }
