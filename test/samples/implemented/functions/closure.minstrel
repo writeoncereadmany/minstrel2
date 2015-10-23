@@ -1,0 +1,3 @@
+function times[Number a] -> ([Number b] -> a * b);
+
+print[times[3][7]];

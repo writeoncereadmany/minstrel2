@@ -16,6 +16,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -58,7 +59,7 @@ public class SampleProgramRunner
     public void testASingleScript() throws Exception
     {
         final List<String> errorCollector = new ArrayList<>();
-        runFileAndVerifyResults(new File(ROOT_SCRIPT_DIR, "implemented/functions/anonymous_block_function.minstrel"), errorCollector);
+        runFileAndVerifyResults(new File(ROOT_SCRIPT_DIR, "implemented/functions/closure.minstrel"), errorCollector);
         assertThat(errorCollector, is(empty()));
     }
 
@@ -241,7 +242,7 @@ public class SampleProgramRunner
         // for now, just check the file exists. we'll verify its contents later
         if(!runtimeErrors.exists())
         {
-            errorCollector.add(String.format("Expected no runtime errors for %s", file.getName()));
+            errorCollector.add(String.format("Expected no runtime errors for %s, but got %s", file.getName(), Arrays.toString(ex.getStackTrace())));
             return false;
         }
         else

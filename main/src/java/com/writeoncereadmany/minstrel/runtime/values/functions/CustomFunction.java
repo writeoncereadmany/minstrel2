@@ -2,6 +2,7 @@ package com.writeoncereadmany.minstrel.runtime.values.functions;
 
 import com.writeoncereadmany.minstrel.compile.ast.fragments.Body;
 import com.writeoncereadmany.minstrel.compile.ast.fragments.ParameterList;
+import com.writeoncereadmany.minstrel.runtime.environment.Environment;
 import com.writeoncereadmany.minstrel.runtime.interpreter.Interpreter;
 import com.writeoncereadmany.minstrel.runtime.values.Value;
 
@@ -9,11 +10,13 @@ import static java.util.Arrays.asList;
 
 public class CustomFunction extends Function
 {
+    private final Environment boundEnvironment;
     private final ParameterList parameterList;
     private final Body body;
 
-    public CustomFunction(ParameterList parameterList, Body body)
+    public CustomFunction(Environment boundEnvironment, ParameterList parameterList, Body body)
     {
+        this.boundEnvironment = boundEnvironment;
         this.parameterList = parameterList;
         this.body = body;
     }
@@ -21,7 +24,7 @@ public class CustomFunction extends Function
     @Override
     public Value call(Interpreter interpreter, Value... arguments)
     {
-        interpreter.enterNewScope();
+        interpreter.enterScope(boundEnvironment.createChild());
         interpreter.populateArguments(parameterList, asList(arguments));
         body.visit(interpreter);
         interpreter.exitScope();

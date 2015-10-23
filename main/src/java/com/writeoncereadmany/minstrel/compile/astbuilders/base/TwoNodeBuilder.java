@@ -26,7 +26,7 @@ public class TwoNodeBuilder<N1 extends AstNode, N2 extends AstNode, T extends As
         {
             return factory.build(node1, node2);
         }
-        throw new IllegalStateException("Should contain two node, but attempted to build without both");
+        throw new IllegalStateException("Should contain two nodes, but attempted to build without both");
     }
 
     @Override

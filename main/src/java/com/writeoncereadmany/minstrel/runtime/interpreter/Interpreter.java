@@ -105,7 +105,7 @@ public class Interpreter extends UnsupportedVisitor
     @Override
     public void visitFunction(ParameterList parameterList, Body body)
     {
-        store(new CustomFunction(parameterList, body));
+        store(new CustomFunction(currentEnvironment(), parameterList, body));
     }
     
     private void visit(AstNode node)
@@ -138,6 +138,11 @@ public class Interpreter extends UnsupportedVisitor
     public void enterNewScope()
     {
         stackFrames.push(stackFrames.peek().createChild());
+    }
+
+    public void enterScope(Environment environment)
+    {
+        stackFrames.push(environment);
     }
 
     public void exitScope()
