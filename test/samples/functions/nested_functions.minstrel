@@ -1,0 +1,10 @@
+function printAddPrint[Number a, Number b, Number c, Number d]
+{
+    print[a];
+    print[add[b, c]];
+    print[d];
+};
+
+function add[Number a, Number b] -> a + b;
+
+printAddPrint[2, add[3, 5], add[7, 11], 13];

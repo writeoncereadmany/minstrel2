@@ -20,7 +20,7 @@ public class PrintFunction extends Function
     @Override
     public Value call(Interpreter interpreter)
     {
-        Value value = interpreter.nextArgument();
+        Value value = interpreter.getArguments().poll();
         MinstrelString toPrint = (MinstrelString) value.get("show").call(interpreter);
         printStream.println(toPrint.getText());
         return success;
