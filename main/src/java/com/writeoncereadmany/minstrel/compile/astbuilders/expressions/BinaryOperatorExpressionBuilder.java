@@ -1,5 +1,6 @@
 package com.writeoncereadmany.minstrel.compile.astbuilders.expressions;
 
+import com.writeoncereadmany.minstrel.builtins.Builtins;
 import com.writeoncereadmany.minstrel.compile.ast.AstNode;
 import com.writeoncereadmany.minstrel.compile.ast.expressions.Expression;
 import com.writeoncereadmany.minstrel.compile.ast.expressions.FunctionCall;
@@ -16,7 +17,10 @@ import static java.util.Arrays.asList;
 
 public class BinaryOperatorExpressionBuilder implements AstNodeBuilder<Expression>
 {
-    private static final Map<String, Terminal> methodNames = mapOf(entry("+", new Terminal("plus", -1, -1)));
+    private static final Map<String, Terminal> methodNames = mapOf(entry("+", Builtins.PLUS_FUNCTION),
+                                                                   entry("-", Builtins.MINUS_FUNCTION),
+                                                                   entry("*", Builtins.MULTIPLY_FUNCTION),
+                                                                   entry("/", Builtins.DIVIDE_FUNCTION));
 
     private Expression subject;
     private Expression object;

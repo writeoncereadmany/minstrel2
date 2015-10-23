@@ -44,6 +44,10 @@ public class MinstrelNumber implements Value
         HashMap<String, Function> methods = new HashMap<>();
         methods.put("show", new ConstantFunction(new MinstrelString(value.toString())));
         methods.put("plus", new BinaryNumberOperation(value, RationalNumber::plus));
+        methods.put("minus", new BinaryNumberOperation(value, RationalNumber::subtract));
+        methods.put("multipliedBy", new BinaryNumberOperation(value, RationalNumber::multiply));
+        methods.put("dividedBy", new BinaryNumberOperation(value, RationalNumber::divide));
+        methods.put("negate", new UnaryNumberOperation(value, RationalNumber::negate));
         return methods;
     }
 
@@ -64,6 +68,26 @@ public class MinstrelNumber implements Value
         {
             MinstrelNumber arg = (MinstrelNumber)arguments[0];
             return new MinstrelNumber(func.apply(value, arg.value()));
+        }
+    }
+
+    private static class UnaryNumberOperation extends Function
+    {
+        private final RationalNumber value;
+        private final java.util.function.Function<RationalNumber, RationalNumber> func;
+
+        public UnaryNumberOperation(RationalNumber value,
+                                    java.util.function.Function<RationalNumber, RationalNumber> func)
+        {
+            this.value = value;
+            this.func = func;
+        }
+
+        @Override
+        public Value call(Interpreter interpreter, Value... arguments)
+        {
+            MinstrelNumber arg = (MinstrelNumber)arguments[0];
+            return new MinstrelNumber(func.apply(value));
         }
     }
 }

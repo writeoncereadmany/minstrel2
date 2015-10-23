@@ -4,7 +4,7 @@ import com.writeoncereadmany.minstrel.compile.ast.Program;
 import com.writeoncereadmany.minstrel.compile.names.NameResolver;
 import com.writeoncereadmany.minstrel.compile.visitors.DefineNames;
 import com.writeoncereadmany.minstrel.compile.visitors.ResolveNames;
-import com.writeoncereadmany.minstrel.harness.builtins.Builtins;
+import com.writeoncereadmany.minstrel.builtins.Builtins;
 import com.writeoncereadmany.minstrel.harness.utils.TestErrorListener;
 import com.writeoncereadmany.minstrel.orchestrator.MinstrelOrchestrator;
 import com.writeoncereadmany.minstrel.runtime.interpreter.Interpreter;
