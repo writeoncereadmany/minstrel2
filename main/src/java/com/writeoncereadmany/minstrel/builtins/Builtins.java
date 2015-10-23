@@ -18,6 +18,7 @@ public class Builtins
     public static final Terminal MINUS_FUNCTION = new Terminal("minus", -1, -1);
     public static final Terminal MULTIPLY_FUNCTION = new Terminal("multiply", -1, -1);
     public static final Terminal DIVIDE_FUNCTION = new Terminal("divide", -1, -1);
+    public static final Terminal NEGATE_FUNCTION = new Terminal("negate", -1, -1);
     public static final Terminal FUNCTION_TYPE = new Terminal("Function", -1, -1);
     public static final Terminal NUMBER_TYPE = new Terminal("Number", -1, -1);
     public static final Terminal STRING_TYPE = new Terminal("String", -1, -1);
@@ -35,6 +36,7 @@ public class Builtins
         resolver.define(MINUS_FUNCTION, Kind.VALUE);
         resolver.define(MULTIPLY_FUNCTION, Kind.VALUE);
         resolver.define(DIVIDE_FUNCTION, Kind.VALUE);
+        resolver.define(NEGATE_FUNCTION, Kind.VALUE);
     }
 
     public static Environment getPrelude(NameResolver nameResolver, PrintStream printStream)
@@ -45,6 +47,7 @@ public class Builtins
         prelude.declare(nameResolver.lookup(MINUS_FUNCTION, Kind.VALUE), new MinusFunction());
         prelude.declare(nameResolver.lookup(MULTIPLY_FUNCTION, Kind.VALUE), new MultipliedByFunction());
         prelude.declare(nameResolver.lookup(DIVIDE_FUNCTION, Kind.VALUE), new DividedByFunction());
+        prelude.declare(nameResolver.lookup(NEGATE_FUNCTION, Kind.VALUE), new NegateFunction());
         return prelude;
     }
 }

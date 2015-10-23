@@ -86,7 +86,6 @@ public class MinstrelNumber implements Value
         @Override
         public Value call(Interpreter interpreter, Value... arguments)
         {
-            MinstrelNumber arg = (MinstrelNumber)arguments[0];
             return new MinstrelNumber(func.apply(value));
         }
     }

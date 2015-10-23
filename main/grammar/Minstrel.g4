@@ -56,6 +56,7 @@ expression: '(' expression ')'                                                  
           | function                                                                     # function_expression
           | expression argument_list                                                     # function_call
           | expression '.' IDENTIFIER                                                    # member_access
+          | '-' expression                                                               # negate_expression
           | expression multiply_or_divide expression                                     # factor_expression
           | expression add_or_subtract expression                                        # term_expression
           | expression comparison expression                                             # comparison_expression

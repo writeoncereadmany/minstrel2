@@ -4,10 +4,7 @@ import com.writeoncereadmany.minstrel.compile.ast.expressions.NumberLiteral;
 import com.writeoncereadmany.minstrel.compile.ast.expressions.StringLiteral;
 import com.writeoncereadmany.minstrel.compile.ast.expressions.Variable;
 import com.writeoncereadmany.minstrel.compile.astbuilders.ProgramBuilder;
-import com.writeoncereadmany.minstrel.compile.astbuilders.expressions.BinaryOperatorExpressionBuilder;
-import com.writeoncereadmany.minstrel.compile.astbuilders.expressions.FunctionBuilder;
-import com.writeoncereadmany.minstrel.compile.astbuilders.expressions.FunctionCallBuilder;
-import com.writeoncereadmany.minstrel.compile.astbuilders.expressions.MemberAccessBuilder;
+import com.writeoncereadmany.minstrel.compile.astbuilders.expressions.*;
 import com.writeoncereadmany.minstrel.compile.astbuilders.fragments.ArgumentListBuilder;
 import com.writeoncereadmany.minstrel.compile.astbuilders.fragments.BodyBuilder;
 import com.writeoncereadmany.minstrel.compile.astbuilders.fragments.ParameterBuilder;
@@ -59,6 +56,7 @@ public class ASTBuildingListener extends MinstrelBaseListener
             new BuildCompoundNode(MinstrelParser.Expression_statementContext.class, ExpressionStatementBuilder::new),
             new BuildCompoundNode(MinstrelParser.Function_callContext.class, FunctionCallBuilder::new),
             new BuildCompoundNode(MinstrelParser.Member_accessContext.class, MemberAccessBuilder::new),
+            new BuildCompoundNode(MinstrelParser.Negate_expressionContext.class, NegateExpressionBuilder::new),
             new BuildCompoundNode(MinstrelParser.Term_expressionContext.class, BinaryOperatorExpressionBuilder::new),
             new BuildCompoundNode(MinstrelParser.Factor_expressionContext.class, BinaryOperatorExpressionBuilder::new),
             new BuildCompoundNode(MinstrelParser.Argument_listContext.class, ArgumentListBuilder::new),
