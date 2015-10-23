@@ -1,0 +1,2 @@
+String helloWorld is "Hello" + " " + "World!";
+print[helloWorld];

@@ -117,13 +117,12 @@ public class SampleProgramRunner
             PrintStream printStream = new PrintStream(printed);
             try
             {
-
                 Interpreter interpreter = new Interpreter(nameResolver, Builtins.getPrelude(nameResolver, printStream));
                 program.visit(interpreter);
             }
             catch (RuntimeException ex)
             {
-                if(hasExpectedRuntimeErrors(file, errorCollector, ex))
+                if (hasExpectedRuntimeErrors(file, errorCollector, ex))
                 {
                     return;
                 }

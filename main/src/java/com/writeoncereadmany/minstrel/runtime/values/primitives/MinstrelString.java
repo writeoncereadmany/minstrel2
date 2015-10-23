@@ -57,6 +57,17 @@ public class MinstrelString implements Value
     {
         HashMap<String, Function> methods = new HashMap<>();
         methods.put("show", new ConstantFunction(minstrelString));
+        methods.put("plus", new ConcatenationFunction());
         return methods;
+    }
+
+    private class ConcatenationFunction extends Function
+    {
+        @Override
+        public Value call(Interpreter interpreter, Value... arguments)
+        {
+            MinstrelString argument = (MinstrelString)arguments[0];
+            return new MinstrelString(text + argument.getText());
+        }
     }
 }

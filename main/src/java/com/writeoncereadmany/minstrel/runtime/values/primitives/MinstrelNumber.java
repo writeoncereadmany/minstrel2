@@ -18,7 +18,7 @@ public class MinstrelNumber implements Value
     public MinstrelNumber(RationalNumber value)
     {
         this.value = value;
-        this.methods = createMethods(value);
+        this.methods = createMethods();
     }
 
     @Override
@@ -39,27 +39,24 @@ public class MinstrelNumber implements Value
         return value;
     }
 
-    private static Map<String, Function> createMethods(RationalNumber value)
+    private Map<String, Function> createMethods()
     {
         HashMap<String, Function> methods = new HashMap<>();
         methods.put("show", new ConstantFunction(new MinstrelString(value.toString())));
-        methods.put("plus", new BinaryNumberOperation(value, RationalNumber::plus));
-        methods.put("minus", new BinaryNumberOperation(value, RationalNumber::subtract));
-        methods.put("multipliedBy", new BinaryNumberOperation(value, RationalNumber::multiply));
-        methods.put("dividedBy", new BinaryNumberOperation(value, RationalNumber::divide));
-        methods.put("negate", new UnaryNumberOperation(value, RationalNumber::negate));
+        methods.put("plus", new BinaryNumberOperation(RationalNumber::plus));
+        methods.put("minus", new BinaryNumberOperation(RationalNumber::subtract));
+        methods.put("multipliedBy", new BinaryNumberOperation(RationalNumber::multiply));
+        methods.put("dividedBy", new BinaryNumberOperation(RationalNumber::divide));
+        methods.put("negate", new UnaryNumberOperation(RationalNumber::negate));
         return methods;
     }
 
-    private static class BinaryNumberOperation extends Function
+    private class BinaryNumberOperation extends Function
     {
-        private final RationalNumber value;
         private final BiFunction<RationalNumber, RationalNumber, RationalNumber> func;
 
-        public BinaryNumberOperation(RationalNumber value,
-                                     BiFunction<RationalNumber, RationalNumber, RationalNumber> func)
+        public BinaryNumberOperation(BiFunction<RationalNumber, RationalNumber, RationalNumber> func)
         {
-            this.value = value;
             this.func = func;
         }
 
@@ -71,15 +68,12 @@ public class MinstrelNumber implements Value
         }
     }
 
-    private static class UnaryNumberOperation extends Function
+    private class UnaryNumberOperation extends Function
     {
-        private final RationalNumber value;
         private final java.util.function.Function<RationalNumber, RationalNumber> func;
 
-        public UnaryNumberOperation(RationalNumber value,
-                                    java.util.function.Function<RationalNumber, RationalNumber> func)
+        public UnaryNumberOperation(java.util.function.Function<RationalNumber, RationalNumber> func)
         {
-            this.value = value;
             this.func = func;
         }
 
