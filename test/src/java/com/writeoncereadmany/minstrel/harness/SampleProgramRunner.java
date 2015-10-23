@@ -115,8 +115,19 @@ public class SampleProgramRunner
 
             ByteArrayOutputStream printed = new ByteArrayOutputStream();
             PrintStream printStream = new PrintStream(printed);
-            Interpreter interpreter = new Interpreter(nameResolver, Builtins.getPrelude(nameResolver, printStream));
-            program.visit(interpreter);
+            try
+            {
+
+                Interpreter interpreter = new Interpreter(nameResolver, Builtins.getPrelude(nameResolver, printStream));
+                program.visit(interpreter);
+            }
+            catch (RuntimeException ex)
+            {
+                if(hasExpectedRuntimeErrors(file, errorCollector, ex))
+                {
+                    return;
+                }
+            }
 
             verifyOutput(file, printed, errorCollector);
         }
@@ -224,6 +235,20 @@ public class SampleProgramRunner
             }
         }
         return false;
+    }
+    private boolean hasExpectedRuntimeErrors(File file, List<String> errorCollector, RuntimeException ex) throws FileNotFoundException
+    {
+        File runtimeErrors = replaceExtension(file, "runtimeerror");
+        // for now, just check the file exists. we'll verify its contents later
+        if(!runtimeErrors.exists())
+        {
+            errorCollector.add(String.format("Expected no runtime errors for %s", file.getName()));
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
     private boolean hasExpectedNameErrors(File file, List<String> errorCollector, NameResolver nameResolver) throws FileNotFoundException
