@@ -5,6 +5,10 @@ import com.writeoncereadmany.minstrel.runtime.values.Value;
 import com.writeoncereadmany.minstrel.runtime.values.primitives.MinstrelString;
 
 import java.io.PrintStream;
+import java.util.Collections;
+import java.util.List;
+
+import static java.util.Collections.emptyList;
 
 public class PrintFunction extends Function
 {
@@ -18,9 +22,9 @@ public class PrintFunction extends Function
     }
 
     @Override
-    public Value call(Interpreter interpreter)
+    public Value call(Interpreter interpreter, Value... arguments)
     {
-        Value value = interpreter.getArguments().poll();
+        Value value = arguments[0];
         MinstrelString toPrint = (MinstrelString) value.get("show").call(interpreter);
         printStream.println(toPrint.getText());
         return success;

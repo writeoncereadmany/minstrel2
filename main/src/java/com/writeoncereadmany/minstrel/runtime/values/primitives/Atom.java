@@ -6,6 +6,7 @@ import com.writeoncereadmany.minstrel.runtime.values.functions.ConstantFunction;
 import com.writeoncereadmany.minstrel.runtime.values.functions.Function;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Atom implements Value
@@ -19,7 +20,7 @@ public class Atom implements Value
     }
 
     @Override
-    public Value call(Interpreter interpreter)
+    public Value call(Interpreter interpreter, Value... arguments)
     {
         throw new UnsupportedOperationException("An atom is not a function");
     }

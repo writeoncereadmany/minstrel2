@@ -2,6 +2,7 @@ package com.writeoncereadmany.minstrel.runtime.values;
 
 import com.writeoncereadmany.minstrel.runtime.interpreter.Interpreter;
 
+import java.util.List;
 import java.util.Map;
 
 public class Record implements Value
@@ -14,7 +15,7 @@ public class Record implements Value
     }
 
     @Override
-    public Value call(Interpreter interpreter)
+    public Value call(Interpreter interpreter, Value... arguments)
     {
         throw new UnsupportedOperationException("Cannot call a non-function");
     }

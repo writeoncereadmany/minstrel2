@@ -5,6 +5,11 @@ import com.writeoncereadmany.minstrel.compile.ast.fragments.ParameterList;
 import com.writeoncereadmany.minstrel.runtime.interpreter.Interpreter;
 import com.writeoncereadmany.minstrel.runtime.values.Value;
 
+import java.util.Collections;
+import java.util.List;
+
+import static java.util.Arrays.asList;
+
 public class CustomFunction extends Function
 {
     private final ParameterList parameterList;
@@ -17,10 +22,10 @@ public class CustomFunction extends Function
     }
 
     @Override
-    public Value call(Interpreter interpreter)
+    public Value call(Interpreter interpreter, Value... arguments)
     {
         interpreter.enterNewScope();
-        parameterList.visit(interpreter);
+        interpreter.populateArguments(parameterList, asList(arguments));
         body.visit(interpreter);
         interpreter.exitScope();
         return interpreter.consume();

@@ -13,7 +13,7 @@ public class ConstantFunction extends Function
     }
 
     @Override
-    public final Value call(Interpreter interpreter)
+    public final Value call(Interpreter interpreter, Value... arguments)
     {
         return constant;
     }

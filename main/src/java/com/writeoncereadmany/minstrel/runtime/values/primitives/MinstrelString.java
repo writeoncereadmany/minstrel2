@@ -6,6 +6,7 @@ import com.writeoncereadmany.minstrel.runtime.values.functions.Function;
 import com.writeoncereadmany.minstrel.runtime.values.Value;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -38,7 +39,7 @@ public class MinstrelString implements Value
     }
 
     @Override
-    public Value call(Interpreter interpreter) {
+    public Value call(Interpreter interpreter, Value... arguments) {
         throw new UnsupportedOperationException("Cannot call a string: not a function");
     }
 

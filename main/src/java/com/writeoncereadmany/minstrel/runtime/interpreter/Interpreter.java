@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
 
-public class Interpreter implements AstVisitor 
+public class Interpreter implements AstVisitor
 {
     private final NameResolver nameResolver;
     private final Stack<Environment> stackFrames = new Stack<>();
@@ -123,7 +123,7 @@ public class Interpreter implements AstVisitor
     {
         Value toCall = evaluate(function);
         visit(args);
-        store(toCall.call(this));
+        store(toCall.call(this, arguments.pop().toArray(new Value[arguments.size()])));
     }
 
     @Override
@@ -187,5 +187,11 @@ public class Interpreter implements AstVisitor
     public void setArguments(Value... addend)
     {
         arguments.push(new ArrayDeque<>(asList(addend)));
+    }
+
+    public void populateArguments(ParameterList parameterList, List<Value> objects)
+    {
+        FunctionEnvironmentPopulator populator = new FunctionEnvironmentPopulator(nameResolver, currentEnvironment(), objects);
+        parameterList.visit(populator);
     }
 }

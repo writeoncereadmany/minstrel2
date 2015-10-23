@@ -7,6 +7,7 @@ import com.writeoncereadmany.minstrel.runtime.values.functions.Function;
 import com.writeoncereadmany.minstrel.runtime.values.Value;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.function.BiFunction;
@@ -23,7 +24,7 @@ public class MinstrelNumber implements Value
     }
 
     @Override
-    public Value call(Interpreter interpreter) {
+    public Value call(Interpreter interpreter, Value... arguments) {
         throw new UnsupportedOperationException("Cannot call a number: not a function");
     }
 
@@ -61,10 +62,9 @@ public class MinstrelNumber implements Value
         }
 
         @Override
-        public Value call(Interpreter interpreter)
+        public Value call(Interpreter interpreter, Value... arguments)
         {
-            final Queue<Value> args = interpreter.getArguments();
-            MinstrelNumber arg = (MinstrelNumber)args.poll();
+            MinstrelNumber arg = (MinstrelNumber)arguments[0];
             return new MinstrelNumber(func.apply(value, arg.value()));
         }
     }
