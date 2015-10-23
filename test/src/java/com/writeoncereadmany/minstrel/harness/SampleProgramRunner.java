@@ -7,25 +7,28 @@ import com.writeoncereadmany.minstrel.compile.names.NameResolver;
 import com.writeoncereadmany.minstrel.orchestrator.MinstrelOrchestrator;
 import com.writeoncereadmany.minstrel.compile.visitors.DefineNames;
 import com.writeoncereadmany.minstrel.compile.visitors.ResolveNames;
-import com.writeoncereadmany.minstrel.runtime.environment.Environment;
 import com.writeoncereadmany.minstrel.runtime.interpreter.Interpreter;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.junit.Ignore;
 import org.junit.Test;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import static com.writeoncereadmany.minstrel.harness.utils.FileUtils.firstLine;
+import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Test harness for running Minstrel scripts and ensuring the results are as expected: either compilation fails at the
@@ -58,7 +61,7 @@ public class SampleProgramRunner
     public void testASingleScript() throws Exception
     {
         final List<String> errorCollector = new ArrayList<>();
-        runFileAndVerifyResults(new File(ROOT_SCRIPT_DIR, "functions/simple_defined_expression_function.minstrel"), errorCollector);
+        runFileAndVerifyResults(new File(ROOT_SCRIPT_DIR, "functions/anonymous_block_function.minstrel"), errorCollector);
         assertThat(errorCollector, is(empty()));
     }
 
@@ -113,10 +116,12 @@ public class SampleProgramRunner
                 return;
             }
 
-            Interpreter interpreter = new Interpreter(nameResolver, Builtins.getPrelude(nameResolver));
+            ByteArrayOutputStream printed = new ByteArrayOutputStream();
+            PrintStream printStream = new PrintStream(printed);
+            Interpreter interpreter = new Interpreter(nameResolver, Builtins.getPrelude(nameResolver, printStream));
             program.visit(interpreter);
 
-
+            verifyOutput(file, printed, errorCollector);
         }
         catch (IOException ex)
         {
@@ -126,6 +131,47 @@ public class SampleProgramRunner
         {
             throw new RuntimeException("Error when parsing " + file.getName(), ex);
         }
+    }
+
+    private void verifyOutput(File file, ByteArrayOutputStream printed, List<String> errorCollector) throws IOException
+    {
+        String actualOutputString = printed.toString();
+
+        Path expectedOutputPath = replaceExtension(file, "out").toPath();
+        Collector<? super String, StringBuilder, String> joiner = joinWith("\n");
+
+        if(actualOutputString.isEmpty() && !Files.exists(expectedOutputPath))
+        {
+            // everything's fine! no need to do anything. but it's clearer with all possibilities enumerated
+        }
+        else if(actualOutputString.isEmpty() && Files.exists(expectedOutputPath))
+        {
+            errorCollector.add("Expected output from " + file.getName() + " but got none");
+        }
+        else if(!actualOutputString.isEmpty() && !Files.exists(expectedOutputPath))
+        {
+            errorCollector.add("Expected no output from " + file.getName() + " but got: " + actualOutputString);
+        }
+        else
+        {
+            List<String> actualOutput = asList(actualOutputString.split("\n"));
+            List<String> expectedOutput = Files.lines(expectedOutputPath).collect(Collectors.toList());
+
+            if(!actualOutput.equals(expectedOutput))
+            {
+                errorCollector.add("Wrong output from " + file.getName() + ". Expected:\n" +
+                                   expectedOutput.stream().collect(joiner) + "\n Actual: \n" +
+                                   actualOutput.stream().collect(joiner));
+            }
+        }
+
+    }
+
+    private Collector<? super String, StringBuilder, String> joinWith(String separator) {
+        return Collector.of(StringBuilder::new,
+                            (builder, string) -> builder.append(separator).append(string),
+                            (builder1, builder2) -> builder1.append(separator).append(builder2.toString()),
+                            StringBuilder::toString);
     }
 
     private boolean hasExpectedLexErrors(File file, List<String> errorCollector, TestErrorListener lexErrorListener) throws FileNotFoundException

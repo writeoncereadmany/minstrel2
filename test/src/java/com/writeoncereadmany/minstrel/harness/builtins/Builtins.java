@@ -10,6 +10,8 @@ import com.writeoncereadmany.minstrel.runtime.values.functions.PlusFunction;
 import com.writeoncereadmany.minstrel.runtime.values.functions.PrintFunction;
 import com.writeoncereadmany.minstrel.runtime.values.primitives.Atom;
 
+import java.io.PrintStream;
+
 public class Builtins
 {
     public static final Terminal PRINT_FUNCTION = new Terminal("print", -1, -1);
@@ -30,10 +32,10 @@ public class Builtins
         resolver.define(PLUS_FUNCTION, Kind.VALUE);
     }
 
-    public static Environment getPrelude(NameResolver nameResolver)
+    public static Environment getPrelude(NameResolver nameResolver, PrintStream printStream)
     {
         Environment prelude = new Environment();
-        prelude.declare(nameResolver.lookup(PRINT_FUNCTION, Kind.VALUE), new PrintFunction(System.out, SUCCESS));
+        prelude.declare(nameResolver.lookup(PRINT_FUNCTION, Kind.VALUE), new PrintFunction(printStream, SUCCESS));
         prelude.declare(nameResolver.lookup(PLUS_FUNCTION, Kind.VALUE), new PlusFunction());
         return prelude;
     }

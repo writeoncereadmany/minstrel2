@@ -22,7 +22,7 @@ public class PrintFunction extends Function
     {
         Value value = interpreter.nextArgument();
         MinstrelString toPrint = (MinstrelString) value.get("show").call(interpreter);
-        printStream.print(toPrint.getText());
+        printStream.println(toPrint.getText());
         return success;
     }
 }

@@ -96,7 +96,7 @@ public class Interpreter implements AstVisitor
     @Override
     public void visitStringLiteral(Terminal value)
     {
-        store(new MinstrelString(value.text));
+        store(MinstrelString.fromLiteral(value.text));
     }
 
     @Override
@@ -161,11 +161,6 @@ public class Interpreter implements AstVisitor
     public void exitScope()
     {
         stackFrames.pop();
-    }
-
-    public Value lastEvaluatedValue()
-    {
-        return this.lastEvaluatedValue;
     }
 
     public Value nextArgument()
