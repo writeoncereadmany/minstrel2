@@ -45,7 +45,7 @@ public class MinstrelString implements Value
     @Override
     public Value get(String name)
     {
-        return methods.get(name);
+        return methods.computeIfAbsent(name, x -> { throw new UnsupportedOperationException("Member " + name + " missing"); });
     }
 
     public String getText()

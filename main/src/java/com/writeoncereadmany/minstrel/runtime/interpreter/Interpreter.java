@@ -22,6 +22,8 @@ import java.util.Queue;
 import java.util.Stack;
 import java.util.stream.Collectors;
 
+import static java.util.Arrays.asList;
+
 public class Interpreter implements AstVisitor 
 {
     private final NameResolver nameResolver;
@@ -180,5 +182,10 @@ public class Interpreter implements AstVisitor
     public Queue<Value> getArguments()
     {
         return arguments.pop();
+    }
+
+    public void setArguments(Value... addend)
+    {
+        arguments.push(new ArrayDeque<>(asList(addend)));
     }
 }

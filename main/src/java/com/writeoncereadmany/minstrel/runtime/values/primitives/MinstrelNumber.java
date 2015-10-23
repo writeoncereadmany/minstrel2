@@ -8,6 +8,8 @@ import com.writeoncereadmany.minstrel.runtime.values.Value;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Queue;
+import java.util.function.BiFunction;
 
 public class MinstrelNumber implements Value
 {
@@ -28,7 +30,9 @@ public class MinstrelNumber implements Value
     @Override
     public Value get(String name)
     {
-        return methods.get(name);
+        return methods.computeIfAbsent(name, x -> {
+            throw new UnsupportedOperationException("Member " + name + " missing");
+        });
     }
 
     public RationalNumber value()
@@ -40,6 +44,28 @@ public class MinstrelNumber implements Value
     {
         HashMap<String, Function> methods = new HashMap<>();
         methods.put("show", new ConstantFunction(new MinstrelString(value.toString())));
+        methods.put("plus", new BinaryNumberOperation(value, RationalNumber::plus));
         return methods;
+    }
+
+    private static class BinaryNumberOperation extends Function
+    {
+        private final RationalNumber value;
+        private final BiFunction<RationalNumber, RationalNumber, RationalNumber> func;
+
+        public BinaryNumberOperation(RationalNumber value,
+                                     BiFunction<RationalNumber, RationalNumber, RationalNumber> func)
+        {
+            this.value = value;
+            this.func = func;
+        }
+
+        @Override
+        public Value call(Interpreter interpreter)
+        {
+            final Queue<Value> args = interpreter.getArguments();
+            MinstrelNumber arg = (MinstrelNumber)args.poll();
+            return new MinstrelNumber(func.apply(value, arg.value()));
+        }
     }
 }

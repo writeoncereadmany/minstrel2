@@ -12,8 +12,10 @@ public class PlusFunction extends Function
     public Value call(Interpreter interpreter)
     {
         Queue<Value> arguments = interpreter.getArguments();
-        MinstrelNumber augend = (MinstrelNumber)arguments.poll();
-        MinstrelNumber addend = (MinstrelNumber)arguments.poll();
-        return new MinstrelNumber(augend.value().plus(addend.value()));
+        Value augend = arguments.poll();
+        Value addend = arguments.poll();
+
+        interpreter.setArguments(addend);
+        return augend.get("plus").call(interpreter);
     }
 }
