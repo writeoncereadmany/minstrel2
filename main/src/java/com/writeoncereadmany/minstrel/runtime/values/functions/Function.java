@@ -1,4 +1,6 @@
-package com.writeoncereadmany.minstrel.runtime.values;
+package com.writeoncereadmany.minstrel.runtime.values.functions;
+
+import com.writeoncereadmany.minstrel.runtime.values.Value;
 
 public abstract class Function implements Value
 {

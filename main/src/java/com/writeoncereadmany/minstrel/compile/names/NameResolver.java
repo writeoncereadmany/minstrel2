@@ -18,6 +18,7 @@ public class NameResolver
     public void define(Terminal name, Kind kind)
     {
         currentScope.define(name, kind);
+        resolve(name, kind);
     }
 
     public void resolve(Terminal name, Kind kind)

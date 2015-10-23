@@ -7,6 +7,8 @@ import com.writeoncereadmany.minstrel.compile.names.NameResolver;
 import com.writeoncereadmany.minstrel.orchestrator.MinstrelOrchestrator;
 import com.writeoncereadmany.minstrel.compile.visitors.DefineNames;
 import com.writeoncereadmany.minstrel.compile.visitors.ResolveNames;
+import com.writeoncereadmany.minstrel.runtime.environment.Environment;
+import com.writeoncereadmany.minstrel.runtime.interpreter.Interpreter;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Ignore;
@@ -53,11 +55,10 @@ public class SampleProgramRunner
     }
 
     @Test
-    @Ignore
     public void testASingleScript() throws Exception
     {
         final List<String> errorCollector = new ArrayList<>();
-        runFileAndVerifyResults(new File(ROOT_SCRIPT_DIR, "functions/simple_defined_function.minstrel"), errorCollector);
+        runFileAndVerifyResults(new File(ROOT_SCRIPT_DIR, "functions/simple_defined_expression_function.minstrel"), errorCollector);
         assertThat(errorCollector, is(empty()));
     }
 
@@ -111,6 +112,9 @@ public class SampleProgramRunner
             {
                 return;
             }
+
+            Interpreter interpreter = new Interpreter(nameResolver, Builtins.getPrelude(nameResolver));
+            program.visit(interpreter);
 
 
         }

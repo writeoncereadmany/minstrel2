@@ -1,8 +1,9 @@
-package com.writeoncereadmany.minstrel.runtime.values;
+package com.writeoncereadmany.minstrel.runtime.values.functions;
 
 import com.writeoncereadmany.minstrel.compile.ast.fragments.Body;
 import com.writeoncereadmany.minstrel.compile.ast.fragments.ParameterList;
 import com.writeoncereadmany.minstrel.runtime.interpreter.Interpreter;
+import com.writeoncereadmany.minstrel.runtime.values.Value;
 
 public class CustomFunction extends Function
 {
@@ -20,8 +21,8 @@ public class CustomFunction extends Function
     {
         interpreter.enterNewScope();
         parameterList.visit(interpreter);
-
+        body.visit(interpreter);
         interpreter.exitScope();
-        return null;
+        return interpreter.consume();
     }
 }

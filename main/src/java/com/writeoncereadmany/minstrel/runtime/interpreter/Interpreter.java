@@ -11,7 +11,7 @@ import com.writeoncereadmany.minstrel.compile.names.ScopeIndex;
 import com.writeoncereadmany.minstrel.compile.visitors.AstVisitor;
 import com.writeoncereadmany.minstrel.runtime.environment.Environment;
 import com.writeoncereadmany.minstrel.runtime.number.InefficientRatio;
-import com.writeoncereadmany.minstrel.runtime.values.CustomFunction;
+import com.writeoncereadmany.minstrel.runtime.values.functions.CustomFunction;
 import com.writeoncereadmany.minstrel.runtime.values.Value;
 import com.writeoncereadmany.minstrel.runtime.values.primitives.MinstrelNumber;
 import com.writeoncereadmany.minstrel.runtime.values.primitives.MinstrelString;
@@ -29,15 +29,18 @@ public class Interpreter implements AstVisitor
     private Value lastEvaluatedValue = null;
     private Queue<Value> arguments = new ArrayDeque<>();
 
-    public Interpreter(NameResolver nameResolver)
+    public Interpreter(NameResolver nameResolver, Environment prelude)
     {
         this.nameResolver = nameResolver;
+        stackFrames.push(prelude);
     }
 
     @Override
     public void visitProgram(List<Statement> statements) 
     {
+        enterNewScope();
         statements.forEach(this::visit);
+        exitScope();
     }
 
     @Override
@@ -68,7 +71,7 @@ public class Interpreter implements AstVisitor
     @Override
     public void visitParameter(Terminal type, Terminal name)
     {
-        currentEnvironment().declare(valueFor(name), arguments.poll());
+        currentEnvironment().declare(valueFor(name), nextArgument());
     }
 
     @Override
@@ -114,7 +117,7 @@ public class Interpreter implements AstVisitor
     {
         Value toCall = evaluate(function);
         visit(args);
-        toCall.call(this);
+        store(toCall.call(this));
     }
 
     @Override
@@ -133,7 +136,7 @@ public class Interpreter implements AstVisitor
         return nameResolver.lookup(name, Kind.VALUE);
     }
 
-    private void store(Value item)
+    public void store(Value item)
     {
         evaluationStack.push(item);
         lastEvaluatedValue = item;
@@ -142,7 +145,7 @@ public class Interpreter implements AstVisitor
     private Value evaluate(Expression expression)
     {
         visit(expression);
-        return evaluationStack.pop();
+        return consume();
     }
 
     private Environment currentEnvironment()
@@ -158,5 +161,20 @@ public class Interpreter implements AstVisitor
     public void exitScope()
     {
         stackFrames.pop();
+    }
+
+    public Value lastEvaluatedValue()
+    {
+        return this.lastEvaluatedValue;
+    }
+
+    public Value nextArgument()
+    {
+        return arguments.poll();
+    }
+
+    public Value consume()
+    {
+        return evaluationStack.pop();
     }
 }
