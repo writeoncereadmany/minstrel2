@@ -1,3 +1,5 @@
 function times[Number a] -> ([Number b] -> a * b);
 
-print[times[3][7]];
+Function triple is times[3];
+
+print[triple[7]];
