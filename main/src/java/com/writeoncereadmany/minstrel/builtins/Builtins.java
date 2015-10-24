@@ -4,12 +4,24 @@ package com.writeoncereadmany.minstrel.builtins;
 import com.writeoncereadmany.minstrel.compile.ast.fragments.Terminal;
 import com.writeoncereadmany.minstrel.compile.names.Kind;
 import com.writeoncereadmany.minstrel.compile.names.NameResolver;
+import com.writeoncereadmany.minstrel.compile.names.ScopeIndex;
+import com.writeoncereadmany.minstrel.compile.types.Type;
+import com.writeoncereadmany.minstrel.compile.types.concerns.FunctionType;
+import com.writeoncereadmany.minstrel.compile.types.concerns.Implementation;
+import com.writeoncereadmany.minstrel.compile.types.defintions.ConcreteTypeDefinition;
+import com.writeoncereadmany.minstrel.compile.types.defintions.TypeDefinition;
 import com.writeoncereadmany.minstrel.runtime.environment.Environment;
 import com.writeoncereadmany.minstrel.runtime.values.Value;
 import com.writeoncereadmany.minstrel.runtime.values.functions.*;
 import com.writeoncereadmany.minstrel.runtime.values.primitives.Atom;
 
 import java.io.PrintStream;
+import java.util.Arrays;
+import java.util.Map;
+
+import static java.util.Arrays.asList;
+import static java.util.Arrays.stream;
+import static java.util.stream.Collectors.toList;
 
 public class Builtins
 {
@@ -69,5 +81,36 @@ public class Builtins
         prelude.declare(nameResolver.lookup(NEGATE_FUNCTION, Kind.VALUE), new NegateFunction());
         prelude.declare(nameResolver.lookup(SUCCESS_ATOM, Kind.VALUE), SUCCESS);
         return prelude;
+    }
+
+    public static void definePreludeTypes(NameResolver nameResolver, Map<ScopeIndex, Type> types)
+    {
+        defineAtomType(nameResolver, types, SUCCESS_ATOM);
+        defineFunctionType(nameResolver, types, PRINT_FUNCTION, SUCCESS_ATOM, STRING_TYPE);
+        defineFunctionType(nameResolver, types, PLUS_FUNCTION, NUMBER_TYPE, NUMBER_TYPE, NUMBER_TYPE);
+        defineFunctionType(nameResolver, types, MINUS_FUNCTION, NUMBER_TYPE, NUMBER_TYPE, NUMBER_TYPE);
+        defineFunctionType(nameResolver, types, MULTIPLY_FUNCTION, NUMBER_TYPE, NUMBER_TYPE, NUMBER_TYPE);
+        defineFunctionType(nameResolver, types, DIVIDE_FUNCTION, NUMBER_TYPE, NUMBER_TYPE, NUMBER_TYPE);
+        defineFunctionType(nameResolver, types, NEGATE_FUNCTION, NUMBER_TYPE, NUMBER_TYPE);
+    }
+
+    private static void defineFunctionType(NameResolver nameResolver,
+                                           Map<ScopeIndex, Type> types,
+                                           Terminal function,
+                                           Terminal returnType,
+                                           Terminal... parameterTypes)
+    {
+        types.put(nameResolver.lookup(function, Kind.VALUE),
+                  new Type(new FunctionType(stream(parameterTypes).map(p -> nameResolver.lookup(p, Kind.TYPE))
+                                                                  .map(ConcreteTypeDefinition::new)
+                                                                  .collect(toList()),
+                                            new ConcreteTypeDefinition(nameResolver.lookup(returnType, Kind.TYPE)))));
+    }
+
+
+
+    private static void defineAtomType(NameResolver nameResolver, Map<ScopeIndex, Type> types, Terminal atom) {
+        types.put(nameResolver.lookup(atom, Kind.VALUE),
+                  new Type(new Implementation(nameResolver.lookup(atom, Kind.TYPE))));
     }
 }
