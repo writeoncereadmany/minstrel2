@@ -4,6 +4,7 @@ import com.writeoncereadmany.minstrel.compile.ast.expressions.Expression;
 import com.writeoncereadmany.minstrel.compile.ast.expressions.Function;
 import com.writeoncereadmany.minstrel.compile.ast.fragments.*;
 import com.writeoncereadmany.minstrel.compile.ast.statements.Statement;
+import com.writeoncereadmany.minstrel.compile.ast.types.TypeExpression;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class UnsupportedVisitor implements AstVisitor
     }
 
     @Override
-    public void visitVariableDeclaration(Terminal type, Terminal name, Expression expression)
+    public void visitVariableDeclaration(TypeExpression type, Terminal name, Expression expression)
     {
         throw new UnsupportedOperationException("Visiting variable declarations not supported by " + getClass().getName());
     }
@@ -45,7 +46,7 @@ public class UnsupportedVisitor implements AstVisitor
     }
 
     @Override
-    public void visitParameter(Terminal type, Terminal name)
+    public void visitParameter(TypeExpression type, Terminal name)
     {
         throw new UnsupportedOperationException("Visiting parameters not supported by " + getClass().getName());
     }
@@ -96,5 +97,11 @@ public class UnsupportedVisitor implements AstVisitor
     public void visitFunction(ParameterList parameterList, Body body)
     {
         throw new UnsupportedOperationException("Visiting functions not supported by " + getClass().getName());
+    }
+
+    @Override
+    public void visitNamedType(Terminal typeName)
+    {
+        throw new UnsupportedOperationException("Visiting named types not supported by " + getClass().getName());
     }
 }

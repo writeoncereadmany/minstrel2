@@ -5,6 +5,7 @@ import com.writeoncereadmany.minstrel.compile.ast.expressions.Expression;
 import com.writeoncereadmany.minstrel.compile.ast.expressions.Function;
 import com.writeoncereadmany.minstrel.compile.ast.fragments.*;
 import com.writeoncereadmany.minstrel.compile.ast.statements.Statement;
+import com.writeoncereadmany.minstrel.compile.ast.types.TypeExpression;
 import com.writeoncereadmany.minstrel.compile.names.Kind;
 import com.writeoncereadmany.minstrel.compile.names.NameResolver;
 
@@ -27,9 +28,9 @@ public class ResolveNames extends NoOpVisitor
     }
 
     @Override
-    public void visitVariableDeclaration(Terminal type, Terminal name, Expression expression)
+    public void visitVariableDeclaration(TypeExpression type, Terminal name, Expression expression)
     {
-        nameResolver.resolve(type, Kind.TYPE);
+        visit(type);
         visit(expression);
     }
 
@@ -52,9 +53,9 @@ public class ResolveNames extends NoOpVisitor
     }
 
     @Override
-    public void visitParameter(Terminal type, Terminal name)
+    public void visitParameter(TypeExpression type, Terminal name)
     {
-        nameResolver.resolve(type, Kind.TYPE);
+        visit(type);
     }
 
     @Override
@@ -98,6 +99,12 @@ public class ResolveNames extends NoOpVisitor
         visit(parameterList);
         visit(body);
         nameResolver.exitScope(bodyScope);
+    }
+
+    @Override
+    public void visitNamedType(Terminal typeName)
+    {
+        nameResolver.resolve(typeName, Kind.TYPE);;
     }
 
     private void enterScope()

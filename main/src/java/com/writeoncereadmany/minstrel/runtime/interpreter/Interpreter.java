@@ -5,6 +5,7 @@ import com.writeoncereadmany.minstrel.compile.ast.expressions.Expression;
 import com.writeoncereadmany.minstrel.compile.ast.expressions.Function;
 import com.writeoncereadmany.minstrel.compile.ast.fragments.*;
 import com.writeoncereadmany.minstrel.compile.ast.statements.Statement;
+import com.writeoncereadmany.minstrel.compile.ast.types.TypeExpression;
 import com.writeoncereadmany.minstrel.compile.names.Kind;
 import com.writeoncereadmany.minstrel.compile.names.NameResolver;
 import com.writeoncereadmany.minstrel.compile.names.ScopeIndex;
@@ -44,7 +45,7 @@ public class Interpreter extends UnsupportedVisitor
     }
 
     @Override
-    public void visitVariableDeclaration(Terminal type, Terminal name, Expression expression)
+    public void visitVariableDeclaration(TypeExpression type, Terminal name, Expression expression)
     {
         visit(expression);
         currentEnvironment().declare(valueFor(name), evaluate(expression));

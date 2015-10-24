@@ -9,8 +9,6 @@ public class Function implements Expression
     private final ParameterList parameterList;
     private final Body body;
 
-    private int bodyScope;
-
     public Function(ParameterList parameterList, Body body)
     {
         this.parameterList = parameterList;

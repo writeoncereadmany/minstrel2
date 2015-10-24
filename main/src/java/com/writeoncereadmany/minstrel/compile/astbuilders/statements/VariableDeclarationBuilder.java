@@ -4,11 +4,12 @@ import com.writeoncereadmany.minstrel.compile.ast.AstNode;
 import com.writeoncereadmany.minstrel.compile.ast.expressions.Expression;
 import com.writeoncereadmany.minstrel.compile.ast.fragments.Terminal;
 import com.writeoncereadmany.minstrel.compile.ast.statements.VariableDeclaration;
+import com.writeoncereadmany.minstrel.compile.ast.types.TypeExpression;
 import com.writeoncereadmany.minstrel.compile.astbuilders.AstNodeBuilder;
 
 public class VariableDeclarationBuilder implements AstNodeBuilder<VariableDeclaration>
 {
-    private Terminal type;
+    private TypeExpression type;
     private Terminal name;
     private Expression expression;
 
@@ -21,7 +22,11 @@ public class VariableDeclarationBuilder implements AstNodeBuilder<VariableDeclar
     @Override
     public void addNode(AstNode node)
     {
-        if(type != null && name != null)
+        if(type == null)
+        {
+            type = (TypeExpression)node;
+        }
+        else if(name != null)
         {
             expression = (Expression)node;
         }
@@ -34,17 +39,13 @@ public class VariableDeclarationBuilder implements AstNodeBuilder<VariableDeclar
     @Override
     public void addTerminal(Terminal terminal)
     {
-        if(type == null)
-        {
-            type = terminal;
-        }
-        else if(name == null)
+        if(name == null)
         {
             name = terminal;
         }
         else
         {
-            throw new IllegalStateException("Type and name already defined: should not be adding more terminals. Terminal is " + terminal);
+            throw new IllegalStateException("Name already defined: should not be adding more terminals. Terminal is " + terminal);
         }
     }
 

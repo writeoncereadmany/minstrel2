@@ -26,7 +26,8 @@ IDENTIFIER: LETTER (LETTER | DIGIT)* ;
 program: statement*;
 
 name: IDENTIFIER;
-type: IDENTIFIER;
+type: IDENTIFIER        # named_type
+    ;
 
 parameter: type name;
 

@@ -4,6 +4,7 @@ import com.writeoncereadmany.minstrel.compile.ast.expressions.Expression;
 import com.writeoncereadmany.minstrel.compile.ast.expressions.Function;
 import com.writeoncereadmany.minstrel.compile.ast.fragments.*;
 import com.writeoncereadmany.minstrel.compile.ast.statements.Statement;
+import com.writeoncereadmany.minstrel.compile.ast.types.TypeExpression;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ public class NoOpVisitor implements AstVisitor
     public void visitProgram(List<Statement> statements) { }
 
     @Override
-    public void visitVariableDeclaration(Terminal type, Terminal name, Expression expression) { }
+    public void visitVariableDeclaration(TypeExpression type, Terminal name, Expression expression) { }
 
     @Override
     public void visitFunctionDeclaration(Terminal name, Function function) { }
@@ -25,7 +26,7 @@ public class NoOpVisitor implements AstVisitor
     public void visitParameterList(List<Parameter> parameters) { }
 
     @Override
-    public void visitParameter(Terminal type, Terminal name) { }
+    public void visitParameter(TypeExpression type, Terminal name) { }
 
     @Override
     public void visitBody(List<Statement> statements) { }
@@ -50,4 +51,7 @@ public class NoOpVisitor implements AstVisitor
 
     @Override
     public void visitFunction(ParameterList parameterList, Body body) { }
+
+    @Override
+    public void visitNamedType(Terminal typeName) { }
 }
