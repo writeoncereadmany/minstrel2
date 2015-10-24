@@ -72,8 +72,8 @@ public class ASTBuildingListener extends MinstrelBaseListener
 
             new BuildTerminal(MinstrelParser.Add_or_subtractContext.class),
             new BuildTerminal(MinstrelParser.Multiply_or_divideContext.class),
-            new BuildTerminal(MinstrelParser.TypeContext.class),
-            new BuildTerminal(MinstrelParser.NameContext.class)
+            new BuildTerminal(MinstrelParser.NameContext.class),
+            new BuildTerminal(MinstrelParser.MemberContext.class)
             );
 
     private static Map<Class<? extends ParserRuleContext>, RuleProcessor> buildRules

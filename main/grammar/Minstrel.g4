@@ -26,6 +26,7 @@ IDENTIFIER: LETTER (LETTER | DIGIT)* ;
 program: statement*;
 
 name: IDENTIFIER;
+member: IDENTIFIER;
 
 type: '(' type ')'                  # parenthesised_type
     | IDENTIFIER                    # named_type
@@ -60,7 +61,7 @@ expression: '(' expression ')'                                                  
           | IDENTIFIER	                                                                 # variable
           | function                                                                     # function_expression
           | expression argument_list                                                     # function_call
-          | expression '.' IDENTIFIER                                                    # member_access
+          | expression '.' member                                                        # member_access
           | '-' expression                                                               # negate_expression
           | expression multiply_or_divide expression                                     # factor_expression
           | expression add_or_subtract expression                                        # term_expression
