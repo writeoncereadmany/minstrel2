@@ -6,13 +6,11 @@ import com.writeoncereadmany.minstrel.compile.ast.expressions.Variable;
 import com.writeoncereadmany.minstrel.compile.ast.types.NamedType;
 import com.writeoncereadmany.minstrel.compile.astbuilders.ProgramBuilder;
 import com.writeoncereadmany.minstrel.compile.astbuilders.expressions.*;
-import com.writeoncereadmany.minstrel.compile.astbuilders.fragments.ArgumentListBuilder;
-import com.writeoncereadmany.minstrel.compile.astbuilders.fragments.BodyBuilder;
-import com.writeoncereadmany.minstrel.compile.astbuilders.fragments.ParameterBuilder;
-import com.writeoncereadmany.minstrel.compile.astbuilders.fragments.ParameterListBuilder;
+import com.writeoncereadmany.minstrel.compile.astbuilders.fragments.*;
 import com.writeoncereadmany.minstrel.compile.astbuilders.statements.ExpressionStatementBuilder;
 import com.writeoncereadmany.minstrel.compile.astbuilders.statements.FunctionDeclarationBuilder;
 import com.writeoncereadmany.minstrel.compile.astbuilders.statements.VariableDeclarationBuilder;
+import com.writeoncereadmany.minstrel.compile.astbuilders.types.FunctionTypeLiteralBuilder;
 import com.writeoncereadmany.minstrel.generated.grammar.MinstrelBaseListener;
 import com.writeoncereadmany.minstrel.generated.grammar.MinstrelParser;
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -64,6 +62,8 @@ public class ASTBuildingListener extends MinstrelBaseListener
             new BuildCompoundNode(MinstrelParser.FunctionContext.class, FunctionBuilder::new),
             new BuildCompoundNode(MinstrelParser.Parameter_listContext.class, ParameterListBuilder::new),
             new BuildCompoundNode(MinstrelParser.ParameterContext.class, ParameterBuilder::new),
+            new BuildCompoundNode(MinstrelParser.Type_listContext.class, TypeListBuilder::new),
+            new BuildCompoundNode(MinstrelParser.Function_type_literalContext.class, FunctionTypeLiteralBuilder::new),
 
             new BuildTextNode(MinstrelParser.Number_literalContext.class, NumberLiteral::new),
             new BuildTextNode(MinstrelParser.String_literalContext.class, StringLiteral::new),

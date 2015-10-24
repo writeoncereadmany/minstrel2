@@ -25,4 +25,6 @@ public interface AstVisitor
     void visitFunctionCall(Expression function, ArgumentList args);
     void visitFunction(ParameterList parameterList, Body body);
     void visitNamedType(Terminal typeName);
+    void visitTypeList(List<TypeExpression> argumentTypes);
+    void visitFunctionTypeLiteral(TypeList typeList, TypeExpression typeExpression);
 }

@@ -26,13 +26,17 @@ IDENTIFIER: LETTER (LETTER | DIGIT)* ;
 program: statement*;
 
 name: IDENTIFIER;
-type: IDENTIFIER        # named_type
+
+type: '(' type ')'                  # parenthesised_type
+    | IDENTIFIER                    # named_type
+    | type_list ARROW type          # function_type_literal
     ;
 
 parameter: type name;
 
 argument_list: '[' (expression (',' expression)*)? ']';
 parameter_list: '[' (parameter (',' parameter)*)? ']';
+type_list: '[' (type (',' type)*)? ']';
 
 statement: statement_body TERMINATOR;
 

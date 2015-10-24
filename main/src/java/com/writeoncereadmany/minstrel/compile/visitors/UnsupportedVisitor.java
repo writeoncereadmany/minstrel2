@@ -104,4 +104,16 @@ public class UnsupportedVisitor implements AstVisitor
     {
         throw new UnsupportedOperationException("Visiting named types not supported by " + getClass().getName());
     }
+
+    @Override
+    public void visitTypeList(List<TypeExpression> argumentTypes)
+    {
+        throw new UnsupportedOperationException("Visiting argument type lists not supported by " + getClass().getName());
+    }
+
+    @Override
+    public void visitFunctionTypeLiteral(TypeList typeList, TypeExpression typeExpression)
+    {
+        throw new UnsupportedOperationException("Visiting function type literals not supported by " + getClass().getName());
+    }
 }

@@ -54,4 +54,10 @@ public class NoOpVisitor implements AstVisitor
 
     @Override
     public void visitNamedType(Terminal typeName) { }
+
+    @Override
+    public void visitTypeList(List<TypeExpression> argumentTypes) { }
+
+    @Override
+    public void visitFunctionTypeLiteral(TypeList typeList, TypeExpression typeExpression) { }
 }
