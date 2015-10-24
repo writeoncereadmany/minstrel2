@@ -1,3 +1,3 @@
-Function identity is [String string] -> string;
+[String] -> Success identity is [String string] -> string;
 
 print[identity["Hello!"]];

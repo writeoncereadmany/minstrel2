@@ -19,24 +19,43 @@ public class Builtins
     public static final Terminal MULTIPLY_FUNCTION = new Terminal("multiply", -1, -1);
     public static final Terminal DIVIDE_FUNCTION = new Terminal("divide", -1, -1);
     public static final Terminal NEGATE_FUNCTION = new Terminal("negate", -1, -1);
-    public static final Terminal FUNCTION_TYPE = new Terminal("Function", -1, -1);
     public static final Terminal NUMBER_TYPE = new Terminal("Number", -1, -1);
     public static final Terminal STRING_TYPE = new Terminal("String", -1, -1);
+    public static final Terminal SUCCESS_ATOM = new Terminal("Success", -1, -1);
 
     public static final Value SUCCESS = new Atom("Success");
 
     public static void defineBuiltins(NameResolver resolver)
     {
-        resolver.define(STRING_TYPE, Kind.TYPE);
-        resolver.define(NUMBER_TYPE, Kind.TYPE);
-        resolver.define(FUNCTION_TYPE, Kind.TYPE);
+        defineTypes(resolver, STRING_TYPE, NUMBER_TYPE);
+        defineValues(resolver, PRINT_FUNCTION, PLUS_FUNCTION, MINUS_FUNCTION,
+                               MULTIPLY_FUNCTION, DIVIDE_FUNCTION, NEGATE_FUNCTION);
+        defineAtoms(resolver, SUCCESS_ATOM);
+    }
 
-        resolver.define(PRINT_FUNCTION, Kind.VALUE);
-        resolver.define(PLUS_FUNCTION, Kind.VALUE);
-        resolver.define(MINUS_FUNCTION, Kind.VALUE);
-        resolver.define(MULTIPLY_FUNCTION, Kind.VALUE);
-        resolver.define(DIVIDE_FUNCTION, Kind.VALUE);
-        resolver.define(NEGATE_FUNCTION, Kind.VALUE);
+    private static void defineTypes(NameResolver resolver, Terminal... types)
+    {
+        for(Terminal typeName: types)
+        {
+            resolver.define(typeName, Kind.TYPE);
+        }
+    }
+
+    private static void defineValues(NameResolver resolver, Terminal... values)
+    {
+        for(Terminal valueName: values)
+        {
+            resolver.define(valueName, Kind.VALUE);
+        }
+    }
+
+    private static void defineAtoms(NameResolver resolver, Terminal... atoms)
+    {
+        for(Terminal atomName: atoms)
+        {
+            resolver.define(atomName, Kind.TYPE);
+            resolver.define(atomName, Kind.VALUE);
+        }
     }
 
     public static Environment getPrelude(NameResolver nameResolver, PrintStream printStream)
@@ -48,6 +67,7 @@ public class Builtins
         prelude.declare(nameResolver.lookup(MULTIPLY_FUNCTION, Kind.VALUE), new MultipliedByFunction());
         prelude.declare(nameResolver.lookup(DIVIDE_FUNCTION, Kind.VALUE), new DividedByFunction());
         prelude.declare(nameResolver.lookup(NEGATE_FUNCTION, Kind.VALUE), new NegateFunction());
+        prelude.declare(nameResolver.lookup(SUCCESS_ATOM, Kind.VALUE), SUCCESS);
         return prelude;
     }
 }

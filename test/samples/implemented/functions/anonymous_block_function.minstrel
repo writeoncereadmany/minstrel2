@@ -1,2 +1,2 @@
-Function printTwice is [String string] { print[string]; print[string]; };
+[String] -> Success printTwice is [String string] { print[string]; print[string]; };
 printTwice["Hello!"];
