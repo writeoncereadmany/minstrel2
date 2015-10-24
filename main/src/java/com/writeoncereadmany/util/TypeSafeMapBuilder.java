@@ -8,7 +8,7 @@ import static java.util.Arrays.stream;
 public class TypeSafeMapBuilder
 {
     @SafeVarargs
-    @SuppressWarnings("uncheckedj")
+    @SuppressWarnings("unchecked")
     public static <K, V> Map<K, V> mapOf(Entry<K, V>... entries)
     {
         return stream(entries).collect(Collectors.toMap(entry -> entry.key, entry -> entry.value));
