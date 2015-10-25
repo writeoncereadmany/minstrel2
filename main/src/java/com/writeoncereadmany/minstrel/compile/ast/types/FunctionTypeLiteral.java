@@ -1,7 +1,6 @@
 package com.writeoncereadmany.minstrel.compile.ast.types;
 
 import com.writeoncereadmany.minstrel.compile.ast.fragments.TypeList;
-import com.writeoncereadmany.minstrel.compile.names.NameResolver;
 import com.writeoncereadmany.minstrel.compile.types.concerns.FunctionType;
 import com.writeoncereadmany.minstrel.compile.types.defintions.TypeDefinition;
 import com.writeoncereadmany.minstrel.compile.visitors.AstVisitor;
@@ -28,9 +27,9 @@ public class FunctionTypeLiteral implements TypeExpression
     }
 
     @Override
-    public TypeDefinition lookupType(NameResolver nameResolver)
+    public TypeDefinition type()
     {
-        List<TypeDefinition> args = parameters.types.stream().map(t -> t.lookupType(nameResolver)).collect(toList());
-        return new FunctionType(args, returnType.lookupType(nameResolver));
+        List<TypeDefinition> args = parameters.types.stream().map(t -> t.type()).collect(toList());
+        return new FunctionType(args, returnType.type());
     }
 }
