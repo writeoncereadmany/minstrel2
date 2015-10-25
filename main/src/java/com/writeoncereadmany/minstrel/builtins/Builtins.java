@@ -23,11 +23,11 @@ import static java.util.stream.Collectors.toList;
 public class Builtins
 {
     public static final Terminal PRINT_FUNCTION = new Terminal("print", -1, 0);
-    public static final Terminal PLUS_FUNCTION = new Terminal("plus", -2, 0);
-    public static final Terminal MINUS_FUNCTION = new Terminal("minus", -3, 0);
-    public static final Terminal MULTIPLY_FUNCTION = new Terminal("multiply", -4, 0);
-    public static final Terminal DIVIDE_FUNCTION = new Terminal("divide", -5, 0);
-    public static final Terminal NEGATE_FUNCTION = new Terminal("negate", -6, 0);
+    public static final Terminal PLUS_FUNCTION = new Terminal("$+2", -2, 0);
+    public static final Terminal MINUS_FUNCTION = new Terminal("$-2", -3, 0);
+    public static final Terminal MULTIPLY_FUNCTION = new Terminal("$*2", -4, 0);
+    public static final Terminal DIVIDE_FUNCTION = new Terminal("$/2", -5, 0);
+    public static final Terminal NEGATE_FUNCTION = new Terminal("$-1", -6, 0);
     public static final Terminal NUMBER_TYPE = new Terminal("Number", -7, 0);
     public static final Terminal STRING_TYPE = new Terminal("String", -8, 0);
     public static final Terminal SUCCESS_TYPE = new Terminal("Success", -9, 0);
