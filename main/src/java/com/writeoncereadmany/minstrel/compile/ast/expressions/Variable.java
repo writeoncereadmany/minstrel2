@@ -16,7 +16,7 @@ public class Variable implements Expression
     @Override
     public void visit(AstVisitor visitor)
     {
-        visitor.visitVariable(name);
+        visitor.visitVariable(this);
     }
 
 }

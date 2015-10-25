@@ -17,7 +17,7 @@ public class MemberAccess implements Expression
     @Override
     public void visit(AstVisitor visitor)
     {
-        visitor.visitMemberAccess(expression, memberName);    
+        visitor.visitMemberAccess(this);
     }
 
 }

@@ -15,7 +15,7 @@ public class StringLiteral implements Expression
     @Override
     public void visit(AstVisitor visitor)
     {
-        visitor.visitStringLiteral(value);
+        visitor.visitStringLiteral(this);
     }
 
 }

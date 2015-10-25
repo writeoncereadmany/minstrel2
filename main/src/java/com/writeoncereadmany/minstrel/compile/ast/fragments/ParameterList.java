@@ -20,7 +20,7 @@ public class ParameterList implements AstNode
     @Override
     public void visit(AstVisitor visitor)
     {
-        visitor.visitParameterList(parameters);
+        visitor.visitParameterList(this);
     }
 
 }

@@ -17,7 +17,7 @@ public class FunctionCall implements Expression
     @Override
     public void visit(AstVisitor visitor)
     {
-        visitor.visitFunctionCall(function, args);
+        visitor.visitFunctionCall(this);
     }
 
 }

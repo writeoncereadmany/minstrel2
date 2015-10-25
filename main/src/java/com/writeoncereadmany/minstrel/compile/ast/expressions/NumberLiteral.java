@@ -15,7 +15,7 @@ public class NumberLiteral implements Expression
     @Override
     public void visit(AstVisitor visitor)
     {
-        visitor.visitNumberLiteral(value);
+        visitor.visitNumberLiteral(this);
     }
 
 }

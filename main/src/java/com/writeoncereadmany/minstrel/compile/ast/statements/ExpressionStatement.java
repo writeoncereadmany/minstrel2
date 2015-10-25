@@ -15,7 +15,7 @@ public class ExpressionStatement implements Statement
     @Override
     public void visit(AstVisitor visitor)
     {
-        visitor.visitExpressionStatement(expression);
+        visitor.visitExpressionStatement(this);
     }
 
 }

@@ -1,7 +1,7 @@
 package com.writeoncereadmany.minstrel.compile.astbuilders.statements;
 
 import com.writeoncereadmany.minstrel.compile.ast.AstNode;
-import com.writeoncereadmany.minstrel.compile.ast.expressions.Function;
+import com.writeoncereadmany.minstrel.compile.ast.expressions.FunctionExpression;
 import com.writeoncereadmany.minstrel.compile.ast.fragments.Terminal;
 import com.writeoncereadmany.minstrel.compile.ast.statements.FunctionDeclaration;
 import com.writeoncereadmany.minstrel.compile.astbuilders.AstNodeBuilder;
@@ -9,11 +9,11 @@ import com.writeoncereadmany.minstrel.compile.astbuilders.AstNodeBuilder;
 public class FunctionDeclarationBuilder implements AstNodeBuilder
 {
     private Terminal name;
-    private Function function;
+    private FunctionExpression functionExpression;
 
     @Override
     public AstNode build() {
-        return new FunctionDeclaration(name, function);
+        return new FunctionDeclaration(name, functionExpression);
     }
 
     @Override
@@ -23,11 +23,11 @@ public class FunctionDeclarationBuilder implements AstNodeBuilder
         {
             throw new IllegalStateException("Expecting a name before being given a node: got " + node);
         }
-        else if(function == null)
+        else if(functionExpression == null)
         {
-            if(node instanceof Function)
+            if(node instanceof FunctionExpression)
             {
-                function = (Function)node;
+                functionExpression = (FunctionExpression)node;
             }
             else
             {

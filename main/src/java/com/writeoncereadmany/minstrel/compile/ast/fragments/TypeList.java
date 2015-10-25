@@ -20,7 +20,7 @@ public class TypeList implements AstNode
     @Override
     public void visit(AstVisitor visitor)
     {
-        visitor.visitTypeList(types);
+        visitor.visitTypeList(this);
     }
 
 }

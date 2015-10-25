@@ -1,15 +1,15 @@
 package com.writeoncereadmany.minstrel.compile.visitors;
 
 import com.writeoncereadmany.minstrel.compile.ast.AstNode;
-import com.writeoncereadmany.minstrel.compile.ast.expressions.Expression;
-import com.writeoncereadmany.minstrel.compile.ast.expressions.Function;
+import com.writeoncereadmany.minstrel.compile.ast.Program;
+import com.writeoncereadmany.minstrel.compile.ast.expressions.*;
 import com.writeoncereadmany.minstrel.compile.ast.fragments.*;
-import com.writeoncereadmany.minstrel.compile.ast.statements.Statement;
-import com.writeoncereadmany.minstrel.compile.ast.types.TypeExpression;
+import com.writeoncereadmany.minstrel.compile.ast.statements.ExpressionStatement;
+import com.writeoncereadmany.minstrel.compile.ast.statements.FunctionDeclaration;
+import com.writeoncereadmany.minstrel.compile.ast.statements.VariableDeclaration;
+import com.writeoncereadmany.minstrel.compile.ast.types.NamedType;
 import com.writeoncereadmany.minstrel.compile.names.Kind;
 import com.writeoncereadmany.minstrel.compile.names.NameResolver;
-
-import java.util.List;
 
 public class ResolveNames extends NoOpVisitor
 {
@@ -22,89 +22,89 @@ public class ResolveNames extends NoOpVisitor
     }
 
     @Override
-    public void visitProgram(List<Statement> statements)
+    public void visitProgram(Program program)
     {
-        statements.forEach(this::visit);
+        program.statements.forEach(this::visit);
     }
 
     @Override
-    public void visitVariableDeclaration(TypeExpression type, Terminal name, Expression expression)
+    public void visitVariableDeclaration(VariableDeclaration declaration)
     {
-        visit(type);
-        visit(expression);
+        visit(declaration.type);
+        visit(declaration.expression);
     }
 
     @Override
-    public void visitFunctionDeclaration(Terminal name, Function function)
+    public void visitFunctionDeclaration(FunctionDeclaration declaration)
     {
-        visit(function);
+        visit(declaration.function);
     }
 
     @Override
-    public void visitExpressionStatement(Expression expression)
+    public void visitExpressionStatement(ExpressionStatement statement)
     {
-        visit(expression);
+        visit(statement.expression);
     }
 
     @Override
-    public void visitParameterList(List<Parameter> parameters)
+    public void visitParameterList(ParameterList parameterList)
     {
-        parameters.forEach(this::visit);
+        parameterList.parameters.forEach(this::visit);
     }
 
     @Override
-    public void visitParameter(TypeExpression type, Terminal name)
+    public void visitParameter(Parameter parameter)
     {
-        visit(type);
+        visit(parameter.type);
     }
 
     @Override
-    public void visitBody(List<Statement> statements)
+    public void visitBody(Body body)
     {
-        statements.forEach(this::visit);
+        body.statements.forEach(this::visit);
     }
 
     @Override
-    public void visitArgumentList(List<Expression> expressions)
+    public void visitArgumentList(ArgumentList list)
     {
-        expressions.forEach(this::visit);
+        list.expressions.forEach(this::visit);
     }
 
     @Override
-    public void visitVariable(Terminal name)
+    public void visitVariable(Variable variable)
     {
-        nameResolver.resolve(name, Kind.VALUE);
+        nameResolver.resolve(variable.name, Kind.VALUE);
     }
 
     @Override
-    public void visitMemberAccess(Expression expression, Terminal memberName)
+    public void visitMemberAccess(MemberAccess access)
     {
-        expression.visit(this);
+        access.expression.visit(this);
     }
 
     @Override
-    public void visitFunctionCall(Expression function, ArgumentList args)
+    public void visitFunctionCall(FunctionCall call)
     {
-        visit(function);
-        visit(args);
+        visit(call.function);
+        visit(call.args);
     }
 
     @Override
-    public void visitFunction(ParameterList parameterList, Body body)
+    public void visitFunctionExpression(FunctionExpression function)
     {
         enterScope();
         final int bodyScope = getCurrentScope();
 
         nameResolver.enterExistingScope(bodyScope);
-        visit(parameterList);
-        visit(body);
+        visit(function.parameterList);
+        visit(function.body);
         nameResolver.exitScope(bodyScope);
     }
 
     @Override
-    public void visitNamedType(Terminal typeName)
+    public void visitNamedType(NamedType type)
     {
-        nameResolver.resolve(typeName, Kind.TYPE);;
+        nameResolver.resolve(type.name, Kind.TYPE);;
     }
 
     private void enterScope()

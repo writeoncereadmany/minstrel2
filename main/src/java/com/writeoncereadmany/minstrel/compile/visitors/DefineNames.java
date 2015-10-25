@@ -1,9 +1,15 @@
 package com.writeoncereadmany.minstrel.compile.visitors;
 
+import com.writeoncereadmany.minstrel.compile.ast.Program;
 import com.writeoncereadmany.minstrel.compile.ast.expressions.Expression;
-import com.writeoncereadmany.minstrel.compile.ast.expressions.Function;
+import com.writeoncereadmany.minstrel.compile.ast.expressions.FunctionCall;
+import com.writeoncereadmany.minstrel.compile.ast.expressions.FunctionExpression;
+import com.writeoncereadmany.minstrel.compile.ast.expressions.MemberAccess;
 import com.writeoncereadmany.minstrel.compile.ast.fragments.*;
+import com.writeoncereadmany.minstrel.compile.ast.statements.ExpressionStatement;
+import com.writeoncereadmany.minstrel.compile.ast.statements.FunctionDeclaration;
 import com.writeoncereadmany.minstrel.compile.ast.statements.Statement;
+import com.writeoncereadmany.minstrel.compile.ast.statements.VariableDeclaration;
 import com.writeoncereadmany.minstrel.compile.ast.types.TypeExpression;
 import com.writeoncereadmany.minstrel.compile.names.Kind;
 import com.writeoncereadmany.minstrel.compile.names.NameResolver;
@@ -20,74 +26,74 @@ public class DefineNames extends NoOpVisitor
     }
 
     @Override
-    public void visitProgram(List<Statement> statements)
+    public void visitProgram(Program program)
     {
-        statements.forEach(statement -> statement.visit(this));
+        program.statements.forEach(statement -> statement.visit(this));
     }
 
     @Override
-    public void visitVariableDeclaration(TypeExpression type, Terminal name, Expression expression)
+    public void visitVariableDeclaration(VariableDeclaration declaration)
     {
-        nameResolver.define(name, Kind.VALUE);
-        expression.visit(this);
+        nameResolver.define(declaration.name, Kind.VALUE);
+        declaration.expression.visit(this);
     }
 
     @Override
-    public void visitFunctionDeclaration(Terminal name, Function function)
+    public void visitFunctionDeclaration(FunctionDeclaration declaration)
     {
-        nameResolver.define(name, Kind.VALUE);
-        function.visit(this);
+        nameResolver.define(declaration.name, Kind.VALUE);
+        declaration.function.visit(this);
     }
 
     @Override
-    public void visitExpressionStatement(Expression expression)
+    public void visitExpressionStatement(ExpressionStatement statement)
     {
-        expression.visit(this);
+        statement.expression.visit(this);
     }
 
     @Override
-    public void visitParameterList(List<Parameter> parameters)
+    public void visitParameterList(ParameterList list)
     {
-        parameters.forEach(parameter -> parameter.visit(this));
+        list.parameters.forEach(parameter -> parameter.visit(this));
     }
 
     @Override
-    public void visitParameter(TypeExpression type, Terminal name)
+    public void visitParameter(Parameter parameter)
     {
-        nameResolver.define(name, Kind.VALUE);
+        nameResolver.define(parameter.name, Kind.VALUE);
     }
 
     @Override
-    public void visitBody(List<Statement> statements)
+    public void visitBody(Body body)
     {
-        statements.forEach(statement -> statement.visit(this));
+        body.statements.forEach(statement -> statement.visit(this));
     }
 
     @Override
-    public void visitArgumentList(List<Expression> expressions)
+    public void visitArgumentList(ArgumentList arguments)
     {
-        expressions.forEach(expression -> expression.visit(this));
+        arguments.expressions.forEach(expression -> expression.visit(this));
     }
 
     @Override
-    public void visitMemberAccess(Expression expression, Terminal memberName)
+    public void visitMemberAccess(MemberAccess access)
     {
-        expression.visit(this);
+        access.expression.visit(this);
     }
 
     @Override
-    public void visitFunctionCall(Expression function, ArgumentList args)
+    public void visitFunctionCall(FunctionCall call)
     {
-        function.visit(this);
-        args.visit(this);
+        call.function.visit(this);
+        call.args.visit(this);
     }
 
     @Override
-    public void visitFunction(ParameterList parameterList, Body body)
+    public void visitFunctionExpression(FunctionExpression function)
     {
         final int scope = nameResolver.enterNewScope();
-        parameterList.visit(this);
-        body.visit(this);
+        function.parameterList.visit(this);
+        function.body.visit(this);
         nameResolver.exitScope(scope);
     }
 }

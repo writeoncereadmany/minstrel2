@@ -1,63 +1,98 @@
 package com.writeoncereadmany.minstrel.compile.visitors;
 
-import com.writeoncereadmany.minstrel.compile.ast.expressions.Expression;
-import com.writeoncereadmany.minstrel.compile.ast.expressions.Function;
+import com.writeoncereadmany.minstrel.compile.ast.Program;
+import com.writeoncereadmany.minstrel.compile.ast.expressions.*;
 import com.writeoncereadmany.minstrel.compile.ast.fragments.*;
-import com.writeoncereadmany.minstrel.compile.ast.statements.Statement;
-import com.writeoncereadmany.minstrel.compile.ast.types.TypeExpression;
-
-import java.util.List;
+import com.writeoncereadmany.minstrel.compile.ast.statements.ExpressionStatement;
+import com.writeoncereadmany.minstrel.compile.ast.statements.FunctionDeclaration;
+import com.writeoncereadmany.minstrel.compile.ast.statements.VariableDeclaration;
+import com.writeoncereadmany.minstrel.compile.ast.types.FunctionTypeLiteral;
+import com.writeoncereadmany.minstrel.compile.ast.types.NamedType;
 
 public class NoOpVisitor implements AstVisitor
 {
     @Override
-    public void visitProgram(List<Statement> statements) { }
+    public void visitProgram(Program program) {
+
+    }
 
     @Override
-    public void visitVariableDeclaration(TypeExpression type, Terminal name, Expression expression) { }
+    public void visitVariableDeclaration(VariableDeclaration declaration) {
+
+    }
 
     @Override
-    public void visitFunctionDeclaration(Terminal name, Function function) { }
+    public void visitFunctionDeclaration(FunctionDeclaration declaration) {
+
+    }
 
     @Override
-    public void visitExpressionStatement(Expression expression) { }
+    public void visitExpressionStatement(ExpressionStatement statement) {
+
+    }
 
     @Override
-    public void visitParameterList(List<Parameter> parameters) { }
+    public void visitParameterList(ParameterList parameters) {
+
+    }
 
     @Override
-    public void visitParameter(TypeExpression type, Terminal name) { }
+    public void visitParameter(Parameter parameter) {
+
+    }
 
     @Override
-    public void visitBody(List<Statement> statements) { }
+    public void visitBody(Body body) {
+
+    }
 
     @Override
-    public void visitArgumentList(List<Expression> expressions) { }
+    public void visitArgumentList(ArgumentList arguments) {
+
+    }
 
     @Override
-    public void visitVariable(Terminal name) { }
+    public void visitVariable(Variable variable) {
+
+    }
 
     @Override
-    public void visitStringLiteral(Terminal value) { }
+    public void visitStringLiteral(StringLiteral literal) {
+
+    }
 
     @Override
-    public void visitNumberLiteral(Terminal value) { }
+    public void visitNumberLiteral(NumberLiteral literal) {
+
+    }
 
     @Override
-    public void visitMemberAccess(Expression expression, Terminal memberName) { }
+    public void visitMemberAccess(MemberAccess memberAccess) {
+
+    }
 
     @Override
-    public void visitFunctionCall(Expression function, ArgumentList args) { }
+    public void visitFunctionCall(FunctionCall functionCall) {
+
+    }
 
     @Override
-    public void visitFunction(ParameterList parameterList, Body body) { }
+    public void visitFunctionExpression(FunctionExpression functionExpression) {
+
+    }
 
     @Override
-    public void visitNamedType(Terminal typeName) { }
+    public void visitNamedType(NamedType namedType) {
+
+    }
 
     @Override
-    public void visitTypeList(List<TypeExpression> argumentTypes) { }
+    public void visitTypeList(TypeList typeList) {
+
+    }
 
     @Override
-    public void visitFunctionTypeLiteral(TypeList typeList, TypeExpression typeExpression) { }
+    public void visitFunctionTypeLiteral(FunctionTypeLiteral functionTypeLiteral) {
+
+    }
 }

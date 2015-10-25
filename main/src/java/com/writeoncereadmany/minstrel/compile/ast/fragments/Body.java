@@ -21,7 +21,7 @@ public class Body implements AstNode
     @Override
     public void visit(AstVisitor visitor)
     {
-        visitor.visitBody(statements);
+        visitor.visitBody(this);
     }
 
 }

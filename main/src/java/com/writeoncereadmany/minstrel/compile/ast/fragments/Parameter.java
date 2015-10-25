@@ -10,8 +10,6 @@ public class Parameter implements AstNode
     public final TypeExpression type;
     public final Terminal name;
 
-    private ScopeIndex typeIndex;
-
     public Parameter(TypeExpression type, Terminal name)
     {
         this.type = type;
@@ -21,7 +19,7 @@ public class Parameter implements AstNode
     @Override
     public void visit(AstVisitor visitor)
     {
-        visitor.visitParameter(type, name);    
+        visitor.visitParameter(this);
     }
 
 }

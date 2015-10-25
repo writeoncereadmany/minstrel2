@@ -24,7 +24,7 @@ public class FunctionTypeLiteral implements TypeExpression
     @Override
     public void visit(AstVisitor visitor)
     {
-        visitor.visitFunctionTypeLiteral(parameters, returnType);
+        visitor.visitFunctionTypeLiteral(this);
     }
 
     @Override

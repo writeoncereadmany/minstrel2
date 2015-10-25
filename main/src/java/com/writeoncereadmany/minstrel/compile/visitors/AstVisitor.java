@@ -1,30 +1,31 @@
 package com.writeoncereadmany.minstrel.compile.visitors;
 
-import com.writeoncereadmany.minstrel.compile.ast.expressions.Expression;
-import com.writeoncereadmany.minstrel.compile.ast.expressions.Function;
+import com.writeoncereadmany.minstrel.compile.ast.Program;
+import com.writeoncereadmany.minstrel.compile.ast.expressions.*;
 import com.writeoncereadmany.minstrel.compile.ast.fragments.*;
-import com.writeoncereadmany.minstrel.compile.ast.statements.Statement;
-import com.writeoncereadmany.minstrel.compile.ast.types.TypeExpression;
-
-import java.util.List;
+import com.writeoncereadmany.minstrel.compile.ast.statements.ExpressionStatement;
+import com.writeoncereadmany.minstrel.compile.ast.statements.FunctionDeclaration;
+import com.writeoncereadmany.minstrel.compile.ast.statements.VariableDeclaration;
+import com.writeoncereadmany.minstrel.compile.ast.types.FunctionTypeLiteral;
+import com.writeoncereadmany.minstrel.compile.ast.types.NamedType;
 
 public interface AstVisitor
 {
-    void visitProgram(List<Statement> statements);
-    void visitVariableDeclaration(TypeExpression type, Terminal name, Expression expression);
-    void visitFunctionDeclaration(Terminal name, Function function);
-    void visitExpressionStatement(Expression expression);
-    void visitParameterList(List<Parameter> parameters);
-    void visitParameter(TypeExpression type, Terminal name);
-    void visitBody(List<Statement> statements);
-    void visitArgumentList(List<Expression> expressions);
-    void visitVariable(Terminal name);
-    void visitStringLiteral(Terminal value);
-    void visitNumberLiteral(Terminal value);
-    void visitMemberAccess(Expression expression, Terminal memberName);
-    void visitFunctionCall(Expression function, ArgumentList args);
-    void visitFunction(ParameterList parameterList, Body body);
-    void visitNamedType(Terminal typeName);
-    void visitTypeList(List<TypeExpression> argumentTypes);
-    void visitFunctionTypeLiteral(TypeList typeList, TypeExpression typeExpression);
+    void visitProgram(Program program);
+    void visitVariableDeclaration(VariableDeclaration declaration);
+    void visitFunctionDeclaration(FunctionDeclaration declaration);
+    void visitExpressionStatement(ExpressionStatement statement);
+    void visitParameterList(ParameterList parameters);
+    void visitParameter(Parameter parameter);
+    void visitBody(Body body);
+    void visitArgumentList(ArgumentList arguments);
+    void visitVariable(Variable variable);
+    void visitStringLiteral(StringLiteral literal);
+    void visitNumberLiteral(NumberLiteral literal);
+    void visitMemberAccess(MemberAccess memberAccess);
+    void visitFunctionCall(FunctionCall functionCall);
+    void visitFunctionExpression(FunctionExpression functionExpression);
+    void visitNamedType(NamedType namedType);
+    void visitTypeList(TypeList typeList);
+    void visitFunctionTypeLiteral(FunctionTypeLiteral functionTypeLiteral);
 }

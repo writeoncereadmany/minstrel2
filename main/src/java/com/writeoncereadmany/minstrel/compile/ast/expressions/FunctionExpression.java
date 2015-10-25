@@ -4,12 +4,12 @@ import com.writeoncereadmany.minstrel.compile.ast.fragments.Body;
 import com.writeoncereadmany.minstrel.compile.ast.fragments.ParameterList;
 import com.writeoncereadmany.minstrel.compile.visitors.AstVisitor;
 
-public class Function implements Expression
+public class FunctionExpression implements Expression
 {
     public final ParameterList parameterList;
     public final Body body;
 
-    public Function(ParameterList parameterList, Body body)
+    public FunctionExpression(ParameterList parameterList, Body body)
     {
         this.parameterList = parameterList;
         this.body = body;
@@ -18,7 +18,7 @@ public class Function implements Expression
     @Override
     public void visit(AstVisitor visitor) 
     {
-        visitor.visitFunction(parameterList, body);
+        visitor.visitFunctionExpression(this);
     }
 
 }

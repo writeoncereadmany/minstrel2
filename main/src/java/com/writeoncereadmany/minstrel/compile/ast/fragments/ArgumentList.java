@@ -20,7 +20,7 @@ public class ArgumentList implements AstNode
     @Override
     public void visit(AstVisitor visitor)
     {
-        visitor.visitArgumentList(expressions);
+        visitor.visitArgumentList(this);
     }
 
 }

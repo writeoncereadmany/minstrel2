@@ -22,7 +22,7 @@ public class VariableDeclaration implements Statement
     @Override
     public void visit(AstVisitor visitor)
     {
-        visitor.visitVariableDeclaration(type, name, expression);
+        visitor.visitVariableDeclaration(this);
     }
 
 }

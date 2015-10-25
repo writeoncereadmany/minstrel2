@@ -20,7 +20,7 @@ public class Program implements AstNode
     @Override
     public void visit(AstVisitor visitor)
     {
-        visitor.visitProgram(statements);
+        visitor.visitProgram(this);
     }
 
 }

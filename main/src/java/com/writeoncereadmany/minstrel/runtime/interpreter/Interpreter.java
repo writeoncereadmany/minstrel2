@@ -1,11 +1,12 @@
 package com.writeoncereadmany.minstrel.runtime.interpreter;
 
 import com.writeoncereadmany.minstrel.compile.ast.AstNode;
-import com.writeoncereadmany.minstrel.compile.ast.expressions.Expression;
-import com.writeoncereadmany.minstrel.compile.ast.expressions.Function;
+import com.writeoncereadmany.minstrel.compile.ast.Program;
+import com.writeoncereadmany.minstrel.compile.ast.expressions.*;
 import com.writeoncereadmany.minstrel.compile.ast.fragments.*;
-import com.writeoncereadmany.minstrel.compile.ast.statements.Statement;
-import com.writeoncereadmany.minstrel.compile.ast.types.TypeExpression;
+import com.writeoncereadmany.minstrel.compile.ast.statements.ExpressionStatement;
+import com.writeoncereadmany.minstrel.compile.ast.statements.FunctionDeclaration;
+import com.writeoncereadmany.minstrel.compile.ast.statements.VariableDeclaration;
 import com.writeoncereadmany.minstrel.compile.names.Kind;
 import com.writeoncereadmany.minstrel.compile.names.NameResolver;
 import com.writeoncereadmany.minstrel.compile.names.ScopeIndex;
@@ -37,76 +38,77 @@ public class Interpreter extends UnsupportedVisitor
     }
 
     @Override
-    public void visitProgram(List<Statement> statements) 
+    public void visitProgram(Program program)
     {
         enterNewScope();
-        statements.forEach(this::visit);
+        program.statements.forEach(this::visit);
         exitScope();
     }
 
     @Override
-    public void visitVariableDeclaration(TypeExpression type, Terminal name, Expression expression)
+    public void visitVariableDeclaration(VariableDeclaration declaration)
     {
-        visit(expression);
-        currentEnvironment().declare(valueFor(name), evaluate(expression));
+        // TODO why do we have this line here?
+        visit(declaration.expression);
+        currentEnvironment().declare(valueFor(declaration.name), evaluate(declaration.expression));
     }
 
     @Override
-    public void visitFunctionDeclaration(Terminal name, Function function)
+    public void visitFunctionDeclaration(FunctionDeclaration declaration)
     {
-        currentEnvironment().declare(valueFor(name), evaluate(function));
+        currentEnvironment().declare(valueFor(declaration.name), evaluate(declaration.function));
     }
 
     @Override
-    public void visitExpressionStatement(Expression expression)
+    public void visitExpressionStatement(ExpressionStatement statement)
     {
-        evaluate(expression);
+        evaluate(statement.expression);
     }
 
     @Override
-    public void visitBody(List<Statement> statements)
+    public void visitBody(Body body)
     {
-        statements.forEach(this::visit);
+        body.statements.forEach(this::visit);
         store(lastEvaluatedValue);
     }
 
     @Override
-    public void visitVariable(Terminal name)
+    public void visitVariable(Variable variable)
     {
-        store(currentEnvironment().get(valueFor(name)));
+        store(currentEnvironment().get(valueFor(variable.name)));
     }
 
     @Override
-    public void visitStringLiteral(Terminal value)
+    public void visitStringLiteral(StringLiteral literal)
     {
-        store(MinstrelString.fromLiteral(value.text));
+        store(MinstrelString.fromLiteral(literal.value.text));
     }
 
     @Override
-    public void visitNumberLiteral(Terminal value)
+    public void visitNumberLiteral(NumberLiteral literal)
     {
-        store(new MinstrelNumber(InefficientRatio.parse(value.text)));
+        store(new MinstrelNumber(InefficientRatio.parse(literal.value.text)));
     }
 
     @Override
-    public void visitMemberAccess(Expression expression, Terminal memberName)
+    public void visitMemberAccess(MemberAccess access)
     {
-        Value record = evaluate(expression);
-        store(record.get(memberName.text));
+        Value record = evaluate(access.expression);
+        store(record.get(access.memberName.text));
     }
 
     @Override
-    public void visitFunctionCall(Expression function, ArgumentList args)
+    public void visitFunctionCall(FunctionCall call)
     {
-        Value toCall = evaluate(function);
-        final List<Value> arguments = args.expressions.stream().map(this::evaluate).collect(Collectors.toList());
+        Value toCall = evaluate(call.function);
+        final List<Value> arguments = call.args.expressions.stream().map(this::evaluate).collect(Collectors.toList());
         store(toCall.call(this, arguments));
     }
 
     @Override
-    public void visitFunction(ParameterList parameterList, Body body)
+    public void visitFunctionExpression(FunctionExpression function)
     {
-        store(new CustomFunction(currentEnvironment(), parameterList, body));
+        store(new CustomFunction(currentEnvironment(), function));
     }
     
     private void visit(AstNode node)
