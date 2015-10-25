@@ -59,7 +59,7 @@ public class SampleProgramRunner
     public void testASingleScript() throws Exception
     {
         final List<String> errorCollector = new ArrayList<>();
-        runFileAndVerifyResults(new File(ROOT_SCRIPT_DIR, "implemented/functions/closure.minstrel"), errorCollector);
+        runFileAndVerifyResults(new File(ROOT_SCRIPT_DIR, "implemented/arithmetic/decimals.minstrel"), errorCollector);
         assertThat(errorCollector, is(empty()));
     }
 
@@ -118,7 +118,7 @@ public class SampleProgramRunner
             PrintStream printStream = new PrintStream(printed);
             try
             {
-                Interpreter interpreter = new Interpreter(nameResolver, Builtins.getPrelude(nameResolver, printStream));
+                Interpreter interpreter = new Interpreter(nameResolver, Builtins.getPrelude(printStream));
                 program.visit(interpreter);
             }
             catch (RuntimeException ex)
@@ -242,7 +242,10 @@ public class SampleProgramRunner
         // for now, just check the file exists. we'll verify its contents later
         if(!runtimeErrors.exists())
         {
-            errorCollector.add(String.format("Expected no runtime errors for %s, but got %s", file.getName(), Arrays.toString(ex.getStackTrace())));
+            errorCollector.add(String.format("Expected no runtime errors for %s, but got %s: %s",
+                    file.getName(),
+                    ex,
+                    Arrays.stream(ex.getStackTrace()).map(StackTraceElement::toString).collect(joinWith("\n"))));
             return false;
         }
         else

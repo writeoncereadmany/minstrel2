@@ -25,6 +25,6 @@ public class NamedType implements TypeExpression
     @Override
     public TypeDefinition lookupType(NameResolver nameResolver)
     {
-        return new ConcreteTypeDefinition(nameResolver.lookup(name, Kind.TYPE));
+        return new ConcreteTypeDefinition(name.scopeIndex());
     }
 }

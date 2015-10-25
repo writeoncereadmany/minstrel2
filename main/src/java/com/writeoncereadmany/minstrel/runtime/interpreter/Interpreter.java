@@ -7,9 +7,7 @@ import com.writeoncereadmany.minstrel.compile.ast.fragments.*;
 import com.writeoncereadmany.minstrel.compile.ast.statements.ExpressionStatement;
 import com.writeoncereadmany.minstrel.compile.ast.statements.FunctionDeclaration;
 import com.writeoncereadmany.minstrel.compile.ast.statements.VariableDeclaration;
-import com.writeoncereadmany.minstrel.compile.names.Kind;
 import com.writeoncereadmany.minstrel.compile.names.NameResolver;
-import com.writeoncereadmany.minstrel.compile.names.ScopeIndex;
 import com.writeoncereadmany.minstrel.compile.visitors.UnsupportedVisitor;
 import com.writeoncereadmany.minstrel.runtime.environment.Environment;
 import com.writeoncereadmany.minstrel.runtime.number.InefficientRatio;
@@ -26,14 +24,12 @@ import java.util.stream.Collectors;
 
 public class Interpreter extends UnsupportedVisitor
 {
-    private final NameResolver nameResolver;
     private final Stack<Environment> stackFrames = new Stack<>();
     private final Stack<Value> evaluationStack = new Stack<>();
     private Value lastEvaluatedValue = null;
 
     public Interpreter(NameResolver nameResolver, Environment prelude)
     {
-        this.nameResolver = nameResolver;
         stackFrames.push(prelude);
     }
 
@@ -48,13 +44,13 @@ public class Interpreter extends UnsupportedVisitor
     @Override
     public void visitVariableDeclaration(VariableDeclaration declaration)
     {
-        currentEnvironment().declare(valueFor(declaration.name), evaluate(declaration.expression));
+        currentEnvironment().declare(declaration.name.scopeIndex(), evaluate(declaration.expression));
     }
 
     @Override
     public void visitFunctionDeclaration(FunctionDeclaration declaration)
     {
-        currentEnvironment().declare(valueFor(declaration.name), evaluate(declaration.function));
+        currentEnvironment().declare(declaration.name.scopeIndex(), evaluate(declaration.function));
     }
 
     @Override
@@ -73,7 +69,7 @@ public class Interpreter extends UnsupportedVisitor
     @Override
     public void visitVariable(Variable variable)
     {
-        store(currentEnvironment().get(valueFor(variable.name)));
+        store(currentEnvironment().get(variable.name.scopeIndex()));
     }
 
     @Override
@@ -112,11 +108,6 @@ public class Interpreter extends UnsupportedVisitor
     private void visit(AstNode node)
     {
         node.visit(this);
-    }
-
-    private ScopeIndex valueFor(Terminal name)
-    {
-        return nameResolver.lookup(name, Kind.VALUE);
     }
 
     public void store(Value item)
@@ -163,7 +154,7 @@ public class Interpreter extends UnsupportedVisitor
         {
             Parameter parameter = pair.left;
             Value argument = pair.right;
-            currentEnvironment().declare(nameResolver.lookup(parameter.name, Kind.VALUE), argument);
+            currentEnvironment().declare(parameter.name.scopeIndex(), argument);
         });
     }
 }

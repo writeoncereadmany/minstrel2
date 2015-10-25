@@ -11,27 +11,17 @@ public class NameResolver
 {
     private final List<String> nameResolutionErrors = new ArrayList<>();
     private final Map<Integer, Scope> scopesByIndex = new HashMap<>();
-    private final Map<Kind, Map<Terminal, ScopeIndex>> namespaces = new HashMap<>();
     private int nextScopeIndex = 1;
     private Scope currentScope = Scope.createRootScope(0, nameResolutionErrors::add);
 
     public void define(Terminal name, Kind kind)
     {
         currentScope.define(name, kind);
-        resolve(name, kind);
     }
 
     public void resolve(Terminal name, Kind kind)
     {
-        ScopeIndex index = currentScope.resolve(name, kind);
-        namespaces.computeIfAbsent(kind, x -> new HashMap<>()).put(name, index);
-    }
-
-    public ScopeIndex lookup(Terminal name, Kind kind)
-    {
-        return namespaces
-                .computeIfAbsent(kind, x -> { throw new IllegalArgumentException("Undefined kind " + kind);})
-                .computeIfAbsent(name, x -> { throw new IllegalArgumentException("Undefined value " + name.text);});
+        name.setScopeIndex(currentScope.resolve(name, kind));
     }
 
     public List<String> getNameResolutionErrors()

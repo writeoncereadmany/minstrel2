@@ -30,6 +30,7 @@ public class ResolveNames extends NoOpVisitor
     @Override
     public void visitVariableDeclaration(VariableDeclaration declaration)
     {
+        nameResolver.resolve(declaration.name, Kind.VALUE);
         visit(declaration.type);
         visit(declaration.expression);
     }
@@ -37,6 +38,7 @@ public class ResolveNames extends NoOpVisitor
     @Override
     public void visitFunctionDeclaration(FunctionDeclaration declaration)
     {
+        nameResolver.resolve(declaration.name, Kind.VALUE);
         visit(declaration.function);
     }
 
@@ -55,6 +57,7 @@ public class ResolveNames extends NoOpVisitor
     @Override
     public void visitParameter(Parameter parameter)
     {
+        nameResolver.resolve(parameter.name, Kind.VALUE);
         visit(parameter.type);
     }
 
@@ -98,6 +101,7 @@ public class ResolveNames extends NoOpVisitor
         nameResolver.enterExistingScope(bodyScope);
         visit(function.parameterList);
         visit(function.body);
+
         nameResolver.exitScope(bodyScope);
     }
 
