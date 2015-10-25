@@ -48,8 +48,6 @@ public class Interpreter extends UnsupportedVisitor
     @Override
     public void visitVariableDeclaration(VariableDeclaration declaration)
     {
-        // TODO why do we have this line here?
-        visit(declaration.expression);
         currentEnvironment().declare(valueFor(declaration.name), evaluate(declaration.expression));
     }
 

@@ -1,0 +1,8 @@
+function printAndReturn[String a] {
+    print[a];
+    a;
+};
+
+String b is printAndReturn["Hello"] + " World!";
+
+print[b];
