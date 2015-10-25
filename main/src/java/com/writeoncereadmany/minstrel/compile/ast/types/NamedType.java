@@ -11,7 +11,7 @@ import com.writeoncereadmany.minstrel.compile.visitors.AstVisitor;
 
 public class NamedType implements TypeExpression
 {
-    private final Terminal typeName;
+    public final Terminal typeName;
 
     public NamedType(Terminal typeName)
     {

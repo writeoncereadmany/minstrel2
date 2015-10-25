@@ -5,7 +5,7 @@ import com.writeoncereadmany.minstrel.compile.visitors.AstVisitor;
 
 public class NumberLiteral implements Expression
 {
-    private final Terminal value;
+    public final Terminal value;
 
     public NumberLiteral(Terminal value)
     {

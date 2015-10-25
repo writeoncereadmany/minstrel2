@@ -6,8 +6,7 @@ import com.writeoncereadmany.minstrel.compile.visitors.AstVisitor;
 
 public class Variable implements Expression
 {
-    private final Terminal name;
-    private ScopeIndex index;
+    public final Terminal name;
 
     public Variable(Terminal name)
     {

@@ -8,11 +8,9 @@ import com.writeoncereadmany.minstrel.compile.visitors.AstVisitor;
 
 public class VariableDeclaration implements Statement
 {
-    private final TypeExpression type;
-    private final Terminal name;
-    private final Expression expression;
-
-    private ScopeIndex typeIndex;
+    public final TypeExpression type;
+    public final Terminal name;
+    public final Expression expression;
 
     public VariableDeclaration(TypeExpression type, Terminal name, Expression expression)
     {

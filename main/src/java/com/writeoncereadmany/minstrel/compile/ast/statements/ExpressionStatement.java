@@ -5,7 +5,7 @@ import com.writeoncereadmany.minstrel.compile.visitors.AstVisitor;
 
 public class ExpressionStatement implements Statement
 {
-    private final Expression expression;
+    public final Expression expression;
 
     public ExpressionStatement(Expression expression)
     {

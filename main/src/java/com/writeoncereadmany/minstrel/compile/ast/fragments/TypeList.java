@@ -4,22 +4,23 @@ import com.writeoncereadmany.minstrel.compile.ast.AstNode;
 import com.writeoncereadmany.minstrel.compile.ast.types.TypeExpression;
 import com.writeoncereadmany.minstrel.compile.visitors.AstVisitor;
 
-import java.util.Collections;
 import java.util.List;
+
+import static java.util.Collections.unmodifiableList;
 
 public class TypeList implements AstNode
 {
-    public final List<TypeExpression> argumentTypes;
+    public final List<TypeExpression> types;
 
-    public TypeList(List<TypeExpression> argumentTypes)
+    public TypeList(List<TypeExpression> types)
     {
-        this.argumentTypes = Collections.unmodifiableList(argumentTypes);
+        this.types = unmodifiableList(types);
     }
 
     @Override
     public void visit(AstVisitor visitor)
     {
-        visitor.visitTypeList(argumentTypes);
+        visitor.visitTypeList(types);
     }
 
 }

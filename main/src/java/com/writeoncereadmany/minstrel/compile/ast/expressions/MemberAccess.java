@@ -5,8 +5,8 @@ import com.writeoncereadmany.minstrel.compile.visitors.AstVisitor;
 
 public class MemberAccess implements Expression
 {
-    private final Expression expression;
-    private final Terminal memberName;
+    public final Expression expression;
+    public final Terminal memberName;
 
     public MemberAccess(Expression expression, Terminal memberName)
     {

@@ -6,8 +6,8 @@ import com.writeoncereadmany.minstrel.compile.visitors.AstVisitor;
 
 public class FunctionDeclaration implements Statement
 {
-    private final Terminal name;
-    private final Function function;
+    public final Terminal name;
+    public final Function function;
 
     public FunctionDeclaration(Terminal name, Function function)
     {

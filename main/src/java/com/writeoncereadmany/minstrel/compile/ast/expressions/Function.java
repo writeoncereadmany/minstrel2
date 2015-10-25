@@ -6,8 +6,8 @@ import com.writeoncereadmany.minstrel.compile.visitors.AstVisitor;
 
 public class Function implements Expression
 {
-    private final ParameterList parameterList;
-    private final Body body;
+    public final ParameterList parameterList;
+    public final Body body;
 
     public Function(ParameterList parameterList, Body body)
     {

@@ -5,8 +5,8 @@ import com.writeoncereadmany.minstrel.compile.visitors.AstVisitor;
 
 public class FunctionCall implements Expression
 {
-    private final Expression function;
-    private final ArgumentList args;
+    public final Expression function;
+    public final ArgumentList args;
 
     public FunctionCall(Expression function, ArgumentList args)
     {
