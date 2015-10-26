@@ -9,6 +9,7 @@ import com.writeoncereadmany.minstrel.compile.types.Type;
 import com.writeoncereadmany.minstrel.compile.types.concerns.FunctionType;
 import com.writeoncereadmany.minstrel.compile.types.concerns.Implementation;
 import com.writeoncereadmany.minstrel.compile.types.defintions.ConcreteTypeDefinition;
+import com.writeoncereadmany.minstrel.compile.types.defintions.TypeDefinition;
 import com.writeoncereadmany.minstrel.runtime.environment.Environment;
 import com.writeoncereadmany.minstrel.runtime.values.Value;
 import com.writeoncereadmany.minstrel.runtime.values.functions.*;
@@ -74,31 +75,42 @@ public class Builtins
         return prelude;
     }
 
-    public static void definePreludeTypes(Map<ScopeIndex, Type> types)
+    public static void definePreludeTypes(Map<ScopeIndex, Type> typeDefinitions)
     {
-        defineObjectType(types, SUCCESS_ATOM, SUCCESS_TYPE);
-        defineFunctionType(types, PRINT_FUNCTION, SUCCESS_ATOM, STRING_TYPE);
-        defineFunctionType(types, PLUS_FUNCTION, NUMBER_TYPE, NUMBER_TYPE, NUMBER_TYPE);
-        defineFunctionType(types, MINUS_FUNCTION, NUMBER_TYPE, NUMBER_TYPE, NUMBER_TYPE);
-        defineFunctionType(types, MULTIPLY_FUNCTION, NUMBER_TYPE, NUMBER_TYPE, NUMBER_TYPE);
-        defineFunctionType(types, DIVIDE_FUNCTION, NUMBER_TYPE, NUMBER_TYPE, NUMBER_TYPE);
-        defineFunctionType(types, NEGATE_FUNCTION, NUMBER_TYPE, NUMBER_TYPE);
+        defineSingleImplementationType(typeDefinitions, NUMBER_TYPE);
+        defineSingleImplementationType(typeDefinitions, STRING_TYPE);
+        defineSingleImplementationType(typeDefinitions, SUCCESS_TYPE);
     }
 
-    private static void defineFunctionType(Map<ScopeIndex, Type> types,
+    private static Type defineSingleImplementationType(Map<ScopeIndex, Type> typeDefinitions, Terminal type) {
+        return typeDefinitions.put(type.scopeIndex(), new Type(new Implementation(NUMBER_TYPE.scopeIndex())));
+    }
+
+    public static void defineTypesOfPreludeValues(Map<ScopeIndex, TypeDefinition> typesOfValues)
+    {
+        defineTypeOfObjectWithNamedType(typesOfValues, SUCCESS_ATOM, SUCCESS_TYPE);
+        defineFunctionType(typesOfValues, PRINT_FUNCTION, SUCCESS_ATOM, STRING_TYPE);
+        defineFunctionType(typesOfValues, PLUS_FUNCTION, NUMBER_TYPE, NUMBER_TYPE, NUMBER_TYPE);
+        defineFunctionType(typesOfValues, MINUS_FUNCTION, NUMBER_TYPE, NUMBER_TYPE, NUMBER_TYPE);
+        defineFunctionType(typesOfValues, MULTIPLY_FUNCTION, NUMBER_TYPE, NUMBER_TYPE, NUMBER_TYPE);
+        defineFunctionType(typesOfValues, DIVIDE_FUNCTION, NUMBER_TYPE, NUMBER_TYPE, NUMBER_TYPE);
+        defineFunctionType(typesOfValues, NEGATE_FUNCTION, NUMBER_TYPE, NUMBER_TYPE);
+    }
+
+    private static void defineFunctionType(Map<ScopeIndex, TypeDefinition> types,
                                            Terminal function,
                                            Terminal returnType,
                                            Terminal... parameterTypes)
     {
         types.put(function.scopeIndex(),
-                  new Type(new FunctionType(stream(parameterTypes).map(Terminal::scopeIndex)
-                                                                  .map(ConcreteTypeDefinition::new)
-                                                                  .collect(toList()),
-                                            new ConcreteTypeDefinition(returnType.scopeIndex()))));
+                  new FunctionType(stream(parameterTypes).map(Terminal::scopeIndex)
+                                                         .map(ConcreteTypeDefinition::new)
+                                                         .collect(toList()),
+                                   new ConcreteTypeDefinition(returnType.scopeIndex())));
     }
 
-    private static void defineObjectType(Map<ScopeIndex, Type> types, Terminal value, Terminal type)
+    private static void defineTypeOfObjectWithNamedType(Map<ScopeIndex, TypeDefinition> typesOfValues, Terminal value, Terminal type)
     {
-        types.put(value.scopeIndex(), new Type(new Implementation(type.scopeIndex())));
+        typesOfValues.put(value.scopeIndex(), new ConcreteTypeDefinition(type.scopeIndex()));
     }
 }

@@ -2,6 +2,9 @@ package com.writeoncereadmany.minstrel.harness;
 
 import com.writeoncereadmany.minstrel.compile.ast.Program;
 import com.writeoncereadmany.minstrel.compile.names.NameResolver;
+import com.writeoncereadmany.minstrel.compile.names.ScopeIndex;
+import com.writeoncereadmany.minstrel.compile.types.Type;
+import com.writeoncereadmany.minstrel.compile.types.defintions.TypeDefinition;
 import com.writeoncereadmany.minstrel.compile.visitors.DefineNames;
 import com.writeoncereadmany.minstrel.compile.visitors.ResolveNames;
 import com.writeoncereadmany.minstrel.builtins.Builtins;
@@ -15,9 +18,7 @@ import org.junit.Test;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -113,6 +114,13 @@ public class SampleProgramRunner
             {
                 return;
             }
+
+            Map<ScopeIndex, Type> typeDefinitions = new HashMap<>();
+            Map<ScopeIndex, TypeDefinition> typesOfValues = new HashMap<>();
+
+            Builtins.definePreludeTypes(typeDefinitions);
+            Builtins.defineTypesOfPreludeValues(typesOfValues);
+
 
             ByteArrayOutputStream printed = new ByteArrayOutputStream();
             PrintStream printStream = new PrintStream(printed);
