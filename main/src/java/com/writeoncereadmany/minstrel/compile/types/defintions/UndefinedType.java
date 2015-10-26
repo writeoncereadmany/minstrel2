@@ -10,6 +10,8 @@ public enum UndefinedType implements TypeDefinition
     @Override
     public Type getType(TypeChecker checker)
     {
+        // I don't know what to do if we try to get the type of something undefined.
+        // Probably an error: this will no doubt make sense later...?
         return new Type();
     }
 
