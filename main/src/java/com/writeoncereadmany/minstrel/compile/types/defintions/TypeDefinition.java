@@ -6,5 +6,9 @@ import com.writeoncereadmany.minstrel.compile.types.TypeChecker;
 
 public interface TypeDefinition
 {
-    Type getType(TypeChecker engine);
+    Type getType(TypeChecker checker);
+
+    TypeDefinition returnType(TypeChecker checker);
+
+    TypeDefinition getMember(TypeChecker checker, String member);
 }

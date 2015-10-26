@@ -3,6 +3,8 @@ package com.writeoncereadmany.minstrel.compile.types.defintions;
 import com.writeoncereadmany.minstrel.compile.names.ScopeIndex;
 import com.writeoncereadmany.minstrel.compile.types.Type;
 import com.writeoncereadmany.minstrel.compile.types.TypeChecker;
+import com.writeoncereadmany.minstrel.compile.types.concerns.FunctionType;
+import com.writeoncereadmany.minstrel.compile.types.concerns.Interface;
 
 import java.util.Objects;
 
@@ -19,6 +21,20 @@ public class ConcreteTypeDefinition implements TypeDefinition
     public Type getType(TypeChecker engine)
     {
         return engine.lookupType(index);
+    }
+
+    @Override
+    public TypeDefinition returnType(TypeChecker checker)
+    {
+        final FunctionType signature = getType(checker).getConcern(FunctionType.class);
+        return signature != null ? signature.returnType : UndefinedType.INSTANCE;
+    }
+
+    @Override
+    public TypeDefinition getMember(TypeChecker checker, String member)
+    {
+        final Interface myInterface = getType(checker).getConcern(Interface.class);
+        return myInterface != null ? myInterface.getMember(checker, member) : UndefinedType.INSTANCE;
     }
 
     @Override
