@@ -18,7 +18,7 @@ public class ReturnTypeDefinition implements TypeDefinition
     {
         Type calledType = calledFunction.getType(checker);
         FunctionType signature = calledType.getConcern(FunctionType.class);
-        return signature.returnType().getType(checker);
+        return signature != null ? signature.returnType().getType(checker) : new Type();
     }
 
     @Override
