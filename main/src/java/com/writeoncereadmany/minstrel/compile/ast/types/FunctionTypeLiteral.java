@@ -1,6 +1,7 @@
 package com.writeoncereadmany.minstrel.compile.ast.types;
 
 import com.writeoncereadmany.minstrel.compile.ast.fragments.TypeList;
+import com.writeoncereadmany.minstrel.compile.types.TypeChecker;
 import com.writeoncereadmany.minstrel.compile.types.concerns.FunctionType;
 import com.writeoncereadmany.minstrel.compile.types.defintions.TypeDefinition;
 import com.writeoncereadmany.minstrel.compile.visitors.AstVisitor;
@@ -27,9 +28,9 @@ public class FunctionTypeLiteral implements TypeExpression
     }
 
     @Override
-    public TypeDefinition type()
+    public TypeDefinition type(TypeChecker checker)
     {
-        List<TypeDefinition> args = parameters.types.stream().map(t -> t.type()).collect(toList());
-        return new FunctionType(args, returnType.type());
+        List<TypeDefinition> args = parameters.types.stream().map(t -> t.type(checker)).collect(toList());
+        return new FunctionType(args, returnType.type(checker));
     }
 }

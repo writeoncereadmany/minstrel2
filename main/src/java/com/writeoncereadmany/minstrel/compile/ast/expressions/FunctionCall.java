@@ -1,6 +1,7 @@
 package com.writeoncereadmany.minstrel.compile.ast.expressions;
 
 import com.writeoncereadmany.minstrel.compile.ast.fragments.ArgumentList;
+import com.writeoncereadmany.minstrel.compile.types.TypeChecker;
 import com.writeoncereadmany.minstrel.compile.types.defintions.TypeDefinition;
 import com.writeoncereadmany.minstrel.compile.visitors.AstVisitor;
 
@@ -22,8 +23,8 @@ public class FunctionCall implements Expression
     }
 
     @Override
-    public TypeDefinition type()
+    public TypeDefinition type(TypeChecker checker)
     {
-        return function.type().returnType();
+        return function.type(checker).returnType(checker);
     }
 }
