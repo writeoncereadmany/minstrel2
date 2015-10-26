@@ -9,5 +9,5 @@ function fun2[Number a]
     print[a + var];
 };
 
-fun1[var];
+fun1[12];
 fun2[43];
