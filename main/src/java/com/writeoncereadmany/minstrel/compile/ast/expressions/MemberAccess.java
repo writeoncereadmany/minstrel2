@@ -1,7 +1,6 @@
 package com.writeoncereadmany.minstrel.compile.ast.expressions;
 
 import com.writeoncereadmany.minstrel.compile.ast.fragments.Terminal;
-import com.writeoncereadmany.minstrel.compile.types.TypeChecker;
 import com.writeoncereadmany.minstrel.compile.types.defintions.TypeDefinition;
 import com.writeoncereadmany.minstrel.compile.visitors.AstVisitor;
 
@@ -23,8 +22,8 @@ public class MemberAccess implements Expression
     }
 
     @Override
-    public TypeDefinition type(TypeChecker checker)
+    public TypeDefinition type()
     {
-        return expression.type(checker).getMember(checker, memberName.text);
+        return expression.type().getMember(memberName.text);
     }
 }

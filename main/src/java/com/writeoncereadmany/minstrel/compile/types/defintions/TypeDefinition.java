@@ -8,7 +8,7 @@ public interface TypeDefinition
 {
     Type getType(TypeChecker checker);
 
-    TypeDefinition returnType(TypeChecker checker);
+    TypeDefinition returnType();
 
-    TypeDefinition getMember(TypeChecker checker, String member);
+    TypeDefinition getMember(String member);
 }

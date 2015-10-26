@@ -5,8 +5,6 @@ import com.writeoncereadmany.minstrel.compile.ast.Typed;
 import com.writeoncereadmany.minstrel.compile.ast.expressions.Expression;
 import com.writeoncereadmany.minstrel.compile.ast.fragments.Terminal;
 import com.writeoncereadmany.minstrel.compile.ast.types.TypeExpression;
-import com.writeoncereadmany.minstrel.compile.names.ScopeIndex;
-import com.writeoncereadmany.minstrel.compile.types.TypeChecker;
 import com.writeoncereadmany.minstrel.compile.types.defintions.ConcreteTypeDefinition;
 import com.writeoncereadmany.minstrel.compile.types.defintions.TypeDefinition;
 import com.writeoncereadmany.minstrel.compile.visitors.AstVisitor;
@@ -31,7 +29,7 @@ public class VariableDeclaration implements Typed, Statement
     }
 
     @Override
-    public TypeDefinition type(TypeChecker checker)
+    public TypeDefinition type()
     {
         return new ConcreteTypeDefinition(Builtins.SUCCESS_TYPE.scopeIndex());
     }

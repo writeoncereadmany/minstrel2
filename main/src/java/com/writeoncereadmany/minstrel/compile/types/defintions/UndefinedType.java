@@ -14,13 +14,13 @@ public enum UndefinedType implements TypeDefinition
     }
 
     @Override
-    public TypeDefinition returnType(TypeChecker checker)
+    public TypeDefinition returnType()
     {
         return this;
     }
 
     @Override
-    public TypeDefinition getMember(TypeChecker checker, String member)
+    public TypeDefinition getMember(String member)
     {
         return this;
     }

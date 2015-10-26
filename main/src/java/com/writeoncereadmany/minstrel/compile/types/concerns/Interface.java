@@ -26,12 +26,13 @@ public class Interface implements Concern, TypeDefinition
     }
 
     @Override
-    public TypeDefinition returnType(TypeChecker checker) {
+    public TypeDefinition returnType()
+    {
         return UndefinedType.INSTANCE;
     }
 
     @Override
-    public TypeDefinition getMember(TypeChecker checker, String member)
+    public TypeDefinition getMember(String member)
     {
         return members.getOrDefault(member, UndefinedType.INSTANCE);
     }

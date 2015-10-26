@@ -1,7 +1,6 @@
 package com.writeoncereadmany.minstrel.compile.ast.statements;
 
 import com.writeoncereadmany.minstrel.compile.ast.expressions.Expression;
-import com.writeoncereadmany.minstrel.compile.types.TypeChecker;
 import com.writeoncereadmany.minstrel.compile.types.defintions.TypeDefinition;
 import com.writeoncereadmany.minstrel.compile.visitors.AstVisitor;
 
@@ -21,8 +20,8 @@ public class ExpressionStatement implements Statement
     }
 
     @Override
-    public TypeDefinition type(TypeChecker checker)
+    public TypeDefinition type()
     {
-        return expression.type(checker);
+        return expression.type();
     }
 }

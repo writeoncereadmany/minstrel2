@@ -27,13 +27,13 @@ public class FunctionType implements Concern, TypeDefinition
     }
 
     @Override
-    public TypeDefinition returnType(TypeChecker checker)
+    public TypeDefinition returnType()
     {
         return returnType;
     }
 
     @Override
-    public TypeDefinition getMember(TypeChecker checker, String member)
+    public TypeDefinition getMember(String member)
     {
         return UndefinedType.INSTANCE;
     }

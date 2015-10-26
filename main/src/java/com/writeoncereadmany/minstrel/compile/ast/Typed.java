@@ -5,5 +5,5 @@ import com.writeoncereadmany.minstrel.compile.types.defintions.TypeDefinition;
 
 public interface Typed
 {
-    TypeDefinition type(TypeChecker checker);
+    TypeDefinition type();
 }

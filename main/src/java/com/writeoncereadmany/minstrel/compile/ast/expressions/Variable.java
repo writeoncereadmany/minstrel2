@@ -1,8 +1,6 @@
 package com.writeoncereadmany.minstrel.compile.ast.expressions;
 
 import com.writeoncereadmany.minstrel.compile.ast.fragments.Terminal;
-import com.writeoncereadmany.minstrel.compile.names.ScopeIndex;
-import com.writeoncereadmany.minstrel.compile.types.TypeChecker;
 import com.writeoncereadmany.minstrel.compile.types.defintions.TypeDefinition;
 import com.writeoncereadmany.minstrel.compile.types.defintions.UndefinedType;
 import com.writeoncereadmany.minstrel.compile.visitors.AstVisitor;
@@ -23,7 +21,7 @@ public class Variable implements Expression
     }
 
     @Override
-    public TypeDefinition type(TypeChecker checker)
+    public TypeDefinition type()
     {
         // come back to this one: we'll need to look it up once we've done type definitions
         return UndefinedType.INSTANCE;

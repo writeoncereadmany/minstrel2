@@ -24,17 +24,15 @@ public class ConcreteTypeDefinition implements TypeDefinition
     }
 
     @Override
-    public TypeDefinition returnType(TypeChecker checker)
+    public TypeDefinition returnType()
     {
-        final FunctionType signature = getType(checker).getConcern(FunctionType.class);
-        return signature != null ? signature.returnType : UndefinedType.INSTANCE;
+        return new ReturnTypeDefinition(this);
     }
 
     @Override
-    public TypeDefinition getMember(TypeChecker checker, String member)
+    public TypeDefinition getMember(String member)
     {
-        final Interface myInterface = getType(checker).getConcern(Interface.class);
-        return myInterface != null ? myInterface.getMember(checker, member) : UndefinedType.INSTANCE;
+        return new MemberTypeDefinition(this, member);
     }
 
     @Override
