@@ -13,14 +13,14 @@ public class TypeChecker
 {
     private final List<TypingRule> rules;
     private final Map<ScopeIndex, Type> typeDefinitions;
-    private final Map<ScopeIndex, TypeDefinition> variableTypes;
+    private final Map<ScopeIndex, TypeDefinition> valueTypes;
     private final Multimap<TypeDefinition, TypeDefinition> alreadyVisitedDefinitions = new Multimap<>();
 
-    public TypeChecker(List<TypingRule> rules, Map<ScopeIndex, Type> typeDefinitions, Map<ScopeIndex, TypeDefinition> variableTypes)
+    public TypeChecker(List<TypingRule> rules, Map<ScopeIndex, Type> typeDefinitions, Map<ScopeIndex, TypeDefinition> valueTypes)
     {
         this.rules = rules;
         this.typeDefinitions = typeDefinitions;
-        this.variableTypes = variableTypes;
+        this.valueTypes = valueTypes;
     }
 
     public Type lookupNamedType(ScopeIndex index)
@@ -28,9 +28,9 @@ public class TypeChecker
         return typeDefinitions.computeIfAbsent(index, s -> { throw new IllegalArgumentException("Scope index " + s + " not defined"); });
     }
 
-    public TypeDefinition lookupTypeOfVariable(ScopeIndex index)
+    public TypeDefinition lookupTypeOfValue(ScopeIndex index)
     {
-        return variableTypes.computeIfAbsent(index, s -> { throw new IllegalArgumentException("Scope index " + s + " not defined"); });
+        return valueTypes.computeIfAbsent(index, s -> { throw new IllegalArgumentException("Scope index " + s + " not defined"); });
     }
 
     public Stream<TypeError> canAssign(Type sourceType, Type targetType)
