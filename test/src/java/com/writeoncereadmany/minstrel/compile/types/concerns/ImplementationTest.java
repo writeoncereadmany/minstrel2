@@ -6,9 +6,11 @@ import com.writeoncereadmany.minstrel.compile.types.TypeChecker;
 import com.writeoncereadmany.minstrel.compile.types.validators.ImplementationRule;
 import org.junit.Test;
 
+import java.util.Collections;
+
 import static com.writeoncereadmany.minstrel.compile.types.concerns.EmptyStreamMatcher.emptyStream;
+import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonList;
-import static java.util.stream.Collectors.toList;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
@@ -19,7 +21,7 @@ public class ImplementationTest
     public static final ScopeIndex TRUE = new ScopeIndex(2, 4);
     public static final ScopeIndex FALSE = new ScopeIndex(2, 5);
 
-    private final TypeChecker typeChecker = new TypeChecker(singletonList(new ImplementationRule()), null);
+    private final TypeChecker typeChecker = new TypeChecker(singletonList(new ImplementationRule()), emptyMap(), emptyMap());
 
     @Test
     public void aTypeWhichDoNotSpecifyImplementationIsASubtypeOfAnotherWhichDoesNotSpecifyImplementation()

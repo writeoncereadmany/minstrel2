@@ -20,7 +20,7 @@ public class ConcreteTypeDefinition implements TypeDefinition
     @Override
     public Type getType(TypeChecker engine)
     {
-        return engine.lookupType(index);
+        return engine.lookupNamedType(index);
     }
 
     @Override

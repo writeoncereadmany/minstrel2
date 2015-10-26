@@ -12,18 +12,25 @@ import java.util.stream.Stream;
 public class TypeChecker
 {
     private final List<TypingRule> rules;
-    private final Map<ScopeIndex, Type> types;
+    private final Map<ScopeIndex, Type> typeDefinitions;
+    private final Map<ScopeIndex, TypeDefinition> variableTypes;
     private final Multimap<TypeDefinition, TypeDefinition> alreadyVisitedDefinitions = new Multimap<>();
 
-    public TypeChecker(List<TypingRule> rules, Map<ScopeIndex, Type> types)
+    public TypeChecker(List<TypingRule> rules, Map<ScopeIndex, Type> typeDefinitions, Map<ScopeIndex, TypeDefinition> variableTypes)
     {
         this.rules = rules;
-        this.types = types;
+        this.typeDefinitions = typeDefinitions;
+        this.variableTypes = variableTypes;
     }
 
-    public Type lookupType(ScopeIndex index)
+    public Type lookupNamedType(ScopeIndex index)
     {
-        return types.computeIfAbsent(index, s -> { throw new IllegalArgumentException("Scope index " + s + " not defined"); });
+        return typeDefinitions.computeIfAbsent(index, s -> { throw new IllegalArgumentException("Scope index " + s + " not defined"); });
+    }
+
+    public TypeDefinition lookupTypeOfVariable(ScopeIndex index)
+    {
+        return variableTypes.computeIfAbsent(index, s -> { throw new IllegalArgumentException("Scope index " + s + " not defined"); });
     }
 
     public Stream<TypeError> canAssign(Type sourceType, Type targetType)

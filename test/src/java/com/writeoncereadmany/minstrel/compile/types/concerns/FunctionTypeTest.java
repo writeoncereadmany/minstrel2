@@ -9,6 +9,7 @@ import com.writeoncereadmany.minstrel.compile.types.validators.FunctionRules;
 import com.writeoncereadmany.minstrel.compile.types.validators.ImplementationRule;
 import org.junit.Test;
 
+import java.util.Collections;
 import java.util.Map;
 
 import static com.writeoncereadmany.minstrel.compile.types.concerns.EmptyStreamMatcher.emptyStream;
@@ -16,6 +17,7 @@ import static com.writeoncereadmany.util.TypeSafeMapBuilder.entry;
 import static com.writeoncereadmany.util.TypeSafeMapBuilder.mapOf;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
+import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -38,7 +40,7 @@ public class FunctionTypeTest
     private final TypeDefinition MAMMAL = new ConcreteTypeDefinition(MAMMAL_DEF);
     private final TypeDefinition CAT = new ConcreteTypeDefinition(CAT_DEF);
 
-    private final TypeChecker typeChecker = new TypeChecker(asList(new ImplementationRule(), new FunctionRules()), definitions);
+    private final TypeChecker typeChecker = new TypeChecker(asList(new ImplementationRule(), new FunctionRules()), definitions, emptyMap());
 
 
     @Test
