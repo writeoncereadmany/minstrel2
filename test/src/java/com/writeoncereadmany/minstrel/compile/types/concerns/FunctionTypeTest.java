@@ -47,7 +47,7 @@ public class FunctionTypeTest
         Type aFunction = new Type(new FunctionType(singletonList(MAMMAL), MAMMAL));
         Type sameFunction = new Type(new FunctionType(singletonList(MAMMAL), MAMMAL));
 
-        assertThat(typeChecker.canAssign(aFunction, sameFunction), is(emptyStream()));
+        assertAssignable(aFunction, sameFunction);
     }
 
     @Test
@@ -56,7 +56,7 @@ public class FunctionTypeTest
         Type aFunction = new Type(new FunctionType(singletonList(MAMMAL), MAMMAL));
         Type notAFunction = new Type();
 
-        assertThat(typeChecker.canAssign(notAFunction, aFunction), is(not(emptyStream())));
+        assertNotAssignable(notAFunction, aFunction);
     }
 
     @Test
@@ -65,8 +65,8 @@ public class FunctionTypeTest
         Type oneArgFunction = new Type(new FunctionType(singletonList(MAMMAL), MAMMAL));
         Type zeroArgFunction = new Type(new FunctionType(emptyList(), MAMMAL));
 
-        assertThat(typeChecker.canAssign(oneArgFunction, zeroArgFunction), is(not(emptyStream())));
-        assertThat(typeChecker.canAssign(zeroArgFunction, oneArgFunction), is(not(emptyStream())));
+        assertNotAssignable(oneArgFunction, zeroArgFunction);
+        assertNotAssignable(zeroArgFunction, oneArgFunction);
     }
 
     @Test
@@ -75,8 +75,9 @@ public class FunctionTypeTest
         Type returnsMammal = new Type(new FunctionType(emptyList(), MAMMAL));
         Type returnsAnimal = new Type(new FunctionType(emptyList(), ANIMAL));
 
-        assertThat(typeChecker.canAssign(returnsAnimal, returnsMammal), is(not(emptyStream())));
+        assertNotAssignable(returnsAnimal, returnsMammal);
     }
+
 
     @Test
     public void canAssignFunctionToFunctionWithSupertypeReturnType()
@@ -84,7 +85,7 @@ public class FunctionTypeTest
         Type returnsMammal = new Type(new FunctionType(emptyList(), MAMMAL));
         Type returnsCat = new Type(new FunctionType(emptyList(), CAT));
 
-        assertThat(typeChecker.canAssign(returnsCat, returnsMammal), is(emptyStream()));
+        assertAssignable(returnsCat, returnsMammal);
     }
 
     @Test
@@ -93,8 +94,9 @@ public class FunctionTypeTest
         Type takesCat = new Type(new FunctionType(asList(CAT, CAT), MAMMAL));
         Type takesAnimal = new Type(new FunctionType(asList(ANIMAL, ANIMAL), MAMMAL));
 
-        assertThat(typeChecker.canAssign(takesAnimal, takesCat), is(emptyStream()));
+        assertAssignable(takesAnimal, takesCat);
     }
+
 
     @Test
     public void cannotAssignFunctionToFunctionWithSupertypeArguments()
@@ -102,6 +104,17 @@ public class FunctionTypeTest
         Type takesAnimal = new Type(new FunctionType(asList(ANIMAL, ANIMAL), MAMMAL));
         Type takesCat = new Type(new FunctionType(asList(CAT, CAT), MAMMAL));
 
-        assertThat(typeChecker.canAssign(takesCat, takesAnimal), is(not(emptyStream())));
+        assertNotAssignable(takesCat, takesAnimal);
     }
+
+    private void assertAssignable(Type source, Type target)
+    {
+        assertThat(typeChecker.canAssign(source, target), is(emptyStream()));
+    }
+
+    private void assertNotAssignable(Type source, Type target)
+    {
+        assertThat(typeChecker.canAssign(source, target), is(not(emptyStream())));
+    }
+
 }

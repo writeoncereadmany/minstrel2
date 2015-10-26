@@ -54,7 +54,7 @@ public class InterfaceTest
         Type point2d = new Type(new Interface(mapOf(entry("x", NUMBER), entry("y", NUMBER))));
         Type vector2d = new Type(new Interface(mapOf(entry("x", NUMBER), entry("y", NUMBER))));
 
-        assertThat(checker.canAssign(point2d, vector2d), is(emptyStream()));
+        assertAssignable(checker, point2d, vector2d);
     }
 
     @Test
@@ -65,7 +65,7 @@ public class InterfaceTest
         Type hasAnXAndAY = new Type(new Interface(mapOf(entry("x", NUMBER), entry("y", NUMBER))));
         Type hasAnX = new Type(new Interface(mapOf(entry("x", NUMBER))));
 
-        assertThat(checker.canAssign(hasAnXAndAY, hasAnX), is(emptyStream()));
+        assertAssignable(checker, hasAnXAndAY, hasAnX);
     }
 
     @Test
@@ -76,7 +76,7 @@ public class InterfaceTest
         Type hasAnX = new Type(new Interface(mapOf(entry("x", NUMBER))));
         Type hasAnXAndAY = new Type(new Interface(mapOf(entry("x", NUMBER), entry("y", NUMBER))));
 
-        assertThat(checker.canAssign(hasAnX, hasAnXAndAY), is(not(emptyStream())));
+        assertNotAssignable(checker, hasAnX, hasAnXAndAY);
     }
 
     @Test
@@ -99,13 +99,14 @@ public class InterfaceTest
                 entry(stringToMammalDefinition, stringToMammalImpl)));
 
         // for clarity:
-        assertThat(checker.canAssign(stringToCatImpl, stringToMammalImpl), is(emptyStream()));
+        assertAssignable(checker, stringToCatImpl, stringToMammalImpl);
 
         Type foo1 = new Type(new Interface(mapOf(entry("foo", stringToCat))));
         Type foo2 = new Type(new Interface(mapOf(entry("foo", stringToMammal))));
 
-        assertThat(checker.canAssign(foo1, foo2), is(emptyStream()));
+        assertAssignable(checker, foo1, foo2);
     }
+
 
     @Test
     public void anInterfaceIsNotAssignableIfFunctionTypesAreNotAssignable()
@@ -127,16 +128,17 @@ public class InterfaceTest
                 entry(stringToMammalDefinition, stringToMammalImpl)));
 
         // for clarity:
-        assertThat(checker.canAssign(stringToMammalImpl,stringToCatImpl), is(not(emptyStream())));
+        assertNotAssignable(checker, stringToMammalImpl, stringToCatImpl);
 
         // checker will only report each type mismatch once, so clear it before trying again:
         checker.clear();
 
-        Type foo1 = new Type(new Interface(mapOf(entry("foo", stringToCat))));
-        Type foo2 = new Type(new Interface(mapOf(entry("foo", stringToMammal))));
+        Type catMaker = new Type(new Interface(mapOf(entry("foo", stringToCat))));
+        Type mammalMaker = new Type(new Interface(mapOf(entry("foo", stringToMammal))));
 
-        assertThat(checker.canAssign(foo2, foo1), is(not(emptyStream())));
+        assertNotAssignable(checker, mammalMaker, catMaker);
     }
+
 
     @Test
     public void canHandleRecursiveDefinitions()
@@ -162,7 +164,7 @@ public class InterfaceTest
                 entry(handleEndDefn, handleEndImpl)
         ));
 
-        assertThat(checker.canAssign(stringList, stringList), is(emptyStream()));
+        assertAssignable(checker, stringList, stringList);
     }
 
     @Test
@@ -206,6 +208,27 @@ public class InterfaceTest
                 entry(handleEndNumberDefn, handleEndNumberImpl)
         ));
 
-        assertThat(checker.canAssign(stringList, numberList), is(not(emptyStream())));
+        assertNotAssignable(checker, stringList, numberList);
     }
+
+    private void assertAssignable(TypeChecker checker, TypeDefinition source, TypeDefinition target)
+    {
+        assertThat(checker.canAssign(source, target), is(emptyStream()));
+    }
+
+    private void assertAssignable(TypeChecker checker, Type source, Type target)
+    {
+        assertThat(checker.canAssign(source, target), is(emptyStream()));
+    }
+
+    private void assertNotAssignable(TypeChecker checker, Type source, Type target)
+    {
+        assertThat(checker.canAssign(source, target), is(not(emptyStream())));
+    }
+
+    private void assertNotAssignable(TypeChecker checker, TypeDefinition source, TypeDefinition target)
+    {
+        assertThat(checker.canAssign(source, target), is(not(emptyStream())));
+    }
+
 }
