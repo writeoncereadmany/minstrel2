@@ -2,17 +2,21 @@ package com.writeoncereadmany.minstrel.compile.types.defintions;
 
 import com.writeoncereadmany.minstrel.compile.types.Type;
 import com.writeoncereadmany.minstrel.compile.types.TypeChecker;
+import com.writeoncereadmany.minstrel.compile.types.concerns.IncoherentType;
 
-public enum UndefinedType implements TypeDefinition
+public class UndefinedType implements TypeDefinition
 {
-    INSTANCE;
+    private final String reason;
+
+    public UndefinedType(String reason)
+    {
+        this.reason = reason;
+    }
 
     @Override
     public Type getType(TypeChecker checker)
     {
-        // I don't know what to do if we try to get the type of something undefined.
-        // Probably an error: this will no doubt make sense later...?
-        return new Type();
+        return new Type(new IncoherentType(reason));
     }
 
     @Override

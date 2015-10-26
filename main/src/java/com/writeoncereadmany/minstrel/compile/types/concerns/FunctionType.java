@@ -35,6 +35,6 @@ public class FunctionType implements Concern, TypeDefinition
     @Override
     public TypeDefinition getMember(String member)
     {
-        return UndefinedType.INSTANCE;
+        return new UndefinedType("No such member on a function");
     }
 }

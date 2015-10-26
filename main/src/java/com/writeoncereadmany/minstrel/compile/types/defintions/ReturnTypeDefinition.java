@@ -3,6 +3,7 @@ package com.writeoncereadmany.minstrel.compile.types.defintions;
 import com.writeoncereadmany.minstrel.compile.types.Type;
 import com.writeoncereadmany.minstrel.compile.types.TypeChecker;
 import com.writeoncereadmany.minstrel.compile.types.concerns.FunctionType;
+import com.writeoncereadmany.minstrel.compile.types.concerns.IncoherentType;
 
 public class ReturnTypeDefinition implements TypeDefinition
 {
@@ -18,7 +19,7 @@ public class ReturnTypeDefinition implements TypeDefinition
     {
         Type calledType = calledFunction.getType(checker);
         FunctionType signature = calledType.getConcern(FunctionType.class);
-        return signature != null ? signature.returnType().getType(checker) : new Type();
+        return signature != null ? signature.returnType().getType(checker) : new Type(new IncoherentType("Cannot call a non-function"));
     }
 
     @Override

@@ -23,7 +23,6 @@ public class Variable implements Expression
     @Override
     public TypeDefinition type()
     {
-        // come back to this one: we'll need to look it up once we've done type definitions
-        return UndefinedType.INSTANCE;
+        return null;
     }
 }

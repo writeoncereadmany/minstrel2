@@ -11,7 +11,6 @@ import com.writeoncereadmany.minstrel.compile.types.validators.FunctionRules;
 import com.writeoncereadmany.minstrel.compile.types.validators.ImplementationRule;
 import org.junit.Test;
 
-import java.util.Collections;
 import java.util.Map;
 
 import static com.writeoncereadmany.minstrel.compile.types.concerns.EmptyStreamMatcher.emptyStream;
@@ -45,6 +44,7 @@ public class CurriedFunctionTest
                                               namedTypes,
                                               emptyMap());
 
+        assertThat(checker.checkCoherent(callTwice), is(emptyStream()));
         assertThat(checker.canAssign(callTwice, number), is(emptyStream()));
     }
 
@@ -52,8 +52,8 @@ public class CurriedFunctionTest
     public void attemptingToGetReturnTypesFromNonFunctionsWillResultInUndefinedTypes()
     {
         final ScopeIndex functionTypeName = new ScopeIndex(3, 3);
-        final ConcreteTypeDefinition namedCurriedFunction = new ConcreteTypeDefinition(functionTypeName);
-        final TypeDefinition callTwice = namedCurriedFunction.returnType().returnType();
+        final ConcreteTypeDefinition namedFunction = new ConcreteTypeDefinition(functionTypeName);
+        final TypeDefinition callTwice = namedFunction.returnType().returnType();
 
         // create something which returns a Number, so the second call yields an undefined type
         final ConcreteTypeDefinition number = new ConcreteTypeDefinition(NUMBER);
@@ -66,6 +66,6 @@ public class CurriedFunctionTest
                                               namedTypes,
                                               emptyMap());
 
-        assertThat(checker.canAssign(callTwice, number), is(not(emptyStream())));
+        assertThat(checker.checkCoherent(callTwice), is(not(emptyStream())));
     }
 }

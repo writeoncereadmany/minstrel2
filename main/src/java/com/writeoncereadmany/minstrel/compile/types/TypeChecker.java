@@ -1,6 +1,7 @@
 package com.writeoncereadmany.minstrel.compile.types;
 
 import com.writeoncereadmany.minstrel.compile.names.ScopeIndex;
+import com.writeoncereadmany.minstrel.compile.types.concerns.IncoherentType;
 import com.writeoncereadmany.minstrel.compile.types.defintions.TypeDefinition;
 import com.writeoncereadmany.minstrel.compile.types.validators.TypingRule;
 import com.writeoncereadmany.util.Multimap;
@@ -51,5 +52,16 @@ public class TypeChecker
     public void clear()
     {
         alreadyVisitedDefinitions.clear();
+    }
+
+    public Stream<TypeError> checkCoherent(TypeDefinition definition)
+    {
+        final Type type = definition.getType(this);
+        final IncoherentType typeIncoherency = type.getConcern(IncoherentType.class);
+        if(typeIncoherency != null)
+        {
+            return Stream.of(new TypeError(typeIncoherency.reason));
+        }
+        return Stream.empty();
     }
 }

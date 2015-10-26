@@ -20,7 +20,7 @@ public class MemberTypeDefinition implements TypeDefinition {
     {
         Interface accessedObject = object.getType(checker).getConcern(Interface.class);
 
-        TypeDefinition memberType = accessedObject != null ? accessedObject.getMember(member) : UndefinedType.INSTANCE;
+        TypeDefinition memberType = accessedObject != null ? accessedObject.getMember(member) : new UndefinedType("No such member");
         return memberType.getType(checker);
     }
 

@@ -28,12 +28,12 @@ public class Interface implements Concern, TypeDefinition
     @Override
     public TypeDefinition returnType()
     {
-        return UndefinedType.INSTANCE;
+        return new UndefinedType("Cannot call an object");
     }
 
     @Override
     public TypeDefinition getMember(String member)
     {
-        return members.getOrDefault(member, UndefinedType.INSTANCE);
+        return members.getOrDefault(member, new UndefinedType("No such member"));
     }
 }
