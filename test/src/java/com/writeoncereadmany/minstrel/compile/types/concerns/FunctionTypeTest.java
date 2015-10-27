@@ -1,6 +1,7 @@
 package com.writeoncereadmany.minstrel.compile.types.concerns;
 
 import com.writeoncereadmany.minstrel.compile.names.ScopeIndex;
+import com.writeoncereadmany.minstrel.compile.types.StructuralType;
 import com.writeoncereadmany.minstrel.compile.types.Type;
 import com.writeoncereadmany.minstrel.compile.types.TypeEngine;
 import com.writeoncereadmany.minstrel.compile.types.defintions.TypeDefinition;
@@ -30,9 +31,9 @@ public class FunctionTypeTest
     private final ScopeIndex ANIMAL_DEF = new ScopeIndex(3, 6);
 
     private final Map<ScopeIndex, Type> definitions = mapOf(
-            entry(CAT_DEF, new Type(new Implementation(CAT_DEF))),
-            entry(MAMMAL_DEF, new Type(new Implementation(CAT_DEF, DOG_DEF))),
-            entry(ANIMAL_DEF, new Type(new Implementation(CAT_DEF, DOG_DEF, FISH_DEF))));
+            entry(CAT_DEF, new StructuralType(new Implementation(CAT_DEF))),
+            entry(MAMMAL_DEF, new StructuralType(new Implementation(CAT_DEF, DOG_DEF))),
+            entry(ANIMAL_DEF, new StructuralType(new Implementation(CAT_DEF, DOG_DEF, FISH_DEF))));
 
     private final TypeDefinition ANIMAL = new ConcreteTypeDefinition(ANIMAL_DEF);
     private final TypeDefinition MAMMAL = new ConcreteTypeDefinition(MAMMAL_DEF);
@@ -44,8 +45,8 @@ public class FunctionTypeTest
     @Test
     public void aFunctionTypeIsASubtypeOfItself()
     {
-        Type aFunction = new Type(new FunctionType(singletonList(MAMMAL), MAMMAL));
-        Type sameFunction = new Type(new FunctionType(singletonList(MAMMAL), MAMMAL));
+        StructuralType aFunction = new StructuralType(new FunctionType(singletonList(MAMMAL), MAMMAL));
+        StructuralType sameFunction = new StructuralType(new FunctionType(singletonList(MAMMAL), MAMMAL));
 
         assertAssignable(aFunction, sameFunction);
     }
@@ -53,8 +54,8 @@ public class FunctionTypeTest
     @Test
     public void cannotAssignANonFunctionToAFunction()
     {
-        Type aFunction = new Type(new FunctionType(singletonList(MAMMAL), MAMMAL));
-        Type notAFunction = new Type();
+        StructuralType aFunction = new StructuralType(new FunctionType(singletonList(MAMMAL), MAMMAL));
+        StructuralType notAFunction = new StructuralType();
 
         assertNotAssignable(notAFunction, aFunction);
     }
@@ -62,8 +63,8 @@ public class FunctionTypeTest
     @Test
     public void cannotAssignAFunctionToAFunctionWithDifferentArity()
     {
-        Type oneArgFunction = new Type(new FunctionType(singletonList(MAMMAL), MAMMAL));
-        Type zeroArgFunction = new Type(new FunctionType(emptyList(), MAMMAL));
+        StructuralType oneArgFunction = new StructuralType(new FunctionType(singletonList(MAMMAL), MAMMAL));
+        StructuralType zeroArgFunction = new StructuralType(new FunctionType(emptyList(), MAMMAL));
 
         assertNotAssignable(oneArgFunction, zeroArgFunction);
         assertNotAssignable(zeroArgFunction, oneArgFunction);
@@ -72,8 +73,8 @@ public class FunctionTypeTest
     @Test
     public void cannotAssignFunctionToFunctionWithSubtypeReturnType()
     {
-        Type returnsMammal = new Type(new FunctionType(emptyList(), MAMMAL));
-        Type returnsAnimal = new Type(new FunctionType(emptyList(), ANIMAL));
+        StructuralType returnsMammal = new StructuralType(new FunctionType(emptyList(), MAMMAL));
+        StructuralType returnsAnimal = new StructuralType(new FunctionType(emptyList(), ANIMAL));
 
         assertNotAssignable(returnsAnimal, returnsMammal);
     }
@@ -82,8 +83,8 @@ public class FunctionTypeTest
     @Test
     public void canAssignFunctionToFunctionWithSupertypeReturnType()
     {
-        Type returnsMammal = new Type(new FunctionType(emptyList(), MAMMAL));
-        Type returnsCat = new Type(new FunctionType(emptyList(), CAT));
+        StructuralType returnsMammal = new StructuralType(new FunctionType(emptyList(), MAMMAL));
+        StructuralType returnsCat = new StructuralType(new FunctionType(emptyList(), CAT));
 
         assertAssignable(returnsCat, returnsMammal);
     }
@@ -91,8 +92,8 @@ public class FunctionTypeTest
     @Test
     public void canAssignFunctionToFunctionWithSubtypeArguments()
     {
-        Type takesCat = new Type(new FunctionType(asList(CAT, CAT), MAMMAL));
-        Type takesAnimal = new Type(new FunctionType(asList(ANIMAL, ANIMAL), MAMMAL));
+        StructuralType takesCat = new StructuralType(new FunctionType(asList(CAT, CAT), MAMMAL));
+        StructuralType takesAnimal = new StructuralType(new FunctionType(asList(ANIMAL, ANIMAL), MAMMAL));
 
         assertAssignable(takesAnimal, takesCat);
     }
@@ -101,18 +102,18 @@ public class FunctionTypeTest
     @Test
     public void cannotAssignFunctionToFunctionWithSupertypeArguments()
     {
-        Type takesAnimal = new Type(new FunctionType(asList(ANIMAL, ANIMAL), MAMMAL));
-        Type takesCat = new Type(new FunctionType(asList(CAT, CAT), MAMMAL));
+        StructuralType takesAnimal = new StructuralType(new FunctionType(asList(ANIMAL, ANIMAL), MAMMAL));
+        StructuralType takesCat = new StructuralType(new FunctionType(asList(CAT, CAT), MAMMAL));
 
         assertNotAssignable(takesCat, takesAnimal);
     }
 
-    private void assertAssignable(Type source, Type target)
+    private void assertAssignable(StructuralType source, StructuralType target)
     {
         assertThat(typeEngine.canAssign(source, target), is(emptyStream()));
     }
 
-    private void assertNotAssignable(Type source, Type target)
+    private void assertNotAssignable(StructuralType source, StructuralType target)
     {
         assertThat(typeEngine.canAssign(source, target), is(not(emptyStream())));
     }

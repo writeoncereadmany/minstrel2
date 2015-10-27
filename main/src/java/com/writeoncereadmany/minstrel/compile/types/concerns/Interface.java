@@ -1,5 +1,6 @@
 package com.writeoncereadmany.minstrel.compile.types.concerns;
 
+import com.writeoncereadmany.minstrel.compile.types.StructuralType;
 import com.writeoncereadmany.minstrel.compile.types.Type;
 import com.writeoncereadmany.minstrel.compile.types.TypeEngine;
 import com.writeoncereadmany.minstrel.compile.types.defintions.TypeDefinition;
@@ -20,7 +21,7 @@ public class Interface implements Concern, TypeDefinition
     @Override
     public Type getType(TypeEngine checker)
     {
-        return new Type(this);
+        return new StructuralType(this);
     }
 
     @Override

@@ -31,7 +31,22 @@ public class TypeEngine
 
     public Stream<TypeError> canAssign(Type sourceType, Type targetType)
     {
-        return rules.stream().flatMap(rule -> rule.isAssignableTo(sourceType, targetType, this));
+        if(sourceType instanceof Nothing)
+        {
+            // Nothing is assignable to anything: including Nothing
+            return Stream.empty();
+        }
+        else if(targetType instanceof Nothing)
+        {
+            // There are no instances that satisfy Nothing, so no non-Nothing values can be assigned to it
+            return Stream.of(new TypeError("Cannot assign to something of type Nothing"));
+        }
+        else
+        {
+            StructuralType sourceStructuralType = (StructuralType)sourceType;
+            StructuralType targetStructuralType = (StructuralType)targetType;
+            return rules.stream().flatMap(rule -> rule.isAssignableTo(sourceStructuralType, targetStructuralType, this));
+        }
     }
 
     public Stream<TypeError> canAssign(TypeDefinition sourceTypeDefinition, TypeDefinition targetTypeDefinition)
@@ -51,12 +66,18 @@ public class TypeEngine
 
     public Stream<TypeError> checkCoherent(TypeDefinition definition)
     {
+
         final Type type = definition.getType(this);
-        final IncoherentType typeIncoherency = type.getConcern(IncoherentType.class);
-        if(typeIncoherency != null)
+        if(type instanceof StructuralType)
         {
-            return Stream.of(new TypeError(typeIncoherency.reason));
+            final IncoherentType typeIncoherency = ((StructuralType)type).getConcern(IncoherentType.class);
+            if(typeIncoherency != null)
+            {
+                return Stream.of(new TypeError(typeIncoherency.reason));
+            }
+            // and we're coherent, or...
         }
+        // ... we're Nothing, which is coherent.
         return Stream.empty();
     }
 }

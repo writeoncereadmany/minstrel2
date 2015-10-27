@@ -1,6 +1,7 @@
 package com.writeoncereadmany.minstrel.compile.types.concerns;
 
 import com.writeoncereadmany.minstrel.compile.names.ScopeIndex;
+import com.writeoncereadmany.minstrel.compile.types.StructuralType;
 import com.writeoncereadmany.minstrel.compile.types.Type;
 import com.writeoncereadmany.minstrel.compile.types.TypeEngine;
 import com.writeoncereadmany.minstrel.compile.types.defintions.ConcreteTypeDefinition;
@@ -38,11 +39,11 @@ public class InterfaceTest
     private static final TypeDefinition MAMMAL = new ConcreteTypeDefinition(MAMMAL_DEFINITION);
     private static final TypeDefinition CAT = new ConcreteTypeDefinition(CAT_DEFINITION);
 
-    private static final Type NUMBER_IMPL = new Type(new Implementation(NUMBER_DEFINITION));
-    private static final Type STRING_IMPL = new Type(new Implementation(STRING_DEFINITION));
-    private static final Type ANIMAL_IMPL = new Type(new Implementation(CAT_DEFINITION, DOG_DEFINITION, FISH_DEFINITION));
-    private static final Type MAMMAL_IMPL = new Type(new Implementation(CAT_DEFINITION, DOG_DEFINITION));
-    private static final Type CAT_IMPL = new Type(new Implementation(CAT_DEFINITION));
+    private static final Type NUMBER_IMPL = new StructuralType(new Implementation(NUMBER_DEFINITION));
+    private static final Type STRING_IMPL = new StructuralType(new Implementation(STRING_DEFINITION));
+    private static final Type ANIMAL_IMPL = new StructuralType(new Implementation(CAT_DEFINITION, DOG_DEFINITION, FISH_DEFINITION));
+    private static final Type MAMMAL_IMPL = new StructuralType(new Implementation(CAT_DEFINITION, DOG_DEFINITION));
+    private static final Type CAT_IMPL = new StructuralType(new Implementation(CAT_DEFINITION));
 
     private static final List<TypingRule> TYPING_RULES = asList(new ImplementationRule(), new FunctionRules(), new InterfaceRule());
 
@@ -51,8 +52,8 @@ public class InterfaceTest
     {
         TypeEngine checker = new TypeEngine(TYPING_RULES, mapOf(entry(NUMBER_DEFINITION, NUMBER_IMPL)));
 
-        Type point2d = new Type(new Interface(mapOf(entry("x", NUMBER), entry("y", NUMBER))));
-        Type vector2d = new Type(new Interface(mapOf(entry("x", NUMBER), entry("y", NUMBER))));
+        StructuralType point2d = new StructuralType(new Interface(mapOf(entry("x", NUMBER), entry("y", NUMBER))));
+        StructuralType vector2d = new StructuralType(new Interface(mapOf(entry("x", NUMBER), entry("y", NUMBER))));
 
         assertAssignable(checker, point2d, vector2d);
     }
@@ -62,8 +63,8 @@ public class InterfaceTest
     {
         TypeEngine checker = new TypeEngine(TYPING_RULES, mapOf(entry(NUMBER_DEFINITION, NUMBER_IMPL)));
 
-        Type hasAnXAndAY = new Type(new Interface(mapOf(entry("x", NUMBER), entry("y", NUMBER))));
-        Type hasAnX = new Type(new Interface(mapOf(entry("x", NUMBER))));
+        StructuralType hasAnXAndAY = new StructuralType(new Interface(mapOf(entry("x", NUMBER), entry("y", NUMBER))));
+        StructuralType hasAnX = new StructuralType(new Interface(mapOf(entry("x", NUMBER))));
 
         assertAssignable(checker, hasAnXAndAY, hasAnX);
     }
@@ -73,8 +74,8 @@ public class InterfaceTest
     {
         TypeEngine checker = new TypeEngine(TYPING_RULES, mapOf(entry(NUMBER_DEFINITION, NUMBER_IMPL)));
 
-        Type hasAnX = new Type(new Interface(mapOf(entry("x", NUMBER))));
-        Type hasAnXAndAY = new Type(new Interface(mapOf(entry("x", NUMBER), entry("y", NUMBER))));
+        StructuralType hasAnX = new StructuralType(new Interface(mapOf(entry("x", NUMBER))));
+        StructuralType hasAnXAndAY = new StructuralType(new Interface(mapOf(entry("x", NUMBER), entry("y", NUMBER))));
 
         assertNotAssignable(checker, hasAnX, hasAnXAndAY);
     }
@@ -88,8 +89,8 @@ public class InterfaceTest
         TypeDefinition stringToCat = new ConcreteTypeDefinition(stringToCatDefinition);
         TypeDefinition stringToMammal = new ConcreteTypeDefinition(stringToMammalDefinition);
 
-        Type stringToCatImpl = new Type(new FunctionType(asList(STRING), CAT));
-        Type stringToMammalImpl = new Type(new FunctionType(asList(STRING), MAMMAL));
+        StructuralType stringToCatImpl = new StructuralType(new FunctionType(asList(STRING), CAT));
+        StructuralType stringToMammalImpl = new StructuralType(new FunctionType(asList(STRING), MAMMAL));
 
         TypeEngine checker = new TypeEngine(TYPING_RULES, mapOf(
                 entry(STRING_DEFINITION, STRING_IMPL),
@@ -101,8 +102,8 @@ public class InterfaceTest
         // for clarity:
         assertAssignable(checker, stringToCatImpl, stringToMammalImpl);
 
-        Type foo1 = new Type(new Interface(mapOf(entry("foo", stringToCat))));
-        Type foo2 = new Type(new Interface(mapOf(entry("foo", stringToMammal))));
+        StructuralType foo1 = new StructuralType(new Interface(mapOf(entry("foo", stringToCat))));
+        StructuralType foo2 = new StructuralType(new Interface(mapOf(entry("foo", stringToMammal))));
 
         assertAssignable(checker, foo1, foo2);
     }
@@ -117,8 +118,8 @@ public class InterfaceTest
         TypeDefinition stringToCat = new ConcreteTypeDefinition(stringToCatDefinition);
         TypeDefinition stringToMammal = new ConcreteTypeDefinition(stringToMammalDefinition);
 
-        Type stringToCatImpl = new Type(new FunctionType(asList(STRING), CAT));
-        Type stringToMammalImpl = new Type(new FunctionType(asList(STRING), MAMMAL));
+        StructuralType stringToCatImpl = new StructuralType(new FunctionType(asList(STRING), CAT));
+        StructuralType stringToMammalImpl = new StructuralType(new FunctionType(asList(STRING), MAMMAL));
 
         TypeEngine checker = new TypeEngine(TYPING_RULES, mapOf(
                 entry(STRING_DEFINITION, STRING_IMPL),
@@ -133,8 +134,8 @@ public class InterfaceTest
         // checker will only report each type mismatch once, so clear it before trying again:
         checker.clear();
 
-        Type catMaker = new Type(new Interface(mapOf(entry("foo", stringToCat))));
-        Type mammalMaker = new Type(new Interface(mapOf(entry("foo", stringToMammal))));
+        StructuralType catMaker = new StructuralType(new Interface(mapOf(entry("foo", stringToCat))));
+        StructuralType mammalMaker = new StructuralType(new Interface(mapOf(entry("foo", stringToMammal))));
 
         assertNotAssignable(checker, mammalMaker, catMaker);
     }
@@ -153,9 +154,9 @@ public class InterfaceTest
 
         Interface iStringList = new Interface(mapOf(entry("onItem", handleNext), entry("onEnd", handleEnd)));
 
-        Type stringListImpl = new Type(iStringList);
-        Type handleNextImpl = new Type(new FunctionType(asList(STRING, stringList), STRING));
-        Type handleEndImpl = new Type(new FunctionType(emptyList(), STRING));
+        Type stringListImpl = new StructuralType(iStringList);
+        Type handleNextImpl = new StructuralType(new FunctionType(asList(STRING, stringList), STRING));
+        Type handleEndImpl = new StructuralType(new FunctionType(emptyList(), STRING));
 
         TypeEngine checker = new TypeEngine(TYPING_RULES, mapOf(
                 entry(STRING_DEFINITION, STRING_IMPL),
@@ -189,13 +190,13 @@ public class InterfaceTest
         Interface iStringList = new Interface(mapOf(entry("onItem", handleNextString), entry("onEnd", handleEndString)));
         Interface iNumberList = new Interface(mapOf(entry("onItem", handleNextNumber), entry("onEnd", handleEndNumber)));
 
-        Type stringListImpl = new Type(iStringList);
-        Type handleNextStringImpl = new Type(new FunctionType(asList(STRING, stringList), STRING));
-        Type handleEndStringImpl = new Type(new FunctionType(emptyList(), STRING));
+        Type stringListImpl = new StructuralType(iStringList);
+        Type handleNextStringImpl = new StructuralType(new FunctionType(asList(STRING, stringList), STRING));
+        Type handleEndStringImpl = new StructuralType(new FunctionType(emptyList(), STRING));
 
-        Type numberListImpl = new Type(iNumberList);
-        Type handleNextNumberImpl = new Type(new FunctionType(asList(NUMBER, stringList), STRING));
-        Type handleEndNumberImpl = new Type(new FunctionType(emptyList(), STRING));
+        Type numberListImpl = new StructuralType(iNumberList);
+        Type handleNextNumberImpl = new StructuralType(new FunctionType(asList(NUMBER, stringList), STRING));
+        Type handleEndNumberImpl = new StructuralType(new FunctionType(emptyList(), STRING));
 
         TypeEngine checker = new TypeEngine(TYPING_RULES, mapOf(
                 entry(STRING_DEFINITION, STRING_IMPL),
@@ -216,12 +217,12 @@ public class InterfaceTest
         assertThat(checker.canAssign(source, target), is(emptyStream()));
     }
 
-    private void assertAssignable(TypeEngine checker, Type source, Type target)
+    private void assertAssignable(TypeEngine checker, StructuralType source, StructuralType target)
     {
         assertThat(checker.canAssign(source, target), is(emptyStream()));
     }
 
-    private void assertNotAssignable(TypeEngine checker, Type source, Type target)
+    private void assertNotAssignable(TypeEngine checker, StructuralType source, StructuralType target)
     {
         assertThat(checker.canAssign(source, target), is(not(emptyStream())));
     }

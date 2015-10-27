@@ -9,8 +9,8 @@ import com.writeoncereadmany.minstrel.compile.ast.types.NamedType;
 import com.writeoncereadmany.minstrel.compile.names.Kind;
 import com.writeoncereadmany.minstrel.compile.names.NameResolver;
 import com.writeoncereadmany.minstrel.compile.names.ScopeIndex;
+import com.writeoncereadmany.minstrel.compile.types.StructuralType;
 import com.writeoncereadmany.minstrel.compile.types.Type;
-import com.writeoncereadmany.minstrel.compile.types.concerns.Concern;
 import com.writeoncereadmany.minstrel.compile.types.concerns.FunctionType;
 import com.writeoncereadmany.minstrel.compile.types.concerns.Implementation;
 import com.writeoncereadmany.minstrel.compile.types.concerns.Interface;
@@ -107,10 +107,10 @@ public class Builtins
         Interface string = new Interface(mapOf(entry("show", nothingToString),
                                                 entry("plus", stringToString)));
 
-        typeDefinitions.put(SHOWABLE_TYPE.scopeIndex(), new Type(showable));
-        typeDefinitions.put(NUMBER_TYPE.scopeIndex(), new Type(new Implementation(NUMBER_TYPE.scopeIndex()), number));
-        typeDefinitions.put(STRING_TYPE.scopeIndex(), new Type(new Implementation(STRING_TYPE.scopeIndex()), string));
-        typeDefinitions.put(SUCCESS_TYPE.scopeIndex(), new Type(new Implementation(SUCCESS_TYPE.scopeIndex()), showable));
+        typeDefinitions.put(SHOWABLE_TYPE.scopeIndex(), new StructuralType(showable));
+        typeDefinitions.put(NUMBER_TYPE.scopeIndex(), new StructuralType(new Implementation(NUMBER_TYPE.scopeIndex()), number));
+        typeDefinitions.put(STRING_TYPE.scopeIndex(), new StructuralType(new Implementation(STRING_TYPE.scopeIndex()), string));
+        typeDefinitions.put(SUCCESS_TYPE.scopeIndex(), new StructuralType(new Implementation(SUCCESS_TYPE.scopeIndex()), showable));
     }
 
     public static void defineTypesOfPreludeValues(Map<ScopeIndex, Typed> typesOfValues)

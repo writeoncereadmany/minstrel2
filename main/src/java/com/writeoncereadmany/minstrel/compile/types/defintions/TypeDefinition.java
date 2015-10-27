@@ -1,6 +1,7 @@
 package com.writeoncereadmany.minstrel.compile.types.defintions;
 
 
+import com.writeoncereadmany.minstrel.compile.types.StructuralType;
 import com.writeoncereadmany.minstrel.compile.types.Type;
 import com.writeoncereadmany.minstrel.compile.types.TypeEngine;
 

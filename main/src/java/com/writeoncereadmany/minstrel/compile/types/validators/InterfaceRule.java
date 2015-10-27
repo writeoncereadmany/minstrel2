@@ -1,6 +1,6 @@
 package com.writeoncereadmany.minstrel.compile.types.validators;
 
-import com.writeoncereadmany.minstrel.compile.types.Type;
+import com.writeoncereadmany.minstrel.compile.types.StructuralType;
 import com.writeoncereadmany.minstrel.compile.types.TypeEngine;
 import com.writeoncereadmany.minstrel.compile.types.TypeError;
 import com.writeoncereadmany.minstrel.compile.types.concerns.Interface;
@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 public class InterfaceRule implements TypingRule
 {
     @Override
-    public Stream<TypeError> isAssignableTo(Type source, Type target, TypeEngine engine)
+    public Stream<TypeError> isAssignableTo(StructuralType source, StructuralType target, TypeEngine engine)
     {
         Interface sourceInterface = source.getConcern(Interface.class);
         Interface targetInterface = target.getConcern(Interface.class);

@@ -1,7 +1,7 @@
 package com.writeoncereadmany.minstrel.compile.types.concerns;
 
 import com.writeoncereadmany.minstrel.compile.names.ScopeIndex;
-import com.writeoncereadmany.minstrel.compile.types.Type;
+import com.writeoncereadmany.minstrel.compile.types.StructuralType;
 import com.writeoncereadmany.minstrel.compile.types.TypeEngine;
 import com.writeoncereadmany.minstrel.compile.types.validators.ImplementationRule;
 import org.junit.Test;
@@ -24,8 +24,8 @@ public class ImplementationTest
     @Test
     public void aTypeWhichDoNotSpecifyImplementationIsASubtypeOfAnotherWhichDoesNotSpecifyImplementation()
     {
-        Type anything1 = new Type();
-        Type anything2 = new Type();
+        StructuralType anything1 = new StructuralType();
+        StructuralType anything2 = new StructuralType();
 
         assertAssignable(anything1, anything2);
     }
@@ -33,8 +33,8 @@ public class ImplementationTest
     @Test
     public void anImplementationIsASubtypeOfItself()
     {
-        Type aThing = new Type(new Implementation(NUMBER));
-        Type sameThing = new Type(new Implementation(NUMBER));
+        StructuralType aThing = new StructuralType(new Implementation(NUMBER));
+        StructuralType sameThing = new StructuralType(new Implementation(NUMBER));
 
         assertAssignable(aThing, sameThing);
     }
@@ -42,8 +42,8 @@ public class ImplementationTest
     @Test
     public void aTypeWhichSpecifiesImplementationsIsASubtypeOfATypeWhichDoesNotSpecifyImplementation()
     {
-        Type bool = new Type(new Implementation(TRUE, FALSE));
-        Type anything = new Type();
+        StructuralType bool = new StructuralType(new Implementation(TRUE, FALSE));
+        StructuralType anything = new StructuralType();
 
         assertAssignable(bool, anything);
     }
@@ -51,8 +51,8 @@ public class ImplementationTest
     @Test
     public void aTypeWhichDoesNotSpecifyImplementationIsNotASubtypeOfATypeWhichDoes()
     {
-        Type bool = new Type(new Implementation(TRUE, FALSE));
-        Type anything = new Type();
+        StructuralType bool = new StructuralType(new Implementation(TRUE, FALSE));
+        StructuralType anything = new StructuralType();
 
         assertNotAssignable(anything, bool);
     }
@@ -60,8 +60,8 @@ public class ImplementationTest
     @Test
     public void anImplementationIsNotASubtypeOfAnotherImplementation()
     {
-        Type aThing = new Type(new Implementation(NUMBER));
-        Type differentThing = new Type(new Implementation(STRING));
+        StructuralType aThing = new StructuralType(new Implementation(NUMBER));
+        StructuralType differentThing = new StructuralType(new Implementation(STRING));
 
         assertNotAssignable(aThing, differentThing);
     }
@@ -69,8 +69,8 @@ public class ImplementationTest
     @Test
     public void aTypeWhichSpecifiesASubsetOfAnothersImplementationsIsItsSubtype()
     {
-        Type bool = new Type(new Implementation(TRUE, FALSE));
-        Type truth = new Type(new Implementation(TRUE));
+        StructuralType bool = new StructuralType(new Implementation(TRUE, FALSE));
+        StructuralType truth = new StructuralType(new Implementation(TRUE));
 
         assertAssignable(truth, bool);
     }
@@ -78,18 +78,18 @@ public class ImplementationTest
     @Test
     public void aTypeIsNotASubtypeIfItHasImplementationsTheOtherDoesNot()
     {
-        Type bool = new Type(new Implementation(TRUE, FALSE));
-        Type truth = new Type(new Implementation(TRUE));
+        StructuralType bool = new StructuralType(new Implementation(TRUE, FALSE));
+        StructuralType truth = new StructuralType(new Implementation(TRUE));
 
         assertNotAssignable(bool, truth);
     }
 
-    private void assertNotAssignable(Type source, Type target)
+    private void assertNotAssignable(StructuralType source, StructuralType target)
     {
         assertThat(typeEngine.canAssign(source, target), is(not(emptyStream())));
     }
 
-    private void assertAssignable(Type source, Type target)
+    private void assertAssignable(StructuralType source, StructuralType target)
     {
         assertThat(typeEngine.canAssign(source, target), is(emptyStream()));
     }

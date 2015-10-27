@@ -1,6 +1,7 @@
 package com.writeoncereadmany.minstrel.compile.types.definitions;
 
 import com.writeoncereadmany.minstrel.compile.names.ScopeIndex;
+import com.writeoncereadmany.minstrel.compile.types.StructuralType;
 import com.writeoncereadmany.minstrel.compile.types.Type;
 import com.writeoncereadmany.minstrel.compile.types.TypeEngine;
 import com.writeoncereadmany.minstrel.compile.types.concerns.FunctionType;
@@ -36,8 +37,8 @@ public class CurriedFunctionTest
         final FunctionType numberToNumber = new FunctionType(asList(number), number);
         final FunctionType curriedNumbers = new FunctionType(asList(number), numberToNumber);
 
-        final Map<ScopeIndex, Type> namedTypes = mapOf(entry(NUMBER, new Type(new Implementation(NUMBER))),
-                                                       entry(functionTypeName, new Type(curriedNumbers)));
+        final Map<ScopeIndex, Type> namedTypes = mapOf(entry(NUMBER, new StructuralType(new Implementation(NUMBER))),
+                                                       entry(functionTypeName, new StructuralType(curriedNumbers)));
 
         TypeEngine checker = new TypeEngine(asList(new FunctionRules(), new ImplementationRule()),
                                               namedTypes
@@ -58,8 +59,8 @@ public class CurriedFunctionTest
         final ConcreteTypeDefinition number = new ConcreteTypeDefinition(NUMBER);
         final FunctionType numberToNumber = new FunctionType(asList(number), number);
 
-        final Map<ScopeIndex, Type> namedTypes = mapOf(entry(NUMBER, new Type(new Implementation(NUMBER))),
-                                                       entry(functionTypeName, new Type(numberToNumber)));
+        final Map<ScopeIndex, Type> namedTypes = mapOf(entry(NUMBER, new StructuralType(new Implementation(NUMBER))),
+                                                       entry(functionTypeName, new StructuralType(numberToNumber)));
 
         TypeEngine checker = new TypeEngine(asList(new FunctionRules(), new ImplementationRule()),
                                               namedTypes
@@ -79,8 +80,8 @@ public class CurriedFunctionTest
         final ConcreteTypeDefinition number = new ConcreteTypeDefinition(NUMBER);
         final FunctionType numberToNumber = new FunctionType(asList(number), number);
 
-        final Map<ScopeIndex, Type> namedTypes = mapOf(entry(NUMBER, new Type(new Implementation(NUMBER))),
-                                                       entry(recordTypeName, new Type(numberToNumber)));
+        final Map<ScopeIndex, Type> namedTypes = mapOf(entry(NUMBER, new StructuralType(new Implementation(NUMBER))),
+                                                       entry(recordTypeName, new StructuralType(numberToNumber)));
 
         TypeEngine checker = new TypeEngine(asList(new FunctionRules(), new ImplementationRule()),
                                               namedTypes

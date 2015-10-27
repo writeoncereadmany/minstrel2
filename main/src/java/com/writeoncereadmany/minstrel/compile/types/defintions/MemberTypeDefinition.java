@@ -1,5 +1,7 @@
 package com.writeoncereadmany.minstrel.compile.types.defintions;
 
+import com.writeoncereadmany.minstrel.compile.types.Nothing;
+import com.writeoncereadmany.minstrel.compile.types.StructuralType;
 import com.writeoncereadmany.minstrel.compile.types.Type;
 import com.writeoncereadmany.minstrel.compile.types.TypeEngine;
 import com.writeoncereadmany.minstrel.compile.types.concerns.Interface;
@@ -18,10 +20,18 @@ public class MemberTypeDefinition implements TypeDefinition {
     @Override
     public Type getType(TypeEngine checker)
     {
-        Interface accessedObject = object.getType(checker).getConcern(Interface.class);
+        Type type = object.getType(checker);
+        if(type instanceof Nothing)
+        {
+            return Nothing.INSTANCE;
+        }
+        else
+        {
+            Interface accessedObject = ((StructuralType)type).getConcern(Interface.class);
 
-        TypeDefinition memberType = accessedObject != null ? accessedObject.getMember(member) : new UndefinedType("No such member");
-        return memberType.getType(checker);
+            TypeDefinition memberType = accessedObject != null ? accessedObject.getMember(member) : new UndefinedType("No such member");
+            return memberType.getType(checker);
+        }
     }
 
     @Override

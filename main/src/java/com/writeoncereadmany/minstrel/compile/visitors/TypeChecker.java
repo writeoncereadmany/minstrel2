@@ -1,6 +1,7 @@
 package com.writeoncereadmany.minstrel.compile.visitors;
 
 import com.writeoncereadmany.minstrel.compile.ast.Program;
+import com.writeoncereadmany.minstrel.compile.ast.Typed;
 import com.writeoncereadmany.minstrel.compile.ast.expressions.*;
 import com.writeoncereadmany.minstrel.compile.ast.fragments.*;
 import com.writeoncereadmany.minstrel.compile.ast.statements.ExpressionStatement;
@@ -8,10 +9,12 @@ import com.writeoncereadmany.minstrel.compile.ast.statements.FunctionDeclaration
 import com.writeoncereadmany.minstrel.compile.ast.statements.VariableDeclaration;
 import com.writeoncereadmany.minstrel.compile.ast.types.FunctionTypeLiteral;
 import com.writeoncereadmany.minstrel.compile.ast.types.NamedType;
+import com.writeoncereadmany.minstrel.compile.types.StructuralType;
 import com.writeoncereadmany.minstrel.compile.types.Type;
 import com.writeoncereadmany.minstrel.compile.types.TypeEngine;
 import com.writeoncereadmany.minstrel.compile.types.TypeError;
 import com.writeoncereadmany.minstrel.compile.types.concerns.FunctionType;
+import com.writeoncereadmany.minstrel.compile.types.defintions.SpecialTypes;
 import com.writeoncereadmany.minstrel.compile.types.defintions.TypeDefinition;
 import com.writeoncereadmany.util.Pair;
 import com.writeoncereadmany.util.Zipper;
@@ -116,7 +119,7 @@ public class TypeChecker implements AstVisitor
         functionCall.args.expressions.forEach(this::visit);
 
         Type type = functionCall.function.type().getType(typeEngine);
-        FunctionType functionConcern = type.getConcern(FunctionType.class);
+        FunctionType functionConcern = ((StructuralType)type).getConcern(FunctionType.class);
 
         if(functionConcern == null)
         {
