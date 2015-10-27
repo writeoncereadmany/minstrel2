@@ -113,6 +113,8 @@ public class TypeChecker implements AstVisitor
     public void visitFunctionCall(FunctionCall functionCall)
     {
         visit(functionCall.function);
+        functionCall.args.expressions.forEach(this::visit);
+
         Type type = functionCall.function.type().getType(typeEngine);
         FunctionType functionConcern = type.getConcern(FunctionType.class);
 
@@ -123,8 +125,15 @@ public class TypeChecker implements AstVisitor
         }
 
         final List<TypeDefinition> argumentTypes = functionConcern.argumentTypes;
+        final List<Expression> arguments = functionCall.args.expressions;
 
-        List<Pair<TypeDefinition, Expression>> formalToProvidedTypes = Zipper.zip(argumentTypes, functionCall.args.expressions);
+        if(argumentTypes.size() != arguments.size())
+        {
+            typeErrors.add(new TypeError(String.format("Wrong number of arguments: expected %s, got %s", argumentTypes.size(), arguments.size())));
+            return;
+        }
+
+        List<Pair<TypeDefinition, Expression>> formalToProvidedTypes = Zipper.zip(argumentTypes, arguments);
         formalToProvidedTypes.forEach(pair -> {
             TypeDefinition requiredType = pair.left;
             TypeDefinition providedType = pair.right.type();
