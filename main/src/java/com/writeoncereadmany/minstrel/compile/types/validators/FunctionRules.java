@@ -1,7 +1,7 @@
 package com.writeoncereadmany.minstrel.compile.types.validators;
 
 import com.writeoncereadmany.minstrel.compile.types.Type;
-import com.writeoncereadmany.minstrel.compile.types.TypeChecker;
+import com.writeoncereadmany.minstrel.compile.types.TypeEngine;
 import com.writeoncereadmany.minstrel.compile.types.TypeError;
 import com.writeoncereadmany.minstrel.compile.types.concerns.FunctionType;
 import com.writeoncereadmany.minstrel.compile.types.defintions.TypeDefinition;
@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 public class FunctionRules implements TypingRule
 {
     @Override
-    public Stream<TypeError> isAssignableTo(Type source, Type target, TypeChecker checker)
+    public Stream<TypeError> isAssignableTo(Type source, Type target, TypeEngine checker)
     {
         FunctionType sourceType = source.getConcern(FunctionType.class);
         FunctionType targetType = target.getConcern(FunctionType.class);
@@ -39,14 +39,14 @@ public class FunctionRules implements TypingRule
                              getReturnTypeMismatches(sourceType, targetType, checker));
     }
 
-    private Stream<TypeError> getReturnTypeMismatches(FunctionType sourceType, FunctionType targetType, TypeChecker checker)
+    private Stream<TypeError> getReturnTypeMismatches(FunctionType sourceType, FunctionType targetType, TypeEngine checker)
     {
         TypeDefinition sourceReturnType = sourceType.returnType;
         TypeDefinition targetReturnType = targetType.returnType;
         return checker.canAssign(sourceReturnType, targetReturnType);
     }
 
-    private Stream<TypeError> getArgumentTypeMismatches(FunctionType sourceType, FunctionType targetType, TypeChecker checker)
+    private Stream<TypeError> getArgumentTypeMismatches(FunctionType sourceType, FunctionType targetType, TypeEngine checker)
     {
         return IntStream.range(0, targetType.argumentTypes.size())
                         .boxed()

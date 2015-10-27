@@ -2,7 +2,7 @@ package com.writeoncereadmany.minstrel.compile.types.definitions;
 
 import com.writeoncereadmany.minstrel.compile.names.ScopeIndex;
 import com.writeoncereadmany.minstrel.compile.types.Type;
-import com.writeoncereadmany.minstrel.compile.types.TypeChecker;
+import com.writeoncereadmany.minstrel.compile.types.TypeEngine;
 import com.writeoncereadmany.minstrel.compile.types.concerns.FunctionType;
 import com.writeoncereadmany.minstrel.compile.types.concerns.Implementation;
 import com.writeoncereadmany.minstrel.compile.types.defintions.ConcreteTypeDefinition;
@@ -40,7 +40,7 @@ public class CurriedFunctionTest
         final Map<ScopeIndex, Type> namedTypes = mapOf(entry(NUMBER, new Type(new Implementation(NUMBER))),
                                                        entry(functionTypeName, new Type(curriedNumbers)));
 
-        TypeChecker checker = new TypeChecker(asList(new FunctionRules(), new ImplementationRule()),
+        TypeEngine checker = new TypeEngine(asList(new FunctionRules(), new ImplementationRule()),
                                               namedTypes,
                                               emptyMap());
 
@@ -62,7 +62,7 @@ public class CurriedFunctionTest
         final Map<ScopeIndex, Type> namedTypes = mapOf(entry(NUMBER, new Type(new Implementation(NUMBER))),
                                                        entry(functionTypeName, new Type(numberToNumber)));
 
-        TypeChecker checker = new TypeChecker(asList(new FunctionRules(), new ImplementationRule()),
+        TypeEngine checker = new TypeEngine(asList(new FunctionRules(), new ImplementationRule()),
                                               namedTypes,
                                               emptyMap());
 
@@ -83,7 +83,7 @@ public class CurriedFunctionTest
         final Map<ScopeIndex, Type> namedTypes = mapOf(entry(NUMBER, new Type(new Implementation(NUMBER))),
                                                        entry(recordTypeName, new Type(numberToNumber)));
 
-        TypeChecker checker = new TypeChecker(asList(new FunctionRules(), new ImplementationRule()),
+        TypeEngine checker = new TypeEngine(asList(new FunctionRules(), new ImplementationRule()),
                                               namedTypes,
                                               emptyMap());
 

@@ -1,7 +1,7 @@
 package com.writeoncereadmany.minstrel.compile.types.concerns;
 
 import com.writeoncereadmany.minstrel.compile.types.Type;
-import com.writeoncereadmany.minstrel.compile.types.TypeChecker;
+import com.writeoncereadmany.minstrel.compile.types.TypeEngine;
 import com.writeoncereadmany.minstrel.compile.types.defintions.TypeDefinition;
 import com.writeoncereadmany.minstrel.compile.types.defintions.UndefinedType;
 
@@ -21,7 +21,7 @@ public class FunctionType implements Concern, TypeDefinition
     }
 
     @Override
-    public Type getType(TypeChecker engine)
+    public Type getType(TypeEngine engine)
     {
         return new Type(this);
     }

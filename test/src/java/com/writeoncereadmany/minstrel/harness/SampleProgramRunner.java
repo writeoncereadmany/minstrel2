@@ -1,6 +1,7 @@
 package com.writeoncereadmany.minstrel.harness;
 
 import com.writeoncereadmany.minstrel.compile.ast.Program;
+import com.writeoncereadmany.minstrel.compile.ast.Typed;
 import com.writeoncereadmany.minstrel.compile.names.NameResolver;
 import com.writeoncereadmany.minstrel.compile.names.ScopeIndex;
 import com.writeoncereadmany.minstrel.compile.types.Type;
@@ -107,8 +108,9 @@ public class SampleProgramRunner
             NameResolver nameResolver = new NameResolver();
             Builtins.defineBuiltins(nameResolver);
 
-            program.visit(new DefineNames(nameResolver));
-            program.visit(new ResolveNames(nameResolver));
+            Map<ScopeIndex, Typed> types = new HashMap<>();
+            program.visit(new DefineNames(nameResolver, types));
+            program.visit(new ResolveNames(nameResolver, types));
 
             if(hasExpectedNameErrors(file, errorCollector, nameResolver))
             {

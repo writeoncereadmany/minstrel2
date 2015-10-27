@@ -1,7 +1,7 @@
 package com.writeoncereadmany.minstrel.compile.types.defintions;
 
 import com.writeoncereadmany.minstrel.compile.types.Type;
-import com.writeoncereadmany.minstrel.compile.types.TypeChecker;
+import com.writeoncereadmany.minstrel.compile.types.TypeEngine;
 import com.writeoncereadmany.minstrel.compile.types.concerns.Interface;
 
 public class MemberTypeDefinition implements TypeDefinition {
@@ -16,7 +16,7 @@ public class MemberTypeDefinition implements TypeDefinition {
     }
 
     @Override
-    public Type getType(TypeChecker checker)
+    public Type getType(TypeEngine checker)
     {
         Interface accessedObject = object.getType(checker).getConcern(Interface.class);
 

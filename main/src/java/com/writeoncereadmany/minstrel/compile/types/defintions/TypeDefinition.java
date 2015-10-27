@@ -2,11 +2,11 @@ package com.writeoncereadmany.minstrel.compile.types.defintions;
 
 
 import com.writeoncereadmany.minstrel.compile.types.Type;
-import com.writeoncereadmany.minstrel.compile.types.TypeChecker;
+import com.writeoncereadmany.minstrel.compile.types.TypeEngine;
 
 public interface TypeDefinition
 {
-    Type getType(TypeChecker checker);
+    Type getType(TypeEngine checker);
 
     TypeDefinition returnType();
 

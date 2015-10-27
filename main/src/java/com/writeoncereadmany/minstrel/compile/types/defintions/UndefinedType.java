@@ -1,7 +1,7 @@
 package com.writeoncereadmany.minstrel.compile.types.defintions;
 
 import com.writeoncereadmany.minstrel.compile.types.Type;
-import com.writeoncereadmany.minstrel.compile.types.TypeChecker;
+import com.writeoncereadmany.minstrel.compile.types.TypeEngine;
 import com.writeoncereadmany.minstrel.compile.types.concerns.IncoherentType;
 
 public class UndefinedType implements TypeDefinition
@@ -14,7 +14,7 @@ public class UndefinedType implements TypeDefinition
     }
 
     @Override
-    public Type getType(TypeChecker checker)
+    public Type getType(TypeEngine checker)
     {
         return new Type(new IncoherentType(reason));
     }

@@ -1,6 +1,7 @@
 package com.writeoncereadmany.minstrel.compile.visitors;
 
 import com.writeoncereadmany.minstrel.compile.ast.Program;
+import com.writeoncereadmany.minstrel.compile.ast.Typed;
 import com.writeoncereadmany.minstrel.compile.ast.expressions.Expression;
 import com.writeoncereadmany.minstrel.compile.ast.expressions.FunctionCall;
 import com.writeoncereadmany.minstrel.compile.ast.expressions.FunctionExpression;
@@ -13,16 +14,20 @@ import com.writeoncereadmany.minstrel.compile.ast.statements.VariableDeclaration
 import com.writeoncereadmany.minstrel.compile.ast.types.TypeExpression;
 import com.writeoncereadmany.minstrel.compile.names.Kind;
 import com.writeoncereadmany.minstrel.compile.names.NameResolver;
+import com.writeoncereadmany.minstrel.compile.names.ScopeIndex;
 
 import java.util.List;
+import java.util.Map;
 
 public class DefineNames extends NoOpVisitor
 {
     private final NameResolver nameResolver;
+    private final Map<ScopeIndex, Typed> typeResolver;
 
-    public DefineNames(NameResolver nameResolver)
+    public DefineNames(NameResolver nameResolver, Map<ScopeIndex, Typed> typeResolver)
     {
         this.nameResolver = nameResolver;
+        this.typeResolver = typeResolver;
     }
 
     @Override
@@ -35,6 +40,7 @@ public class DefineNames extends NoOpVisitor
     public void visitVariableDeclaration(VariableDeclaration declaration)
     {
         nameResolver.define(declaration.name, Kind.VALUE);
+        typeResolver.put(declaration.name.scopeIndex(), declaration.type);
         declaration.expression.visit(this);
     }
 
@@ -42,6 +48,7 @@ public class DefineNames extends NoOpVisitor
     public void visitFunctionDeclaration(FunctionDeclaration declaration)
     {
         nameResolver.define(declaration.name, Kind.VALUE);
+        typeResolver.put(declaration.name.scopeIndex(), declaration.function);
         declaration.function.visit(this);
     }
 
@@ -61,6 +68,7 @@ public class DefineNames extends NoOpVisitor
     public void visitParameter(Parameter parameter)
     {
         nameResolver.define(parameter.name, Kind.VALUE);
+        typeResolver.put(parameter.name.scopeIndex(), parameter.type);
     }
 
     @Override

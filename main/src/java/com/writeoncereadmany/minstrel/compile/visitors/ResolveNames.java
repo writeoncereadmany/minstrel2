@@ -2,6 +2,7 @@ package com.writeoncereadmany.minstrel.compile.visitors;
 
 import com.writeoncereadmany.minstrel.compile.ast.AstNode;
 import com.writeoncereadmany.minstrel.compile.ast.Program;
+import com.writeoncereadmany.minstrel.compile.ast.Typed;
 import com.writeoncereadmany.minstrel.compile.ast.expressions.*;
 import com.writeoncereadmany.minstrel.compile.ast.fragments.*;
 import com.writeoncereadmany.minstrel.compile.ast.statements.ExpressionStatement;
@@ -10,15 +11,20 @@ import com.writeoncereadmany.minstrel.compile.ast.statements.VariableDeclaration
 import com.writeoncereadmany.minstrel.compile.ast.types.NamedType;
 import com.writeoncereadmany.minstrel.compile.names.Kind;
 import com.writeoncereadmany.minstrel.compile.names.NameResolver;
+import com.writeoncereadmany.minstrel.compile.names.ScopeIndex;
+
+import java.util.Map;
 
 public class ResolveNames extends NoOpVisitor
 {
     private final NameResolver nameResolver;
+    private final Map<ScopeIndex, Typed> typeResolver;
     private int currentScope;
 
-    public ResolveNames(NameResolver nameResolver)
+    public ResolveNames(NameResolver nameResolver, Map<ScopeIndex, Typed> typeResolver)
     {
         this.nameResolver = nameResolver;
+        this.typeResolver = typeResolver;
     }
 
     @Override
@@ -77,6 +83,8 @@ public class ResolveNames extends NoOpVisitor
     public void visitVariable(Variable variable)
     {
         nameResolver.resolve(variable.name, Kind.VALUE);
+        variable.setType(typeResolver.computeIfAbsent(variable.name.scopeIndex(),
+                                                      x -> {throw new IllegalStateException("");}));
     }
 
     @Override

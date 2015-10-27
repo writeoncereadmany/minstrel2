@@ -2,14 +2,13 @@ package com.writeoncereadmany.minstrel.compile.types.concerns;
 
 import com.writeoncereadmany.minstrel.compile.names.ScopeIndex;
 import com.writeoncereadmany.minstrel.compile.types.Type;
-import com.writeoncereadmany.minstrel.compile.types.TypeChecker;
+import com.writeoncereadmany.minstrel.compile.types.TypeEngine;
 import com.writeoncereadmany.minstrel.compile.types.defintions.TypeDefinition;
 import com.writeoncereadmany.minstrel.compile.types.defintions.ConcreteTypeDefinition;
 import com.writeoncereadmany.minstrel.compile.types.validators.FunctionRules;
 import com.writeoncereadmany.minstrel.compile.types.validators.ImplementationRule;
 import org.junit.Test;
 
-import java.util.Collections;
 import java.util.Map;
 
 import static com.writeoncereadmany.minstrel.compile.types.concerns.EmptyStreamMatcher.emptyStream;
@@ -40,7 +39,7 @@ public class FunctionTypeTest
     private final TypeDefinition MAMMAL = new ConcreteTypeDefinition(MAMMAL_DEF);
     private final TypeDefinition CAT = new ConcreteTypeDefinition(CAT_DEF);
 
-    private final TypeChecker typeChecker = new TypeChecker(asList(new ImplementationRule(), new FunctionRules()), definitions, emptyMap());
+    private final TypeEngine typeEngine = new TypeEngine(asList(new ImplementationRule(), new FunctionRules()), definitions, emptyMap());
 
 
     @Test
@@ -111,12 +110,12 @@ public class FunctionTypeTest
 
     private void assertAssignable(Type source, Type target)
     {
-        assertThat(typeChecker.canAssign(source, target), is(emptyStream()));
+        assertThat(typeEngine.canAssign(source, target), is(emptyStream()));
     }
 
     private void assertNotAssignable(Type source, Type target)
     {
-        assertThat(typeChecker.canAssign(source, target), is(not(emptyStream())));
+        assertThat(typeEngine.canAssign(source, target), is(not(emptyStream())));
     }
 
 }

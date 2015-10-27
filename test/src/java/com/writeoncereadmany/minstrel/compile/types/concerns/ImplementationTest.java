@@ -2,11 +2,9 @@ package com.writeoncereadmany.minstrel.compile.types.concerns;
 
 import com.writeoncereadmany.minstrel.compile.names.ScopeIndex;
 import com.writeoncereadmany.minstrel.compile.types.Type;
-import com.writeoncereadmany.minstrel.compile.types.TypeChecker;
+import com.writeoncereadmany.minstrel.compile.types.TypeEngine;
 import com.writeoncereadmany.minstrel.compile.types.validators.ImplementationRule;
 import org.junit.Test;
-
-import java.util.Collections;
 
 import static com.writeoncereadmany.minstrel.compile.types.concerns.EmptyStreamMatcher.emptyStream;
 import static java.util.Collections.emptyMap;
@@ -21,7 +19,7 @@ public class ImplementationTest
     public static final ScopeIndex TRUE = new ScopeIndex(2, 4);
     public static final ScopeIndex FALSE = new ScopeIndex(2, 5);
 
-    private final TypeChecker typeChecker = new TypeChecker(singletonList(new ImplementationRule()), emptyMap(), emptyMap());
+    private final TypeEngine typeEngine = new TypeEngine(singletonList(new ImplementationRule()), emptyMap(), emptyMap());
 
     @Test
     public void aTypeWhichDoNotSpecifyImplementationIsASubtypeOfAnotherWhichDoesNotSpecifyImplementation()
@@ -88,12 +86,12 @@ public class ImplementationTest
 
     private void assertNotAssignable(Type source, Type target)
     {
-        assertThat(typeChecker.canAssign(source, target), is(not(emptyStream())));
+        assertThat(typeEngine.canAssign(source, target), is(not(emptyStream())));
     }
 
     private void assertAssignable(Type source, Type target)
     {
-        assertThat(typeChecker.canAssign(source, target), is(emptyStream()));
+        assertThat(typeEngine.canAssign(source, target), is(emptyStream()));
     }
 
 }

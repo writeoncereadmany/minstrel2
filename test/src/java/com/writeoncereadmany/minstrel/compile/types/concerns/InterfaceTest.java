@@ -2,7 +2,7 @@ package com.writeoncereadmany.minstrel.compile.types.concerns;
 
 import com.writeoncereadmany.minstrel.compile.names.ScopeIndex;
 import com.writeoncereadmany.minstrel.compile.types.Type;
-import com.writeoncereadmany.minstrel.compile.types.TypeChecker;
+import com.writeoncereadmany.minstrel.compile.types.TypeEngine;
 import com.writeoncereadmany.minstrel.compile.types.defintions.ConcreteTypeDefinition;
 import com.writeoncereadmany.minstrel.compile.types.defintions.TypeDefinition;
 import com.writeoncereadmany.minstrel.compile.types.validators.FunctionRules;
@@ -11,7 +11,6 @@ import com.writeoncereadmany.minstrel.compile.types.validators.InterfaceRule;
 import com.writeoncereadmany.minstrel.compile.types.validators.TypingRule;
 import org.junit.Test;
 
-import java.util.Collections;
 import java.util.List;
 
 import static com.writeoncereadmany.minstrel.compile.types.concerns.EmptyStreamMatcher.emptyStream;
@@ -51,7 +50,7 @@ public class InterfaceTest
     @Test
     public void anInterfaceIsAssignableToItself()
     {
-        TypeChecker checker = new TypeChecker(TYPING_RULES, mapOf(entry(NUMBER_DEFINITION, NUMBER_IMPL)), emptyMap());
+        TypeEngine checker = new TypeEngine(TYPING_RULES, mapOf(entry(NUMBER_DEFINITION, NUMBER_IMPL)), emptyMap());
 
         Type point2d = new Type(new Interface(mapOf(entry("x", NUMBER), entry("y", NUMBER))));
         Type vector2d = new Type(new Interface(mapOf(entry("x", NUMBER), entry("y", NUMBER))));
@@ -62,7 +61,7 @@ public class InterfaceTest
     @Test
     public void anInterfaceIsAssignableToATypeWhichProvidesASubsetOfOperations()
     {
-        TypeChecker checker = new TypeChecker(TYPING_RULES, mapOf(entry(NUMBER_DEFINITION, NUMBER_IMPL)), emptyMap());
+        TypeEngine checker = new TypeEngine(TYPING_RULES, mapOf(entry(NUMBER_DEFINITION, NUMBER_IMPL)), emptyMap());
 
         Type hasAnXAndAY = new Type(new Interface(mapOf(entry("x", NUMBER), entry("y", NUMBER))));
         Type hasAnX = new Type(new Interface(mapOf(entry("x", NUMBER))));
@@ -73,7 +72,7 @@ public class InterfaceTest
     @Test
     public void anInterfaceIsNotAssignableToATypeWhichProvidesMoreOperations()
     {
-        TypeChecker checker = new TypeChecker(TYPING_RULES, mapOf(entry(NUMBER_DEFINITION, NUMBER_IMPL)), emptyMap());
+        TypeEngine checker = new TypeEngine(TYPING_RULES, mapOf(entry(NUMBER_DEFINITION, NUMBER_IMPL)), emptyMap());
 
         Type hasAnX = new Type(new Interface(mapOf(entry("x", NUMBER))));
         Type hasAnXAndAY = new Type(new Interface(mapOf(entry("x", NUMBER), entry("y", NUMBER))));
@@ -93,7 +92,7 @@ public class InterfaceTest
         Type stringToCatImpl = new Type(new FunctionType(asList(STRING), CAT));
         Type stringToMammalImpl = new Type(new FunctionType(asList(STRING), MAMMAL));
 
-        TypeChecker checker = new TypeChecker(TYPING_RULES, mapOf(
+        TypeEngine checker = new TypeEngine(TYPING_RULES, mapOf(
                 entry(STRING_DEFINITION, STRING_IMPL),
                 entry(CAT_DEFINITION, CAT_IMPL),
                 entry(MAMMAL_DEFINITION, MAMMAL_IMPL),
@@ -122,7 +121,7 @@ public class InterfaceTest
         Type stringToCatImpl = new Type(new FunctionType(asList(STRING), CAT));
         Type stringToMammalImpl = new Type(new FunctionType(asList(STRING), MAMMAL));
 
-        TypeChecker checker = new TypeChecker(TYPING_RULES, mapOf(
+        TypeEngine checker = new TypeEngine(TYPING_RULES, mapOf(
                 entry(STRING_DEFINITION, STRING_IMPL),
                 entry(CAT_DEFINITION, CAT_IMPL),
                 entry(MAMMAL_DEFINITION, MAMMAL_IMPL),
@@ -159,7 +158,7 @@ public class InterfaceTest
         Type handleNextImpl = new Type(new FunctionType(asList(STRING, stringList), STRING));
         Type handleEndImpl = new Type(new FunctionType(emptyList(), STRING));
 
-        TypeChecker checker = new TypeChecker(TYPING_RULES, mapOf(
+        TypeEngine checker = new TypeEngine(TYPING_RULES, mapOf(
                 entry(STRING_DEFINITION, STRING_IMPL),
                 entry(stringListDefinition, stringListImpl),
                 entry(handleNextDefn, handleNextImpl),
@@ -199,7 +198,7 @@ public class InterfaceTest
         Type handleNextNumberImpl = new Type(new FunctionType(asList(NUMBER, stringList), STRING));
         Type handleEndNumberImpl = new Type(new FunctionType(emptyList(), STRING));
 
-        TypeChecker checker = new TypeChecker(TYPING_RULES, mapOf(
+        TypeEngine checker = new TypeEngine(TYPING_RULES, mapOf(
                 entry(STRING_DEFINITION, STRING_IMPL),
                 entry(NUMBER_DEFINITION, NUMBER_IMPL),
                 entry(stringListDefinition, stringListImpl),
@@ -213,22 +212,22 @@ public class InterfaceTest
         assertNotAssignable(checker, stringList, numberList);
     }
 
-    private void assertAssignable(TypeChecker checker, TypeDefinition source, TypeDefinition target)
+    private void assertAssignable(TypeEngine checker, TypeDefinition source, TypeDefinition target)
     {
         assertThat(checker.canAssign(source, target), is(emptyStream()));
     }
 
-    private void assertAssignable(TypeChecker checker, Type source, Type target)
+    private void assertAssignable(TypeEngine checker, Type source, Type target)
     {
         assertThat(checker.canAssign(source, target), is(emptyStream()));
     }
 
-    private void assertNotAssignable(TypeChecker checker, Type source, Type target)
+    private void assertNotAssignable(TypeEngine checker, Type source, Type target)
     {
         assertThat(checker.canAssign(source, target), is(not(emptyStream())));
     }
 
-    private void assertNotAssignable(TypeChecker checker, TypeDefinition source, TypeDefinition target)
+    private void assertNotAssignable(TypeEngine checker, TypeDefinition source, TypeDefinition target)
     {
         assertThat(checker.canAssign(source, target), is(not(emptyStream())));
     }

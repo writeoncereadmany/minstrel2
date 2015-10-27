@@ -1,12 +1,10 @@
 package com.writeoncereadmany.minstrel.compile.types.concerns;
 
-import com.writeoncereadmany.minstrel.compile.ast.Typed;
 import com.writeoncereadmany.minstrel.compile.types.Type;
-import com.writeoncereadmany.minstrel.compile.types.TypeChecker;
+import com.writeoncereadmany.minstrel.compile.types.TypeEngine;
 import com.writeoncereadmany.minstrel.compile.types.defintions.TypeDefinition;
 import com.writeoncereadmany.minstrel.compile.types.defintions.UndefinedType;
 
-import java.math.RoundingMode;
 import java.util.Collections;
 import java.util.Map;
 
@@ -20,7 +18,7 @@ public class Interface implements Concern, TypeDefinition
     }
 
     @Override
-    public Type getType(TypeChecker checker)
+    public Type getType(TypeEngine checker)
     {
         return new Type(this);
     }
