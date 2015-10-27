@@ -1,2 +1,2 @@
-function printString[String a] -> print[a];
-printString["Hello"];
+function printNum[Number a] -> print[a];
+printNum[42];
