@@ -9,14 +9,11 @@ import com.writeoncereadmany.minstrel.compile.ast.statements.FunctionDeclaration
 import com.writeoncereadmany.minstrel.compile.ast.statements.VariableDeclaration;
 import com.writeoncereadmany.minstrel.compile.ast.types.FunctionTypeLiteral;
 import com.writeoncereadmany.minstrel.compile.ast.types.NamedType;
-import com.writeoncereadmany.minstrel.compile.types.Type;
 import com.writeoncereadmany.minstrel.compile.types.TypeEngine;
 import com.writeoncereadmany.minstrel.compile.types.TypeError;
 import com.writeoncereadmany.minstrel.compile.types.concerns.FunctionType;
 import com.writeoncereadmany.minstrel.compile.types.defintions.SpecialTypes;
 import com.writeoncereadmany.minstrel.compile.types.defintions.TypeDefinition;
-import com.writeoncereadmany.util.Pair;
-import com.writeoncereadmany.util.Zipper;
 
 import java.util.ArrayList;
 import java.util.List;

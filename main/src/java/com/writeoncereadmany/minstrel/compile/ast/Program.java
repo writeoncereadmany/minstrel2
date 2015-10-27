@@ -3,7 +3,6 @@ package com.writeoncereadmany.minstrel.compile.ast;
 import com.writeoncereadmany.minstrel.compile.ast.statements.Statement;
 import com.writeoncereadmany.minstrel.compile.visitors.AstVisitor;
 
-import java.util.Collections;
 import java.util.List;
 
 import static java.util.Collections.unmodifiableList;

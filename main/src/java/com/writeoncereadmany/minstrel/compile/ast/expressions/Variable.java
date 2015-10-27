@@ -3,7 +3,6 @@ package com.writeoncereadmany.minstrel.compile.ast.expressions;
 import com.writeoncereadmany.minstrel.compile.ast.Typed;
 import com.writeoncereadmany.minstrel.compile.ast.fragments.Terminal;
 import com.writeoncereadmany.minstrel.compile.types.defintions.TypeDefinition;
-import com.writeoncereadmany.minstrel.compile.types.defintions.UndefinedType;
 import com.writeoncereadmany.minstrel.compile.visitors.AstVisitor;
 import com.writeoncereadmany.util.Hope;
 

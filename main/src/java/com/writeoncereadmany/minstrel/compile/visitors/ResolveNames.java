@@ -1,9 +1,11 @@
 package com.writeoncereadmany.minstrel.compile.visitors;
 
-import com.writeoncereadmany.minstrel.compile.ast.AstNode;
 import com.writeoncereadmany.minstrel.compile.ast.Program;
 import com.writeoncereadmany.minstrel.compile.ast.Typed;
-import com.writeoncereadmany.minstrel.compile.ast.expressions.*;
+import com.writeoncereadmany.minstrel.compile.ast.expressions.FunctionCall;
+import com.writeoncereadmany.minstrel.compile.ast.expressions.FunctionExpression;
+import com.writeoncereadmany.minstrel.compile.ast.expressions.MemberAccess;
+import com.writeoncereadmany.minstrel.compile.ast.expressions.Variable;
 import com.writeoncereadmany.minstrel.compile.ast.fragments.*;
 import com.writeoncereadmany.minstrel.compile.ast.statements.ExpressionStatement;
 import com.writeoncereadmany.minstrel.compile.ast.statements.FunctionDeclaration;

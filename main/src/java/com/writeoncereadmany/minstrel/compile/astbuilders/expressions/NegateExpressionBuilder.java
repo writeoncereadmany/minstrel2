@@ -1,17 +1,14 @@
 package com.writeoncereadmany.minstrel.compile.astbuilders.expressions;
 
-import com.writeoncereadmany.minstrel.builtins.Builtins;
 import com.writeoncereadmany.minstrel.compile.ast.AstNode;
 import com.writeoncereadmany.minstrel.compile.ast.expressions.Expression;
 import com.writeoncereadmany.minstrel.compile.ast.expressions.FunctionCall;
 import com.writeoncereadmany.minstrel.compile.ast.expressions.MemberAccess;
-import com.writeoncereadmany.minstrel.compile.ast.expressions.Variable;
 import com.writeoncereadmany.minstrel.compile.ast.fragments.ArgumentList;
 import com.writeoncereadmany.minstrel.compile.ast.fragments.Terminal;
 import com.writeoncereadmany.minstrel.compile.astbuilders.AstNodeBuilder;
 
 import static java.util.Collections.emptyList;
-import static java.util.Collections.singletonList;
 
 public class NegateExpressionBuilder implements AstNodeBuilder<Expression>
 {

@@ -2,7 +2,6 @@ package com.writeoncereadmany.minstrel.compile.ast.expressions;
 
 import com.writeoncereadmany.minstrel.compile.ast.Typed;
 import com.writeoncereadmany.minstrel.compile.ast.fragments.Body;
-import com.writeoncereadmany.minstrel.compile.ast.fragments.Parameter;
 import com.writeoncereadmany.minstrel.compile.ast.fragments.ParameterList;
 import com.writeoncereadmany.minstrel.compile.types.concerns.FunctionType;
 import com.writeoncereadmany.minstrel.compile.types.defintions.TypeDefinition;

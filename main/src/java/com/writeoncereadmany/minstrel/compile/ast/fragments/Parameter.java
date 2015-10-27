@@ -2,7 +2,6 @@ package com.writeoncereadmany.minstrel.compile.ast.fragments;
 
 import com.writeoncereadmany.minstrel.compile.ast.AstNode;
 import com.writeoncereadmany.minstrel.compile.ast.types.TypeExpression;
-import com.writeoncereadmany.minstrel.compile.names.ScopeIndex;
 import com.writeoncereadmany.minstrel.compile.visitors.AstVisitor;
 
 public class Parameter implements AstNode
