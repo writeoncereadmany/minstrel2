@@ -86,8 +86,9 @@ public class Builtins
         defineSingleImplementationType(typeDefinitions, SUCCESS_TYPE);
     }
 
-    private static Type defineSingleImplementationType(Map<ScopeIndex, Type> typeDefinitions, Terminal type) {
-        return typeDefinitions.put(type.scopeIndex(), new Type(new Implementation(NUMBER_TYPE.scopeIndex())));
+    private static Type defineSingleImplementationType(Map<ScopeIndex, Type> typeDefinitions, Terminal type)
+    {
+        return typeDefinitions.put(type.scopeIndex(), new Type(new Implementation(type.scopeIndex())));
     }
 
     public static void defineTypesOfPreludeValues(Map<ScopeIndex, Typed> typesOfValues)

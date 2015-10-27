@@ -1,0 +1,2 @@
+function printString[String a] -> print[a];
+printString["Hello"];
