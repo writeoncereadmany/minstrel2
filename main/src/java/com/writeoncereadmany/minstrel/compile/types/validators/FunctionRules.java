@@ -17,7 +17,7 @@ public class FunctionRules implements TypingRule
         FunctionType sourceType = source.getConcern(FunctionType.class);
         FunctionType targetType = target.getConcern(FunctionType.class);
 
-        // if we're not asserting the target's a type, we don't care about the source
+        // if we're not asserting the target's a function, we don't care about the source
         if(targetType == null)
         {
             return Stream.empty();
