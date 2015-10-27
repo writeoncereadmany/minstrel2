@@ -16,7 +16,7 @@ public class TypeEngine
     private final Map<ScopeIndex, Type> typeDefinitions;
     private final Multimap<TypeDefinition, TypeDefinition> alreadyVisitedDefinitions = new Multimap<>();
 
-    public TypeEngine(List<TypingRule> rules, Map<ScopeIndex, Type> typeDefinitions, Map<ScopeIndex, TypeDefinition> valueTypes)
+    public TypeEngine(List<TypingRule> rules, Map<ScopeIndex, Type> typeDefinitions)
     {
         this.rules = rules;
         this.typeDefinitions = typeDefinitions;
@@ -24,7 +24,9 @@ public class TypeEngine
 
     public Type lookupNamedType(ScopeIndex index)
     {
-        return typeDefinitions.computeIfAbsent(index, s -> { throw new IllegalArgumentException("Scope index " + s + " not defined"); });
+        return typeDefinitions.computeIfAbsent(index, s -> {
+            throw new IllegalArgumentException("Scope index " + s + " not defined");
+        });
     }
 
     public Stream<TypeError> canAssign(Type sourceType, Type targetType)

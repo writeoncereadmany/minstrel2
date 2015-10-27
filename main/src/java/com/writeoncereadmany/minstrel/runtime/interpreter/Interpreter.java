@@ -105,11 +105,6 @@ public class Interpreter extends UnsupportedVisitor
         store(new CustomFunction(currentEnvironment(), function));
     }
     
-    private void visit(AstNode node)
-    {
-        node.visit(this);
-    }
-
     public void store(Value item)
     {
         evaluationStack.push(item);

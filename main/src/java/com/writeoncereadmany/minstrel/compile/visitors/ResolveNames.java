@@ -8,6 +8,8 @@ import com.writeoncereadmany.minstrel.compile.ast.fragments.*;
 import com.writeoncereadmany.minstrel.compile.ast.statements.ExpressionStatement;
 import com.writeoncereadmany.minstrel.compile.ast.statements.FunctionDeclaration;
 import com.writeoncereadmany.minstrel.compile.ast.statements.VariableDeclaration;
+import com.writeoncereadmany.minstrel.compile.ast.types.FunctionTypeLiteral;
+import com.writeoncereadmany.minstrel.compile.ast.types.IndeterminateType;
 import com.writeoncereadmany.minstrel.compile.ast.types.NamedType;
 import com.writeoncereadmany.minstrel.compile.names.Kind;
 import com.writeoncereadmany.minstrel.compile.names.NameResolver;
@@ -84,7 +86,7 @@ public class ResolveNames extends NoOpVisitor
     {
         nameResolver.resolve(variable.name, Kind.VALUE);
         variable.setType(typeResolver.computeIfAbsent(variable.name.scopeIndex(),
-                                                      x -> {throw new IllegalStateException("");}));
+                                                      __ -> new IndeterminateType("Cannot determine type for " + variable.name.text)));
     }
 
     @Override
@@ -119,6 +121,18 @@ public class ResolveNames extends NoOpVisitor
         nameResolver.resolve(type.name, Kind.TYPE);;
     }
 
+    @Override
+    public void visitFunctionTypeLiteral(FunctionTypeLiteral functionTypeLiteral)
+    {
+        visit(functionTypeLiteral.parameters);
+        visit(functionTypeLiteral.returnType);
+    }
+
+    @Override
+    public void visitTypeList(TypeList typeList) {
+        typeList.types.forEach(this::visit);
+    }
+
     private void enterScope()
     {
         currentScope++;
@@ -127,10 +141,5 @@ public class ResolveNames extends NoOpVisitor
     private int getCurrentScope()
     {
         return currentScope;
-    }
-
-    private void visit(AstNode node)
-    {
-        node.visit(this);
     }
 }

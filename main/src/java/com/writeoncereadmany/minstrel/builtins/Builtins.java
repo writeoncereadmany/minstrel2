@@ -1,7 +1,11 @@
 package com.writeoncereadmany.minstrel.builtins;
 
 
+import com.writeoncereadmany.minstrel.compile.ast.Typed;
 import com.writeoncereadmany.minstrel.compile.ast.fragments.Terminal;
+import com.writeoncereadmany.minstrel.compile.ast.fragments.TypeList;
+import com.writeoncereadmany.minstrel.compile.ast.types.FunctionTypeLiteral;
+import com.writeoncereadmany.minstrel.compile.ast.types.NamedType;
 import com.writeoncereadmany.minstrel.compile.names.Kind;
 import com.writeoncereadmany.minstrel.compile.names.NameResolver;
 import com.writeoncereadmany.minstrel.compile.names.ScopeIndex;
@@ -86,10 +90,10 @@ public class Builtins
         return typeDefinitions.put(type.scopeIndex(), new Type(new Implementation(NUMBER_TYPE.scopeIndex())));
     }
 
-    public static void defineTypesOfPreludeValues(Map<ScopeIndex, TypeDefinition> typesOfValues)
+    public static void defineTypesOfPreludeValues(Map<ScopeIndex, Typed> typesOfValues)
     {
         defineTypeOfObjectWithNamedType(typesOfValues, SUCCESS_ATOM, SUCCESS_TYPE);
-        defineFunctionType(typesOfValues, PRINT_FUNCTION, SUCCESS_ATOM, STRING_TYPE);
+        defineFunctionType(typesOfValues, PRINT_FUNCTION, SUCCESS_TYPE, STRING_TYPE);
         defineFunctionType(typesOfValues, PLUS_FUNCTION, NUMBER_TYPE, NUMBER_TYPE, NUMBER_TYPE);
         defineFunctionType(typesOfValues, MINUS_FUNCTION, NUMBER_TYPE, NUMBER_TYPE, NUMBER_TYPE);
         defineFunctionType(typesOfValues, MULTIPLY_FUNCTION, NUMBER_TYPE, NUMBER_TYPE, NUMBER_TYPE);
@@ -97,20 +101,19 @@ public class Builtins
         defineFunctionType(typesOfValues, NEGATE_FUNCTION, NUMBER_TYPE, NUMBER_TYPE);
     }
 
-    private static void defineFunctionType(Map<ScopeIndex, TypeDefinition> types,
+    private static void defineFunctionType(Map<ScopeIndex, Typed> types,
                                            Terminal function,
                                            Terminal returnType,
                                            Terminal... parameterTypes)
     {
         types.put(function.scopeIndex(),
-                  new FunctionType(stream(parameterTypes).map(Terminal::scopeIndex)
-                                                         .map(ConcreteTypeDefinition::new)
-                                                         .collect(toList()),
-                                   new ConcreteTypeDefinition(returnType.scopeIndex())));
+                  new FunctionTypeLiteral(new TypeList(stream(parameterTypes).map(NamedType::new)
+                                                         .collect(toList())),
+                                   new NamedType(returnType)));
     }
 
-    private static void defineTypeOfObjectWithNamedType(Map<ScopeIndex, TypeDefinition> typesOfValues, Terminal value, Terminal type)
+    private static void defineTypeOfObjectWithNamedType(Map<ScopeIndex, Typed> typesOfValues, Terminal value, Terminal type)
     {
-        typesOfValues.put(value.scopeIndex(), new ConcreteTypeDefinition(type.scopeIndex()));
+        typesOfValues.put(value.scopeIndex(), new NamedType(type));
     }
 }

@@ -1,5 +1,6 @@
 package com.writeoncereadmany.minstrel.compile.visitors;
 
+import com.writeoncereadmany.minstrel.compile.ast.AstNode;
 import com.writeoncereadmany.minstrel.compile.ast.Program;
 import com.writeoncereadmany.minstrel.compile.ast.expressions.*;
 import com.writeoncereadmany.minstrel.compile.ast.fragments.*;
@@ -28,4 +29,9 @@ public interface AstVisitor
     void visitNamedType(NamedType namedType);
     void visitTypeList(TypeList typeList);
     void visitFunctionTypeLiteral(FunctionTypeLiteral functionTypeLiteral);
+
+    default void visit(AstNode node)
+    {
+        node.visit(this);
+    }
 }

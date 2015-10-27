@@ -18,7 +18,6 @@ import static com.writeoncereadmany.util.TypeSafeMapBuilder.entry;
 import static com.writeoncereadmany.util.TypeSafeMapBuilder.mapOf;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
-import static java.util.Collections.emptyMap;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
@@ -50,7 +49,7 @@ public class InterfaceTest
     @Test
     public void anInterfaceIsAssignableToItself()
     {
-        TypeEngine checker = new TypeEngine(TYPING_RULES, mapOf(entry(NUMBER_DEFINITION, NUMBER_IMPL)), emptyMap());
+        TypeEngine checker = new TypeEngine(TYPING_RULES, mapOf(entry(NUMBER_DEFINITION, NUMBER_IMPL)));
 
         Type point2d = new Type(new Interface(mapOf(entry("x", NUMBER), entry("y", NUMBER))));
         Type vector2d = new Type(new Interface(mapOf(entry("x", NUMBER), entry("y", NUMBER))));
@@ -61,7 +60,7 @@ public class InterfaceTest
     @Test
     public void anInterfaceIsAssignableToATypeWhichProvidesASubsetOfOperations()
     {
-        TypeEngine checker = new TypeEngine(TYPING_RULES, mapOf(entry(NUMBER_DEFINITION, NUMBER_IMPL)), emptyMap());
+        TypeEngine checker = new TypeEngine(TYPING_RULES, mapOf(entry(NUMBER_DEFINITION, NUMBER_IMPL)));
 
         Type hasAnXAndAY = new Type(new Interface(mapOf(entry("x", NUMBER), entry("y", NUMBER))));
         Type hasAnX = new Type(new Interface(mapOf(entry("x", NUMBER))));
@@ -72,7 +71,7 @@ public class InterfaceTest
     @Test
     public void anInterfaceIsNotAssignableToATypeWhichProvidesMoreOperations()
     {
-        TypeEngine checker = new TypeEngine(TYPING_RULES, mapOf(entry(NUMBER_DEFINITION, NUMBER_IMPL)), emptyMap());
+        TypeEngine checker = new TypeEngine(TYPING_RULES, mapOf(entry(NUMBER_DEFINITION, NUMBER_IMPL)));
 
         Type hasAnX = new Type(new Interface(mapOf(entry("x", NUMBER))));
         Type hasAnXAndAY = new Type(new Interface(mapOf(entry("x", NUMBER), entry("y", NUMBER))));
@@ -97,7 +96,7 @@ public class InterfaceTest
                 entry(CAT_DEFINITION, CAT_IMPL),
                 entry(MAMMAL_DEFINITION, MAMMAL_IMPL),
                 entry(stringToCatDefinition, stringToCatImpl),
-                entry(stringToMammalDefinition, stringToMammalImpl)), emptyMap());
+                entry(stringToMammalDefinition, stringToMammalImpl)));
 
         // for clarity:
         assertAssignable(checker, stringToCatImpl, stringToMammalImpl);
@@ -126,7 +125,7 @@ public class InterfaceTest
                 entry(CAT_DEFINITION, CAT_IMPL),
                 entry(MAMMAL_DEFINITION, MAMMAL_IMPL),
                 entry(stringToCatDefinition, stringToCatImpl),
-                entry(stringToMammalDefinition, stringToMammalImpl)), emptyMap());
+                entry(stringToMammalDefinition, stringToMammalImpl)));
 
         // for clarity:
         assertNotAssignable(checker, stringToMammalImpl, stringToCatImpl);
@@ -163,7 +162,7 @@ public class InterfaceTest
                 entry(stringListDefinition, stringListImpl),
                 entry(handleNextDefn, handleNextImpl),
                 entry(handleEndDefn, handleEndImpl)
-        ), emptyMap());
+        ));
 
         assertAssignable(checker, stringList, stringList);
     }
@@ -207,7 +206,7 @@ public class InterfaceTest
                 entry(numberListDefinition, numberListImpl),
                 entry(handleNextNumberDefn, handleNextNumberImpl),
                 entry(handleEndNumberDefn, handleEndNumberImpl)
-        ), emptyMap());
+        ));
 
         assertNotAssignable(checker, stringList, numberList);
     }

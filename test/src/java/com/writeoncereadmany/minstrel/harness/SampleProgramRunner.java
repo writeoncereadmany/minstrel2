@@ -5,10 +5,16 @@ import com.writeoncereadmany.minstrel.compile.ast.Typed;
 import com.writeoncereadmany.minstrel.compile.names.NameResolver;
 import com.writeoncereadmany.minstrel.compile.names.ScopeIndex;
 import com.writeoncereadmany.minstrel.compile.types.Type;
+import com.writeoncereadmany.minstrel.compile.types.TypeEngine;
+import com.writeoncereadmany.minstrel.compile.types.TypeError;
 import com.writeoncereadmany.minstrel.compile.types.defintions.TypeDefinition;
+import com.writeoncereadmany.minstrel.compile.types.validators.FunctionRules;
+import com.writeoncereadmany.minstrel.compile.types.validators.ImplementationRule;
+import com.writeoncereadmany.minstrel.compile.types.validators.InterfaceRule;
 import com.writeoncereadmany.minstrel.compile.visitors.DefineNames;
 import com.writeoncereadmany.minstrel.compile.visitors.ResolveNames;
 import com.writeoncereadmany.minstrel.builtins.Builtins;
+import com.writeoncereadmany.minstrel.compile.visitors.TypeChecker;
 import com.writeoncereadmany.minstrel.harness.utils.TestErrorListener;
 import com.writeoncereadmany.minstrel.orchestrator.MinstrelOrchestrator;
 import com.writeoncereadmany.minstrel.runtime.interpreter.Interpreter;
@@ -61,7 +67,7 @@ public class SampleProgramRunner
     public void testASingleScript() throws Exception
     {
         final List<String> errorCollector = new ArrayList<>();
-        runFileAndVerifyResults(new File(ROOT_SCRIPT_DIR, "implemented/arithmetic/decimals.minstrel"), errorCollector);
+        runFileAndVerifyResults(new File(ROOT_SCRIPT_DIR, "implemented/functions/anonymous_block_function.minstrel"), errorCollector);
         assertThat(errorCollector, is(empty()));
     }
 
@@ -109,6 +115,7 @@ public class SampleProgramRunner
             Builtins.defineBuiltins(nameResolver);
 
             Map<ScopeIndex, Typed> types = new HashMap<>();
+            Builtins.defineTypesOfPreludeValues(types);
             program.visit(new DefineNames(nameResolver, types));
             program.visit(new ResolveNames(nameResolver, types));
 
@@ -118,11 +125,16 @@ public class SampleProgramRunner
             }
 
             Map<ScopeIndex, Type> typeDefinitions = new HashMap<>();
-            Map<ScopeIndex, TypeDefinition> typesOfValues = new HashMap<>();
 
             Builtins.definePreludeTypes(typeDefinitions);
-            Builtins.defineTypesOfPreludeValues(typesOfValues);
 
+            TypeEngine typeEngine = new TypeEngine(asList(new FunctionRules(), new InterfaceRule(), new ImplementationRule()),
+                                                   typeDefinitions);
+
+            TypeChecker typeChecker = new TypeChecker(typeEngine);
+            program.visit(typeChecker);
+
+            List<TypeError> errors = typeChecker.getTypeErrors();
 
             ByteArrayOutputStream printed = new ByteArrayOutputStream();
             PrintStream printStream = new PrintStream(printed);

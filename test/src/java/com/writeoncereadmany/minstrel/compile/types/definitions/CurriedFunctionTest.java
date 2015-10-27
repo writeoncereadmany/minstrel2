@@ -17,7 +17,6 @@ import static com.writeoncereadmany.minstrel.compile.types.concerns.EmptyStreamM
 import static com.writeoncereadmany.util.TypeSafeMapBuilder.entry;
 import static com.writeoncereadmany.util.TypeSafeMapBuilder.mapOf;
 import static java.util.Arrays.asList;
-import static java.util.Collections.emptyMap;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
@@ -41,8 +40,8 @@ public class CurriedFunctionTest
                                                        entry(functionTypeName, new Type(curriedNumbers)));
 
         TypeEngine checker = new TypeEngine(asList(new FunctionRules(), new ImplementationRule()),
-                                              namedTypes,
-                                              emptyMap());
+                                              namedTypes
+        );
 
         assertThat(checker.checkCoherent(callTwice), is(emptyStream()));
         assertThat(checker.canAssign(callTwice, number), is(emptyStream()));
@@ -63,8 +62,8 @@ public class CurriedFunctionTest
                                                        entry(functionTypeName, new Type(numberToNumber)));
 
         TypeEngine checker = new TypeEngine(asList(new FunctionRules(), new ImplementationRule()),
-                                              namedTypes,
-                                              emptyMap());
+                                              namedTypes
+        );
 
         assertThat(checker.checkCoherent(callTwice), is(not(emptyStream())));
     }
@@ -84,8 +83,8 @@ public class CurriedFunctionTest
                                                        entry(recordTypeName, new Type(numberToNumber)));
 
         TypeEngine checker = new TypeEngine(asList(new FunctionRules(), new ImplementationRule()),
-                                              namedTypes,
-                                              emptyMap());
+                                              namedTypes
+        );
 
         assertThat(checker.checkCoherent(getMember), is(not(emptyStream())));
     }

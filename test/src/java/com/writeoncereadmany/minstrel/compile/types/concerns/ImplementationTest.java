@@ -19,7 +19,7 @@ public class ImplementationTest
     public static final ScopeIndex TRUE = new ScopeIndex(2, 4);
     public static final ScopeIndex FALSE = new ScopeIndex(2, 5);
 
-    private final TypeEngine typeEngine = new TypeEngine(singletonList(new ImplementationRule()), emptyMap(), emptyMap());
+    private final TypeEngine typeEngine = new TypeEngine(singletonList(new ImplementationRule()), emptyMap());
 
     @Test
     public void aTypeWhichDoNotSpecifyImplementationIsASubtypeOfAnotherWhichDoesNotSpecifyImplementation()
