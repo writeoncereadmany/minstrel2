@@ -18,7 +18,7 @@ import com.writeoncereadmany.minstrel.compile.types.defintions.ConcreteTypeDefin
 import com.writeoncereadmany.minstrel.compile.types.defintions.TypeDefinition;
 import com.writeoncereadmany.minstrel.runtime.environment.Environment;
 import com.writeoncereadmany.minstrel.runtime.values.Value;
-import com.writeoncereadmany.minstrel.runtime.values.functions.*;
+import com.writeoncereadmany.minstrel.runtime.values.functions.PrintFunction;
 import com.writeoncereadmany.minstrel.runtime.values.primitives.Atom;
 
 import java.io.PrintStream;
@@ -33,25 +33,18 @@ import static java.util.stream.Collectors.toList;
 public class Builtins
 {
     public static final Terminal PRINT_FUNCTION = new Terminal("print", -1, 0);
-    public static final Terminal PLUS_FUNCTION = new Terminal("$+2", -2, 0);
-    public static final Terminal MINUS_FUNCTION = new Terminal("$-2", -3, 0);
-    public static final Terminal MULTIPLY_FUNCTION = new Terminal("$*2", -4, 0);
-    public static final Terminal DIVIDE_FUNCTION = new Terminal("$/2", -5, 0);
-    public static final Terminal NEGATE_FUNCTION = new Terminal("$-1", -6, 0);
-    public static final Terminal NUMBER_TYPE = new Terminal("Number", -7, 0);
-    public static final Terminal STRING_TYPE = new Terminal("String", -8, 0);
-    public static final Terminal SUCCESS_TYPE = new Terminal("Success", -9, 0);
-    public static final Terminal SHOWABLE_TYPE = new Terminal("Showable", -10, 0);
-    public static final Terminal SUCCESS_ATOM = new Terminal("Success", -10, 0);
+    public static final Terminal NUMBER_TYPE = new Terminal("Number", -2, 0);
+    public static final Terminal STRING_TYPE = new Terminal("String", -3, 0);
+    public static final Terminal SUCCESS_TYPE = new Terminal("Success", -4, 0);
+    public static final Terminal SHOWABLE_TYPE = new Terminal("Showable", -5, 0);
+    public static final Terminal SUCCESS_ATOM = new Terminal("Success", -6, 0);
 
     public static final Value SUCCESS = new Atom("Success");
 
     public static void defineBuiltins(NameResolver resolver)
     {
         defineTypes(resolver, STRING_TYPE, NUMBER_TYPE, SUCCESS_TYPE, SHOWABLE_TYPE);
-        defineValues(resolver, PRINT_FUNCTION, PLUS_FUNCTION, MINUS_FUNCTION,
-                               MULTIPLY_FUNCTION, DIVIDE_FUNCTION, NEGATE_FUNCTION, SUCCESS_ATOM);
-
+        defineValues(resolver, PRINT_FUNCTION, SUCCESS_ATOM);
     }
 
     private static void defineTypes(NameResolver resolver, Terminal... types)
@@ -76,11 +69,6 @@ public class Builtins
     {
         Environment prelude = new Environment();
         prelude.declare(PRINT_FUNCTION.scopeIndex(), new PrintFunction(printStream, SUCCESS));
-        prelude.declare(PLUS_FUNCTION.scopeIndex(), new PlusFunction());
-        prelude.declare(MINUS_FUNCTION.scopeIndex(), new MinusFunction());
-        prelude.declare(MULTIPLY_FUNCTION.scopeIndex(), new MultipliedByFunction());
-        prelude.declare(DIVIDE_FUNCTION.scopeIndex(), new DividedByFunction());
-        prelude.declare(NEGATE_FUNCTION.scopeIndex(), new NegateFunction());
         prelude.declare(SUCCESS_ATOM.scopeIndex(), SUCCESS);
         return prelude;
     }
@@ -117,11 +105,6 @@ public class Builtins
     {
         defineTypeOfObjectWithNamedType(typesOfValues, SUCCESS_ATOM, SUCCESS_TYPE);
         defineFunctionType(typesOfValues, PRINT_FUNCTION, SUCCESS_TYPE, SHOWABLE_TYPE);
-        defineFunctionType(typesOfValues, PLUS_FUNCTION, NUMBER_TYPE, NUMBER_TYPE, NUMBER_TYPE);
-        defineFunctionType(typesOfValues, MINUS_FUNCTION, NUMBER_TYPE, NUMBER_TYPE, NUMBER_TYPE);
-        defineFunctionType(typesOfValues, MULTIPLY_FUNCTION, NUMBER_TYPE, NUMBER_TYPE, NUMBER_TYPE);
-        defineFunctionType(typesOfValues, DIVIDE_FUNCTION, NUMBER_TYPE, NUMBER_TYPE, NUMBER_TYPE);
-        defineFunctionType(typesOfValues, NEGATE_FUNCTION, NUMBER_TYPE, NUMBER_TYPE);
     }
 
     private static void defineFunctionType(Map<ScopeIndex, Typed> types,
