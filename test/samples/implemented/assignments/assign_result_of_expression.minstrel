@@ -1,8 +1,8 @@
-function printAndReturn[String a] {
+function printAndReturn[Number a] {
     print[a];
     a;
 };
 
-String b is printAndReturn["Hello"] + " World!";
+Number b is printAndReturn[42] + 1200;
 
 print[b];
