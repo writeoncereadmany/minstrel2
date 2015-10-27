@@ -62,12 +62,13 @@ expression: '(' expression ')'                                                  
           | function                                                                     # function_expression
           | expression argument_list                                                     # function_call
           | expression '.' member                                                        # member_access
-          | '-' expression                                                               # negate_expression
+          | negate expression                                                               # negate_expression
           | expression multiply_or_divide expression                                     # factor_expression
           | expression add_or_subtract expression                                        # term_expression
           | expression comparison expression                                             # comparison_expression
           ;
 
+negate: '-';
 add_or_subtract: '+' | '-';
 multiply_or_divide: '*' | '/';
 comparison: '=' | '=/=' | '<' | '>' | '<=' | '>=';

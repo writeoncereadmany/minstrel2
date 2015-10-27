@@ -71,6 +71,7 @@ public class ASTBuildingListener extends MinstrelBaseListener
             new BuildTextNode(MinstrelParser.Named_typeContext.class, NamedType::new),
 
             new BuildTerminal(MinstrelParser.Add_or_subtractContext.class),
+            new BuildTerminal(MinstrelParser.NegateContext.class),
             new BuildTerminal(MinstrelParser.Multiply_or_divideContext.class),
             new BuildTerminal(MinstrelParser.NameContext.class),
             new BuildTerminal(MinstrelParser.MemberContext.class)

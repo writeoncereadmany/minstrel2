@@ -113,7 +113,16 @@ public class TypeChecker implements AstVisitor
     public void visitFunctionCall(FunctionCall functionCall)
     {
         visit(functionCall.function);
-        final List<TypeDefinition> argumentTypes = extractArgumentTypes(functionCall.function.type());
+        Type type = functionCall.function.type().getType(typeEngine);
+        FunctionType functionConcern = type.getConcern(FunctionType.class);
+
+        if(functionConcern == null)
+        {
+            typeErrors.add(new TypeError("Not a function: cannot call"));
+            return;
+        }
+
+        final List<TypeDefinition> argumentTypes = functionConcern.argumentTypes;
 
         List<Pair<TypeDefinition, Expression>> formalToProvidedTypes = Zipper.zip(argumentTypes, functionCall.args.expressions);
         formalToProvidedTypes.forEach(pair -> {
@@ -148,14 +157,6 @@ public class TypeChecker implements AstVisitor
     {
         visit(functionTypeLiteral.parameters);
         visit(functionTypeLiteral.returnType);
-    }
-
-
-    private List<TypeDefinition> extractArgumentTypes(TypeDefinition functionType)
-    {
-        Type type = functionType.getType(typeEngine);
-        FunctionType functionConcern = type.getConcern(FunctionType.class);
-        return functionConcern.argumentTypes;
     }
 
     private boolean checkCanAssign(TypeDefinition sourceType, TypeDefinition targetType)

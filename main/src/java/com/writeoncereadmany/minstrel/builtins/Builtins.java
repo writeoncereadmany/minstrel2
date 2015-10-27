@@ -89,12 +89,27 @@ public class Builtins
     {
         TypeDefinition stringDefinition = new ConcreteTypeDefinition(STRING_TYPE.scopeIndex());
         TypeDefinition numberDefinition = new ConcreteTypeDefinition(NUMBER_TYPE.scopeIndex());
-        FunctionType showMethod = new FunctionType(Collections.emptyList(), stringDefinition);
+
+        FunctionType nothingToString = new FunctionType(Collections.emptyList(), stringDefinition);
+        FunctionType nothingToNumber = new FunctionType(Collections.emptyList(), numberDefinition);
         FunctionType numberToNumber = new FunctionType(Collections.singletonList(numberDefinition), numberDefinition);
-        Interface showable = new Interface(mapOf(entry("show", showMethod)));
+        FunctionType stringToString = new FunctionType(Collections.singletonList(stringDefinition), stringDefinition);
+
+        Interface showable = new Interface(mapOf(entry("show", nothingToString)));
+
+        Interface number = new Interface(mapOf(entry("show", nothingToString),
+                                                entry("plus", numberToNumber),
+                                                entry("minus", numberToNumber),
+                                                entry("multipliedBy", numberToNumber),
+                                                entry("dividedBy", numberToNumber),
+                                                entry("negate", nothingToNumber)));
+
+        Interface string = new Interface(mapOf(entry("show", nothingToString),
+                                                entry("plus", stringToString)));
+
         typeDefinitions.put(SHOWABLE_TYPE.scopeIndex(), new Type(showable));
-        typeDefinitions.put(NUMBER_TYPE.scopeIndex(), new Type(new Implementation(NUMBER_TYPE.scopeIndex()), showable));
-        typeDefinitions.put(STRING_TYPE.scopeIndex(), new Type(new Implementation(STRING_TYPE.scopeIndex()), showable));
+        typeDefinitions.put(NUMBER_TYPE.scopeIndex(), new Type(new Implementation(NUMBER_TYPE.scopeIndex()), number));
+        typeDefinitions.put(STRING_TYPE.scopeIndex(), new Type(new Implementation(STRING_TYPE.scopeIndex()), string));
         typeDefinitions.put(SUCCESS_TYPE.scopeIndex(), new Type(new Implementation(SUCCESS_TYPE.scopeIndex()), showable));
     }
 
