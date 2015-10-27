@@ -68,4 +68,25 @@ public class CurriedFunctionTest
 
         assertThat(checker.checkCoherent(callTwice), is(not(emptyStream())));
     }
+
+    @Test
+    public void attemptingToGetMissingMemberTypesWillResultInUndefinedTypes()
+    {
+        final ScopeIndex recordTypeName = new ScopeIndex(3, 3);
+        final ConcreteTypeDefinition namedRecord = new ConcreteTypeDefinition(recordTypeName);
+        final TypeDefinition getMember = namedRecord.getMember("foo");
+
+        // create a function: functions don't have members
+        final ConcreteTypeDefinition number = new ConcreteTypeDefinition(NUMBER);
+        final FunctionType numberToNumber = new FunctionType(asList(number), number);
+
+        final Map<ScopeIndex, Type> namedTypes = mapOf(entry(NUMBER, new Type(new Implementation(NUMBER))),
+                                                       entry(recordTypeName, new Type(numberToNumber)));
+
+        TypeChecker checker = new TypeChecker(asList(new FunctionRules(), new ImplementationRule()),
+                                              namedTypes,
+                                              emptyMap());
+
+        assertThat(checker.checkCoherent(getMember), is(not(emptyStream())));
+    }
 }
