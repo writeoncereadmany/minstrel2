@@ -30,6 +30,7 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import static com.writeoncereadmany.minstrel.harness.utils.FileUtils.firstLine;
+import static com.writeoncereadmany.util.Joiner.joinWith;
 import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -200,13 +201,6 @@ public class SampleProgramRunner
             }
         }
 
-    }
-
-    private Collector<? super String, StringBuilder, String> joinWith(String separator) {
-        return Collector.of(StringBuilder::new,
-                            (builder, string) -> builder.append(separator).append(string),
-                            (builder1, builder2) -> builder1.append(separator).append(builder2.toString()),
-                            StringBuilder::toString);
     }
 
     private boolean hasExpectedLexErrors(File file, List<String> errorCollector, TestErrorListener lexErrorListener) throws FileNotFoundException

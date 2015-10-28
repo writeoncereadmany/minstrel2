@@ -35,9 +35,9 @@ public class FunctionTypeTest
             entry(MAMMAL_DEF, new StructuralType(new Implementation(CAT_DEF, DOG_DEF))),
             entry(ANIMAL_DEF, new StructuralType(new Implementation(CAT_DEF, DOG_DEF, FISH_DEF))));
 
-    private final TypeDefinition ANIMAL = new ConcreteTypeDefinition(ANIMAL_DEF);
-    private final TypeDefinition MAMMAL = new ConcreteTypeDefinition(MAMMAL_DEF);
-    private final TypeDefinition CAT = new ConcreteTypeDefinition(CAT_DEF);
+    private final TypeDefinition ANIMAL = new ConcreteTypeDefinition(ANIMAL_DEF, "Animal");
+    private final TypeDefinition MAMMAL = new ConcreteTypeDefinition(MAMMAL_DEF, "Mammal");
+    private final TypeDefinition CAT = new ConcreteTypeDefinition(CAT_DEF, "Cat");
 
     private final TypeEngine typeEngine = new TypeEngine(asList(new ImplementationRule(), new FunctionRules()), definitions);
 

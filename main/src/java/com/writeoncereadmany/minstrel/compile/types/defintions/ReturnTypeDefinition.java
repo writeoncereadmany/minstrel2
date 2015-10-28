@@ -43,4 +43,10 @@ public class ReturnTypeDefinition implements TypeDefinition
     {
         return new MemberTypeDefinition(this, member);
     }
+
+    @Override
+    public String describe()
+    {
+        return "Return type of " + calledFunction;
+    }
 }

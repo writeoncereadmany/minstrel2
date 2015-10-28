@@ -27,6 +27,11 @@ public enum SpecialTypes implements TypeDefinition
         {
             return new UndefinedType("Cannot call Anything: not a method");
         }
+
+        @Override
+        public String describe() {
+            return "Anything";
+        }
     },
     NOTHING
     {
@@ -47,6 +52,12 @@ public enum SpecialTypes implements TypeDefinition
         public TypeDefinition getMember(String member)
         {
             return this;
+        }
+
+        @Override
+        public String describe()
+        {
+            return "Nothing";
         }
     };
 }

@@ -31,4 +31,9 @@ public class UndefinedType implements TypeDefinition
     {
         return this;
     }
+
+    @Override
+    public String describe() {
+        return "Undefined";
+    }
 }

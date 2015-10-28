@@ -24,6 +24,6 @@ public class NumberLiteral implements Expression
     @Override
     public TypeDefinition type()
     {
-        return new ConcreteTypeDefinition(Builtins.NUMBER_TYPE.scopeIndex());
+        return ConcreteTypeDefinition.fromTerminal(Builtins.NUMBER_TYPE);
     }
 }

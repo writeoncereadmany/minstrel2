@@ -12,9 +12,11 @@ import java.util.Map;
 public class Interface implements Concern, TypeDefinition
 {
     public final Map<String, TypeDefinition> members;
+    private final String name;
 
-    public Interface(Map<String, TypeDefinition> members)
+    public Interface(Map<String, TypeDefinition> members, String name)
     {
+        this.name = name;
         this.members = Collections.unmodifiableMap(members);
     }
 
@@ -34,5 +36,10 @@ public class Interface implements Concern, TypeDefinition
     public TypeDefinition getMember(String member)
     {
         return members.getOrDefault(member, new UndefinedType("No such member"));
+    }
+
+    @Override
+    public String describe() {
+        return name;
     }
 }

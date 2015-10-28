@@ -24,6 +24,6 @@ public class StringLiteral implements Expression
     @Override
     public TypeDefinition type()
     {
-        return new ConcreteTypeDefinition(Builtins.STRING_TYPE.scopeIndex());
+        return ConcreteTypeDefinition.fromTerminal(Builtins.STRING_TYPE);
     }
 }

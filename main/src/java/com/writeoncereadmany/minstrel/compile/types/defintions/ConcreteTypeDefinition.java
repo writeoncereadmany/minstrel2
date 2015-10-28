@@ -1,5 +1,6 @@
 package com.writeoncereadmany.minstrel.compile.types.defintions;
 
+import com.writeoncereadmany.minstrel.compile.ast.fragments.Terminal;
 import com.writeoncereadmany.minstrel.compile.names.ScopeIndex;
 import com.writeoncereadmany.minstrel.compile.types.Type;
 import com.writeoncereadmany.minstrel.compile.types.TypeEngine;
@@ -9,10 +10,17 @@ import java.util.Objects;
 public class ConcreteTypeDefinition implements TypeDefinition
 {
     private final ScopeIndex index;
+    private final String name;
 
-    public ConcreteTypeDefinition(ScopeIndex index)
+    public ConcreteTypeDefinition(ScopeIndex index, String name)
     {
         this.index = index;
+        this.name = name;
+    }
+
+    public static ConcreteTypeDefinition fromTerminal(Terminal terminal)
+    {
+        return new ConcreteTypeDefinition(terminal.scopeIndex(), terminal.text);
     }
 
     @Override
@@ -31,6 +39,11 @@ public class ConcreteTypeDefinition implements TypeDefinition
     public TypeDefinition getMember(String member)
     {
         return new MemberTypeDefinition(this, member);
+    }
+
+    @Override
+    public String describe() {
+        return name;
     }
 
     @Override

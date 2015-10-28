@@ -30,10 +30,10 @@ public class CurriedFunctionTest
     public void canRepresentFunctionCallsOnTypesIndependentlyOfTheirDefinitionsAndResolveCorrectly()
     {
         final ScopeIndex functionTypeName = new ScopeIndex(3, 3);
-        final ConcreteTypeDefinition namedCurriedFunction = new ConcreteTypeDefinition(functionTypeName);
+        final ConcreteTypeDefinition namedCurriedFunction = new ConcreteTypeDefinition(functionTypeName, "Curried");
         final TypeDefinition callTwice = namedCurriedFunction.returnType().returnType();
 
-        final ConcreteTypeDefinition number = new ConcreteTypeDefinition(NUMBER);
+        final ConcreteTypeDefinition number = new ConcreteTypeDefinition(NUMBER, "Number");
         final FunctionType numberToNumber = new FunctionType(asList(number), number);
         final FunctionType curriedNumbers = new FunctionType(asList(number), numberToNumber);
 
@@ -52,11 +52,11 @@ public class CurriedFunctionTest
     public void attemptingToGetReturnTypesFromNonFunctionsWillResultInUndefinedTypes()
     {
         final ScopeIndex functionTypeName = new ScopeIndex(3, 3);
-        final ConcreteTypeDefinition namedFunction = new ConcreteTypeDefinition(functionTypeName);
+        final ConcreteTypeDefinition namedFunction = new ConcreteTypeDefinition(functionTypeName, "Funcy");
         final TypeDefinition callTwice = namedFunction.returnType().returnType();
 
         // create something which returns a Number, so the second call yields an undefined type
-        final ConcreteTypeDefinition number = new ConcreteTypeDefinition(NUMBER);
+        final ConcreteTypeDefinition number = new ConcreteTypeDefinition(NUMBER, "Number");
         final FunctionType numberToNumber = new FunctionType(asList(number), number);
 
         final Map<ScopeIndex, Type> namedTypes = mapOf(entry(NUMBER, new StructuralType(new Implementation(NUMBER))),
@@ -73,11 +73,11 @@ public class CurriedFunctionTest
     public void attemptingToGetMissingMemberTypesWillResultInUndefinedTypes()
     {
         final ScopeIndex recordTypeName = new ScopeIndex(3, 3);
-        final ConcreteTypeDefinition namedRecord = new ConcreteTypeDefinition(recordTypeName);
+        final ConcreteTypeDefinition namedRecord = new ConcreteTypeDefinition(recordTypeName, "Fooable");
         final TypeDefinition getMember = namedRecord.getMember("foo");
 
         // create a function: functions don't have members
-        final ConcreteTypeDefinition number = new ConcreteTypeDefinition(NUMBER);
+        final ConcreteTypeDefinition number = new ConcreteTypeDefinition(NUMBER, "Number");
         final FunctionType numberToNumber = new FunctionType(asList(number), number);
 
         final Map<ScopeIndex, Type> namedTypes = mapOf(entry(NUMBER, new StructuralType(new Implementation(NUMBER))),

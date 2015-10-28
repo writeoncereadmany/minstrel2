@@ -31,6 +31,6 @@ public class VariableDeclaration implements Typed, Statement
     @Override
     public TypeDefinition type()
     {
-        return new ConcreteTypeDefinition(Builtins.SUCCESS_TYPE.scopeIndex());
+        return ConcreteTypeDefinition.fromTerminal(Builtins.SUCCESS_TYPE);
     }
 }

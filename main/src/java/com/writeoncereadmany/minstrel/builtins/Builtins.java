@@ -75,25 +75,25 @@ public class Builtins
 
     public static void definePreludeTypes(Map<ScopeIndex, Type> typeDefinitions)
     {
-        TypeDefinition stringDefinition = new ConcreteTypeDefinition(STRING_TYPE.scopeIndex());
-        TypeDefinition numberDefinition = new ConcreteTypeDefinition(NUMBER_TYPE.scopeIndex());
+        TypeDefinition stringDefinition = ConcreteTypeDefinition.fromTerminal(STRING_TYPE);
+        TypeDefinition numberDefinition = ConcreteTypeDefinition.fromTerminal(NUMBER_TYPE);
 
         FunctionType nothingToString = new FunctionType(Collections.emptyList(), stringDefinition);
         FunctionType nothingToNumber = new FunctionType(Collections.emptyList(), numberDefinition);
         FunctionType numberToNumber = new FunctionType(Collections.singletonList(numberDefinition), numberDefinition);
         FunctionType stringToString = new FunctionType(Collections.singletonList(stringDefinition), stringDefinition);
 
-        Interface showable = new Interface(mapOf(entry("show", nothingToString)));
+        Interface showable = new Interface(mapOf(entry("show", nothingToString)), "Showable");
 
         Interface number = new Interface(mapOf(entry("show", nothingToString),
                                                 entry("plus", numberToNumber),
                                                 entry("minus", numberToNumber),
                                                 entry("multipliedBy", numberToNumber),
                                                 entry("dividedBy", numberToNumber),
-                                                entry("negate", nothingToNumber)));
+                                                entry("negate", nothingToNumber)), "INumber");
 
         Interface string = new Interface(mapOf(entry("show", nothingToString),
-                                                entry("plus", stringToString)));
+                                                entry("plus", stringToString)), "IString");
 
         typeDefinitions.put(SHOWABLE_TYPE.scopeIndex(), new StructuralType(showable));
         typeDefinitions.put(NUMBER_TYPE.scopeIndex(), new StructuralType(new Implementation(NUMBER_TYPE.scopeIndex()), number));

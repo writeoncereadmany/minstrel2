@@ -45,4 +45,10 @@ public class MemberTypeDefinition implements TypeDefinition {
     {
         return new MemberTypeDefinition(this, member);
     }
+
+    @Override
+    public String describe()
+    {
+        return object.describe() + "." + member;
+    }
 }

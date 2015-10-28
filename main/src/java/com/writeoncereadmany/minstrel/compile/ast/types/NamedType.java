@@ -23,6 +23,6 @@ public class NamedType implements TypeExpression
     @Override
     public TypeDefinition type()
     {
-        return new ConcreteTypeDefinition(name.scopeIndex());
+        return ConcreteTypeDefinition.fromTerminal(name);
     }
 }

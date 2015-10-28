@@ -8,6 +8,7 @@ import com.writeoncereadmany.minstrel.compile.types.defintions.UndefinedType;
 
 import java.util.List;
 
+import static com.writeoncereadmany.util.Joiner.joinWith;
 import static java.util.Collections.unmodifiableList;
 
 public class FunctionType implements Concern, TypeDefinition
@@ -37,5 +38,11 @@ public class FunctionType implements Concern, TypeDefinition
     public TypeDefinition getMember(String member)
     {
         return new UndefinedType("No such member on a function");
+    }
+
+    @Override
+    public String describe()
+    {
+        return "[" + argumentTypes.stream().map(TypeDefinition::describe).collect(joinWith(", ")) + "] -> " + returnType.describe();
     }
 }

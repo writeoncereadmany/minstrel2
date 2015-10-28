@@ -11,4 +11,6 @@ public interface TypeDefinition
     TypeDefinition returnType();
 
     TypeDefinition getMember(String member);
+
+    String describe();
 }
