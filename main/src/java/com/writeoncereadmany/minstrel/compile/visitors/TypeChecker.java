@@ -1,5 +1,6 @@
 package com.writeoncereadmany.minstrel.compile.visitors;
 
+import com.writeoncereadmany.minstrel.compile.Source;
 import com.writeoncereadmany.minstrel.compile.ast.Program;
 import com.writeoncereadmany.minstrel.compile.ast.Typed;
 import com.writeoncereadmany.minstrel.compile.ast.expressions.*;
@@ -45,7 +46,7 @@ public class TypeChecker implements AstVisitor
         visit(declaration.expression);
         TypeDefinition result = declaration.expression.type();
         TypeDefinition variableType = declaration.type.type();
-        recordTypeIncompatibilities(result, variableType);
+        recordTypeIncompatibilities(declaration.getSource(), result, variableType);
     }
 
     @Override
@@ -108,7 +109,7 @@ public class TypeChecker implements AstVisitor
     {
         visit(memberAccess.expression);
         TypeDefinition type = memberAccess.type();
-        recordTypeCoherencyErrors(type);
+        recordTypeCoherencyErrors(memberAccess.getSource(), type);
     }
 
     @Override
@@ -119,7 +120,7 @@ public class TypeChecker implements AstVisitor
 
         TypeDefinition functionType = functionCall.function.type();
 
-        if (recordTypeCoherencyErrors(functionType.returnType()))
+        if (recordTypeCoherencyErrors(functionCall.getSource(), functionType.returnType()))
         {
             return;
         }
@@ -127,7 +128,7 @@ public class TypeChecker implements AstVisitor
         List<TypeDefinition> actualArguments = functionCall.args.expressions.stream().map(Typed::type).collect(toList());
 
         FunctionType actualCall = new FunctionType(actualArguments, SpecialTypes.ANYTHING);
-        recordTypeIncompatibilities(functionType, actualCall);
+        recordTypeIncompatibilities(functionCall.getSource(), functionType, actualCall);
     }
 
     @Override
@@ -162,14 +163,14 @@ public class TypeChecker implements AstVisitor
         return typeErrors;
     }
 
-    private boolean recordTypeCoherencyErrors(TypeDefinition type)
+    private boolean recordTypeCoherencyErrors(Source source, TypeDefinition type)
     {
-        return storeTypeErrors(typeEngine.checkCoherent(type), error -> String.format("Type %s is incoherent: %s", type.describe(), error));
+        return storeTypeErrors(typeEngine.checkCoherent(type), error -> String.format("Type error on line %d. In %s, type %s is incoherent: %s", source.start.line, source.text, type.describe(), error));
     }
 
-    private boolean recordTypeIncompatibilities(TypeDefinition sourceType, TypeDefinition targetType)
+    private boolean recordTypeIncompatibilities(Source source, TypeDefinition sourceType, TypeDefinition targetType)
     {
-        return storeTypeErrors(typeEngine.canAssign(sourceType, targetType), error -> String.format("%s cannot be assigned to %s: %s", targetType.describe(), sourceType.describe(), error));
+        return storeTypeErrors(typeEngine.canAssign(sourceType, targetType), error -> String.format("Type error on line %d. In %s, %s cannot be assigned to %s: %s", source.start.line, source.text, targetType.describe(), sourceType.describe(), error));
     }
 
     private boolean storeTypeErrors(Stream<TypeError> typeErrorStream, Function<String, String> describer)
