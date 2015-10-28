@@ -18,9 +18,32 @@ public class Source
 
     public static Source fromContext(ParserRuleContext context)
     {
-        Interval entireNode = Interval.of(context.start.getStartIndex(), context.stop.getStopIndex());
-        return new Source(context.start.getInputStream().getText(entireNode),
-                          CodeLocation.fromToken(context.getStart()),
-                          CodeLocation.fromToken(context.getStop()));
+        final String text;
+        final CodeLocation start;
+        final CodeLocation stop;
+
+        // all sorts of icky to deal with when we have empty nodes with no corresponding tokens :(
+        if(context.start == null || context.stop == null)
+        {
+            text = context.getText();
+            if(context.start != null)
+            {
+                start = CodeLocation.fromToken(context.start);
+            }
+            else
+            {
+                start = new CodeLocation(0, 0);
+            }
+            stop = start;
+        }
+        else
+        {
+            Interval entireNode = Interval.of(context.start.getStartIndex(), context.stop.getStopIndex());
+            text = context.start.getInputStream().getText(entireNode);
+            start = CodeLocation.fromToken(context.start);
+            stop = CodeLocation.fromToken(context.stop);
+        }
+
+        return new Source(text, start, stop);
     }
 }
