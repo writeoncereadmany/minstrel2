@@ -1,5 +1,6 @@
 package com.writeoncereadmany.minstrel.compile.ast.fragments;
 
+import com.writeoncereadmany.minstrel.compile.Source;
 import com.writeoncereadmany.minstrel.compile.ast.AstNode;
 import com.writeoncereadmany.minstrel.compile.ast.Typed;
 import com.writeoncereadmany.minstrel.compile.ast.statements.Statement;
@@ -13,9 +14,11 @@ import static java.util.Collections.unmodifiableList;
 public class Body implements Typed, AstNode
 {
     public final List<Statement> statements;
+    private final Source source;
 
-    public Body(List<Statement> statements)
+    public Body(Source source, List<Statement> statements)
     {
+        this.source = source;
         this.statements = unmodifiableList(statements);
     }
 
@@ -23,6 +26,11 @@ public class Body implements Typed, AstNode
     public void visit(AstVisitor visitor)
     {
         visitor.visitBody(this);
+    }
+
+    @Override
+    public Source getSource() {
+        return source;
     }
 
     @Override

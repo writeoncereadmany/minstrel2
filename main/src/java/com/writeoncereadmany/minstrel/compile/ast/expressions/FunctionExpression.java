@@ -1,5 +1,6 @@
 package com.writeoncereadmany.minstrel.compile.ast.expressions;
 
+import com.writeoncereadmany.minstrel.compile.Source;
 import com.writeoncereadmany.minstrel.compile.ast.Typed;
 import com.writeoncereadmany.minstrel.compile.ast.fragments.Body;
 import com.writeoncereadmany.minstrel.compile.ast.fragments.ParameterList;
@@ -11,11 +12,13 @@ import static java.util.stream.Collectors.toList;
 
 public class FunctionExpression implements Expression
 {
+    private final Source source;
     public final ParameterList parameterList;
     public final Body body;
 
-    public FunctionExpression(ParameterList parameterList, Body body)
+    public FunctionExpression(Source source, ParameterList parameterList, Body body)
     {
+        this.source = source;
         this.parameterList = parameterList;
         this.body = body;
     }
@@ -24,6 +27,11 @@ public class FunctionExpression implements Expression
     public void visit(AstVisitor visitor) 
     {
         visitor.visitFunctionExpression(this);
+    }
+
+    @Override
+    public Source getSource() {
+        return source;
     }
 
     @Override

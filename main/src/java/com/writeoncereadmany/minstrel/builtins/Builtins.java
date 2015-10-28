@@ -1,6 +1,8 @@
 package com.writeoncereadmany.minstrel.builtins;
 
 
+import com.writeoncereadmany.minstrel.compile.CodeLocation;
+import com.writeoncereadmany.minstrel.compile.Source;
 import com.writeoncereadmany.minstrel.compile.ast.Typed;
 import com.writeoncereadmany.minstrel.compile.ast.fragments.Terminal;
 import com.writeoncereadmany.minstrel.compile.ast.fragments.TypeList;
@@ -32,6 +34,7 @@ import static java.util.stream.Collectors.toList;
 
 public class Builtins
 {
+    public static final Source PRELUDE_SOURCE = new Source("Prelude", new CodeLocation(0, 0), new CodeLocation(0, 0));
     public static final Terminal PRINT_FUNCTION = new Terminal("print", -1, 0);
     public static final Terminal NUMBER_TYPE = new Terminal("Number", -2, 0);
     public static final Terminal STRING_TYPE = new Terminal("String", -3, 0);
@@ -113,13 +116,14 @@ public class Builtins
                                            Terminal... parameterTypes)
     {
         types.put(function.scopeIndex(),
-                  new FunctionTypeLiteral(new TypeList(stream(parameterTypes).map(NamedType::new)
+                  new FunctionTypeLiteral(PRELUDE_SOURCE, new TypeList(PRELUDE_SOURCE, stream(parameterTypes)
+                          .map(name -> new NamedType(PRELUDE_SOURCE, name))
                                                          .collect(toList())),
-                                   new NamedType(returnType)));
+                                   new NamedType(PRELUDE_SOURCE, returnType)));
     }
 
     private static void defineTypeOfObjectWithNamedType(Map<ScopeIndex, Typed> typesOfValues, Terminal value, Terminal type)
     {
-        typesOfValues.put(value.scopeIndex(), new NamedType(type));
+        typesOfValues.put(value.scopeIndex(), new NamedType(PRELUDE_SOURCE, type));
     }
 }

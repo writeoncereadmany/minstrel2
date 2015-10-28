@@ -1,5 +1,6 @@
 package com.writeoncereadmany.minstrel.compile.astbuilders.statements;
 
+import com.writeoncereadmany.minstrel.compile.Source;
 import com.writeoncereadmany.minstrel.compile.ast.AstNode;
 import com.writeoncereadmany.minstrel.compile.ast.expressions.Expression;
 import com.writeoncereadmany.minstrel.compile.ast.fragments.Terminal;
@@ -9,14 +10,19 @@ import com.writeoncereadmany.minstrel.compile.astbuilders.AstNodeBuilder;
 
 public class VariableDeclarationBuilder implements AstNodeBuilder<VariableDeclaration>
 {
+    private final Source source;
     private TypeExpression type;
     private Terminal name;
     private Expression expression;
 
+    public VariableDeclarationBuilder(Source source) {
+        this.source = source;
+    }
+
     @Override
     public VariableDeclaration build()
     {
-        return new VariableDeclaration(type, name, expression);
+        return new VariableDeclaration(source, type, name, expression);
     }
 
     @Override

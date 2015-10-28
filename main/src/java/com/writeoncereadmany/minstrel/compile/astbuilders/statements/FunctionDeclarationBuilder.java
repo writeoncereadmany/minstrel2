@@ -1,5 +1,6 @@
 package com.writeoncereadmany.minstrel.compile.astbuilders.statements;
 
+import com.writeoncereadmany.minstrel.compile.Source;
 import com.writeoncereadmany.minstrel.compile.ast.AstNode;
 import com.writeoncereadmany.minstrel.compile.ast.expressions.FunctionExpression;
 import com.writeoncereadmany.minstrel.compile.ast.fragments.Terminal;
@@ -8,12 +9,18 @@ import com.writeoncereadmany.minstrel.compile.astbuilders.AstNodeBuilder;
 
 public class FunctionDeclarationBuilder implements AstNodeBuilder
 {
+    private final Source source;
     private Terminal name;
     private FunctionExpression functionExpression;
 
+    public FunctionDeclarationBuilder(Source source)
+    {
+        this.source = source;
+    }
+
     @Override
     public AstNode build() {
-        return new FunctionDeclaration(name, functionExpression);
+        return new FunctionDeclaration(source, name, functionExpression);
     }
 
     @Override

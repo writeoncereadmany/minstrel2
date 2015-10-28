@@ -1,7 +1,9 @@
 package com.writeoncereadmany.minstrel.compile.astbuilders.base;
 
+import com.writeoncereadmany.minstrel.compile.Source;
+
 @FunctionalInterface
 public interface OneArgFactory<R, A>
 {
-    R build(A arg);
+    R build(Source source, A arg);
 }

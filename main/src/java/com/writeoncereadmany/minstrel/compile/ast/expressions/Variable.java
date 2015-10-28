@@ -1,5 +1,6 @@
 package com.writeoncereadmany.minstrel.compile.ast.expressions;
 
+import com.writeoncereadmany.minstrel.compile.Source;
 import com.writeoncereadmany.minstrel.compile.ast.Typed;
 import com.writeoncereadmany.minstrel.compile.ast.fragments.Terminal;
 import com.writeoncereadmany.minstrel.compile.types.defintions.TypeDefinition;
@@ -10,9 +11,11 @@ public class Variable implements Expression
 {
     public final Terminal name;
     private final Hope<Typed> type = new Hope<>();
+    private final Source source;
 
-    public Variable(Terminal name)
+    public Variable(Source source, Terminal name)
     {
+        this.source = source;
         this.name = name;
     }
 
@@ -20,6 +23,11 @@ public class Variable implements Expression
     public void visit(AstVisitor visitor)
     {
         visitor.visitVariable(this);
+    }
+
+    @Override
+    public Source getSource() {
+        return source;
     }
 
     @Override

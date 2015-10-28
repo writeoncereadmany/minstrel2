@@ -8,7 +8,7 @@ public class BuildRootNode extends BuildCompoundNode
 {
     AstNode rootNode;
 
-    public BuildRootNode(Class<? extends ParserRuleContext> contextType, Constructor constructor)
+    public BuildRootNode(Class<? extends ParserRuleContext> contextType, NodeConstructor constructor)
     {
         super(contextType, constructor);
     }

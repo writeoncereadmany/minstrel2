@@ -1,6 +1,7 @@
 package com.writeoncereadmany.minstrel.compile.astbuilders.base;
 
 
+import com.writeoncereadmany.minstrel.compile.Source;
 import com.writeoncereadmany.minstrel.compile.ast.AstNode;
 import com.writeoncereadmany.minstrel.compile.ast.fragments.Terminal;
 import com.writeoncereadmany.minstrel.compile.astbuilders.AstNodeBuilder;
@@ -10,19 +11,21 @@ import java.util.List;
 
 public class NodeSequenceBuilder<N extends AstNode, T extends AstNode> implements AstNodeBuilder<T>
 {
+    private final Source source;
     private final OneArgFactory<T, List<N>> factory;
     private final Class<N> nodeClass;
     private final List<N> elements = new ArrayList<>();
 
-    public NodeSequenceBuilder(OneArgFactory<T, List<N>> factory, Class<N> nodeClass)
+    public NodeSequenceBuilder(Source source, OneArgFactory<T, List<N>> factory, Class<N> nodeClass)
     {
+        this.source = source;
         this.factory = factory;
         this.nodeClass = nodeClass;
     }
 
     @Override
     public T build() {
-        return factory.build(elements);
+        return factory.build(source, elements);
     }
 
     @Override

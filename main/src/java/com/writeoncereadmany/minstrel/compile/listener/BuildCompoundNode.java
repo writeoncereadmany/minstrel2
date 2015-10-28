@@ -1,13 +1,13 @@
 package com.writeoncereadmany.minstrel.compile.listener;
 
-import com.writeoncereadmany.minstrel.compile.astbuilders.AstNodeBuilder;
+import com.writeoncereadmany.minstrel.compile.Source;
 import org.antlr.v4.runtime.ParserRuleContext;
 
 public class BuildCompoundNode extends RuleProcessor {
 
-    private final Constructor constructor;
+    private final NodeConstructor constructor;
 
-    public BuildCompoundNode(Class<? extends ParserRuleContext> contextType, Constructor constructor)
+    public BuildCompoundNode(Class<? extends ParserRuleContext> contextType, NodeConstructor constructor)
     {
         super(contextType);
         this.constructor = constructor;
@@ -16,7 +16,7 @@ public class BuildCompoundNode extends RuleProcessor {
     @Override
     public void onEnter(ParserRuleContext ctx, ASTBuilder builder)
     {
-        builder.startBuildingNode(constructor.construct());
+        builder.startBuildingNode(constructor.construct(Source.fromContext(ctx)));
     }
 
     @Override
@@ -26,9 +26,4 @@ public class BuildCompoundNode extends RuleProcessor {
     }
 
 
-    @FunctionalInterface
-    interface Constructor
-    {
-        AstNodeBuilder construct();
-    }
 }

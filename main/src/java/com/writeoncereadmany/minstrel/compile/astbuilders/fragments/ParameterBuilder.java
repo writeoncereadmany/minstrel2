@@ -1,5 +1,6 @@
 package com.writeoncereadmany.minstrel.compile.astbuilders.fragments;
 
+import com.writeoncereadmany.minstrel.compile.Source;
 import com.writeoncereadmany.minstrel.compile.ast.AstNode;
 import com.writeoncereadmany.minstrel.compile.ast.fragments.Parameter;
 import com.writeoncereadmany.minstrel.compile.ast.fragments.Terminal;
@@ -8,8 +9,14 @@ import com.writeoncereadmany.minstrel.compile.astbuilders.AstNodeBuilder;
 
 public class ParameterBuilder implements AstNodeBuilder<Parameter>
 {
+    private final Source source;
     private TypeExpression type;
     private Terminal name;
+
+    public ParameterBuilder(Source source)
+    {
+        this.source = source;
+    }
 
     @Override
     public Parameter build()
@@ -18,7 +25,7 @@ public class ParameterBuilder implements AstNodeBuilder<Parameter>
         {
             throw new IllegalArgumentException("Parameter not fully defined");
         }
-        return new Parameter(type, name);
+        return new Parameter(source, type, name);
     }
 
     @Override
