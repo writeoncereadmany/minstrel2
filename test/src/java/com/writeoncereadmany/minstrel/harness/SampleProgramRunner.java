@@ -67,7 +67,7 @@ public class SampleProgramRunner
     public void testASingleScript() throws Exception
     {
         final List<String> errorCollector = new ArrayList<>();
-        runFileAndVerifyResults(new File(ROOT_SCRIPT_DIR, "implemented/typechecking/call_on_nonfunction.minstrel"), errorCollector);
+        runFileAndVerifyResults(new File(ROOT_SCRIPT_DIR, "implemented/typechecking/accessing_nonexistent_member.minstrel"), errorCollector);
         assertThat(errorCollector, is(empty()));
     }
 
