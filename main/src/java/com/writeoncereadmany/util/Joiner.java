@@ -2,17 +2,43 @@ package com.writeoncereadmany.util;
 
 import java.util.stream.Collector;
 
-/**
- * Created by tom on 28/10/2015.
- */
 public class Joiner
 {
-    public static Collector<? super String, StringBuilder, String> joinWith(String separator)
+    public static Collector<? super String, JoinerBuilder, String> joinWith(String separator)
     {
-        return Collector.of(StringBuilder::new,
-                (builder, string) -> builder.append(separator).append(string),
-                (builder1, builder2) -> builder1.append(separator).append(builder2.toString()),
-                StringBuilder::toString);
+        return Collector.of(() -> new JoinerBuilder(separator), JoinerBuilder::append, JoinerBuilder::combine, JoinerBuilder::toString);
     }
 
+    private static class JoinerBuilder
+    {
+        private final String separator;
+        private final StringBuilder stringBuilder = new StringBuilder();
+        private boolean started = false;
+
+        public JoinerBuilder(String separator)
+        {
+            this.separator = separator;
+        }
+
+        public JoinerBuilder append(String toAppend)
+        {
+            if(started)
+            {
+               stringBuilder.append(separator);
+            }
+            stringBuilder.append(toAppend);
+            started = true;
+            return this;
+        }
+
+        public JoinerBuilder combine(JoinerBuilder builder)
+        {
+            return append(builder.toString());
+        }
+
+        public String toString()
+        {
+            return stringBuilder.toString();
+        }
+    }
 }

@@ -68,7 +68,7 @@ public class SampleProgramRunner
     public void testASingleScript() throws Exception
     {
         final List<String> errorCollector = new ArrayList<>();
-        runFileAndVerifyResults(new File(ROOT_SCRIPT_DIR, "implemented/typechecking/accessing_nonexistent_member.minstrel"), errorCollector);
+        runFileAndVerifyResults(new File(ROOT_SCRIPT_DIR, "implemented/typechecking/wrong_arity.minstrel"), errorCollector);
         assertThat(errorCollector, is(empty()));
     }
 
@@ -174,7 +174,7 @@ public class SampleProgramRunner
         String actualOutputString = printed.toString();
 
         Path expectedOutputPath = replaceExtension(file, "out").toPath();
-        Collector<? super String, StringBuilder, String> joiner = joinWith("\n");
+        Collector<? super String, ?, String> joiner = joinWith("\n");
 
         if(actualOutputString.isEmpty() && !Files.exists(expectedOutputPath))
         {

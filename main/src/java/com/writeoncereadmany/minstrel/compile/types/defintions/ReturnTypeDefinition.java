@@ -47,6 +47,6 @@ public class ReturnTypeDefinition implements TypeDefinition
     @Override
     public String describe()
     {
-        return "Return type of " + calledFunction;
+        return "Return type of " + calledFunction.describe();
     }
 }

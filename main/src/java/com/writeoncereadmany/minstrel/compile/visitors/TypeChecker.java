@@ -17,6 +17,7 @@ import com.writeoncereadmany.minstrel.compile.types.defintions.TypeDefinition;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
@@ -163,16 +164,16 @@ public class TypeChecker implements AstVisitor
 
     private boolean recordTypeCoherencyErrors(TypeDefinition type)
     {
-        return storeTypeErrors(typeEngine.checkCoherent(type));
+        return storeTypeErrors(typeEngine.checkCoherent(type), error -> String.format("Type %s is incoherent: %s", type.describe(), error));
     }
 
     private boolean recordTypeIncompatibilities(TypeDefinition sourceType, TypeDefinition targetType)
     {
-        return storeTypeErrors(typeEngine.canAssign(sourceType, targetType));
+        return storeTypeErrors(typeEngine.canAssign(sourceType, targetType), error -> String.format("%s cannot be assigned to %s: %s", targetType.describe(), sourceType.describe(), error));
     }
 
-    private boolean storeTypeErrors(Stream<TypeError> typeErrorStream)
+    private boolean storeTypeErrors(Stream<TypeError> typeErrorStream, Function<String, String> describer)
     {
-        return typeErrors.addAll(typeErrorStream.collect(toList()));
+        return typeErrors.addAll(typeErrorStream.map(typeError -> new TypeError(describer.apply(typeError.toString()))).collect(toList()));
     }
 }
