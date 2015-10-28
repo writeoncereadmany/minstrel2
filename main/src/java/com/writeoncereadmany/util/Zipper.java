@@ -1,7 +1,9 @@
 package com.writeoncereadmany.util;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.function.BiFunction;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import static java.util.Collections.unmodifiableList;
 
@@ -20,5 +22,29 @@ public class Zipper
             zipped.add(new Pair<>(left.get(i), right.get(i)));
         }
         return unmodifiableList(zipped);
+    }
+
+    public static <L, R, Z> Stream<Z> zip(Stream<L> left, Stream<R> right, BiFunction<L, R, Z> zipper)
+    {
+        Objects.requireNonNull(zipper);
+        Iterator<L> lefterator = Spliterators.iterator(Objects.requireNonNull(left).spliterator());
+        Iterator<R> righterator = Spliterators.iterator(Objects.requireNonNull(right).spliterator());
+
+        Iterator<Z> ziperator = new Iterator<Z>()
+        {
+
+            @Override
+            public boolean hasNext() {
+                return lefterator.hasNext() && righterator.hasNext();
+            }
+
+            @Override
+            public Z next() {
+                return zipper.apply(lefterator.next(), righterator.next());
+            }
+        };
+        Iterable<Z> iterable = () -> ziperator;
+        boolean parallel = left.isParallel() && right.isParallel();
+        return StreamSupport.stream(iterable.spliterator(), parallel);
     }
 }
