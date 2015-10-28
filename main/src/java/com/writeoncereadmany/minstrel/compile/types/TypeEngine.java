@@ -66,7 +66,6 @@ public class TypeEngine
 
     public Stream<TypeError> checkCoherent(TypeDefinition definition)
     {
-
         final Type type = definition.getType(this);
         if(type instanceof StructuralType)
         {

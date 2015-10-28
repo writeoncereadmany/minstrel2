@@ -17,6 +17,7 @@ import com.writeoncereadmany.minstrel.compile.types.defintions.TypeDefinition;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
@@ -43,7 +44,7 @@ public class TypeChecker implements AstVisitor
         visit(declaration.expression);
         TypeDefinition result = declaration.expression.type();
         TypeDefinition variableType = declaration.type.type();
-        checkCanAssign(result, variableType);
+        recordTypeIncompatibilities(result, variableType);
     }
 
     @Override
@@ -105,7 +106,8 @@ public class TypeChecker implements AstVisitor
     public void visitMemberAccess(MemberAccess memberAccess)
     {
         visit(memberAccess.expression);
-        typeEngine.checkCoherent(memberAccess.type());
+        TypeDefinition type = memberAccess.type();
+        recordTypeCoherencyErrors(type);
     }
 
     @Override
@@ -115,10 +117,16 @@ public class TypeChecker implements AstVisitor
         functionCall.args.expressions.forEach(this::visit);
 
         TypeDefinition functionType = functionCall.function.type();
+
+        if (recordTypeCoherencyErrors(functionType.returnType()))
+        {
+            return;
+        }
+
         List<TypeDefinition> actualArguments = functionCall.args.expressions.stream().map(Typed::type).collect(toList());
 
         FunctionType actualCall = new FunctionType(actualArguments, SpecialTypes.ANYTHING);
-        checkCanAssign(functionType, actualCall);
+        recordTypeIncompatibilities(functionType, actualCall);
     }
 
     @Override
@@ -148,13 +156,23 @@ public class TypeChecker implements AstVisitor
         visit(functionTypeLiteral.returnType);
     }
 
-    private boolean checkCanAssign(TypeDefinition sourceType, TypeDefinition targetType)
-    {
-        return typeErrors.addAll(typeEngine.canAssign(sourceType, targetType).collect(toList()));
-    }
-
     public List<TypeError> getTypeErrors()
     {
         return typeErrors;
+    }
+
+    private boolean recordTypeCoherencyErrors(TypeDefinition type)
+    {
+        return storeTypeErrors(typeEngine.checkCoherent(type));
+    }
+
+    private boolean recordTypeIncompatibilities(TypeDefinition sourceType, TypeDefinition targetType)
+    {
+        return storeTypeErrors(typeEngine.canAssign(sourceType, targetType));
+    }
+
+    private boolean storeTypeErrors(Stream<TypeError> typeErrorStream)
+    {
+        return typeErrors.addAll(typeErrorStream.collect(toList()));
     }
 }

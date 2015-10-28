@@ -1,0 +1,2 @@
+Number notAFunction is 42;
+notAFunction[12];
