@@ -24,27 +24,64 @@ public class Zipper
         return unmodifiableList(zipped);
     }
 
-    public static <L, R, Z> Stream<Z> zip(Stream<L> left, Stream<R> right, BiFunction<L, R, Z> zipper)
+    public static <L, R, Z> Stream<Z> zipShortest(Stream<L> left, Stream<R> right, BiFunction<L, R, Z> zipper)
     {
         Objects.requireNonNull(zipper);
         Iterator<L> lefterator = Spliterators.iterator(Objects.requireNonNull(left).spliterator());
         Iterator<R> righterator = Spliterators.iterator(Objects.requireNonNull(right).spliterator());
 
+        return zip(lefterator, righterator, zipper, (a, b) -> a && b);
+    }
+
+    public static <L, R, Z> Stream<Z> zipLongest(Stream<L> left, Stream<R> right, BiFunction<L, R, Z> zipper, L defaultLeft, R defaultRight)
+    {
+        Objects.requireNonNull(zipper);
+        Iterator<L> lefterator = new Defaulterator<>(Spliterators.iterator(Objects.requireNonNull(left).spliterator()), defaultLeft);
+        Iterator<R> righterator = new Defaulterator<>(Spliterators.iterator(Objects.requireNonNull(right).spliterator()), defaultRight);
+
+        return zip(lefterator, righterator, zipper, (a, b) -> a || b);
+    }
+
+    private static <L, R, Z> Stream<Z> zip(Iterator<L> left, Iterator<R> right, BiFunction<L, R, Z> zipper, BiFunction<Boolean, Boolean, Boolean> shouldContinue)
+    {
         Iterator<Z> ziperator = new Iterator<Z>()
         {
-
             @Override
-            public boolean hasNext() {
-                return lefterator.hasNext() && righterator.hasNext();
+            public boolean hasNext()
+            {
+                return shouldContinue.apply(left.hasNext(), right.hasNext());
             }
 
             @Override
-            public Z next() {
-                return zipper.apply(lefterator.next(), righterator.next());
+            public Z next()
+            {
+                return zipper.apply(left.next(), right.next());
             }
         };
+
         Iterable<Z> iterable = () -> ziperator;
-        boolean parallel = left.isParallel() && right.isParallel();
-        return StreamSupport.stream(iterable.spliterator(), parallel);
+        return StreamSupport.stream(iterable.spliterator(), false);
+    }
+
+    private static class Defaulterator<T> implements Iterator<T>
+    {
+        private final Iterator<T> internalIterator;
+        private final T defaultValue;
+
+        private Defaulterator(Iterator<T> internalIterator, T defaultValue)
+        {
+            this.internalIterator = internalIterator;
+            this.defaultValue = defaultValue;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return internalIterator.hasNext();
+        }
+
+        @Override
+        public T next() {
+            return internalIterator.hasNext() ? internalIterator.next() : defaultValue;
+        }
     }
 }
