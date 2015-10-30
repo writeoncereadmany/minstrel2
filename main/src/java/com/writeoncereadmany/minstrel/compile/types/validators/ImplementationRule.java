@@ -32,4 +32,10 @@ public class ImplementationRule implements TypingRule
                                    ? Stream.empty()
                                    : Stream.of(new TypeError("Target type cannot accept implementation " + impl.name())));
     }
+
+    @Override
+    public int priority()
+    {
+        return 1;
+    }
 }

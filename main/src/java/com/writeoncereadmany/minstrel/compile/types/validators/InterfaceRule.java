@@ -36,4 +36,9 @@ public class InterfaceRule implements TypingRule
             return engine.canAssign(sourceType, targetType);
         });
     }
+
+    @Override
+    public int priority() {
+        return 2;
+    }
 }

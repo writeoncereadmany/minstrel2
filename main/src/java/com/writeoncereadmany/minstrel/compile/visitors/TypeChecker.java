@@ -18,6 +18,7 @@ import com.writeoncereadmany.minstrel.compile.types.defintions.TypeDefinition;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -175,6 +176,8 @@ public class TypeChecker implements AstVisitor
 
     private boolean storeTypeErrors(Stream<TypeError> typeErrorStream, Function<String, String> describer)
     {
-        return typeErrors.addAll(typeErrorStream.map(typeError -> new TypeError(describer.apply(typeError.toString()))).collect(toList()));
+        Optional<TypeError> simplestTypeError = typeErrorStream.map(typeError -> new TypeError(describer.apply(typeError.toString()))).findFirst();
+        simplestTypeError.ifPresent(typeErrors::add);
+        return simplestTypeError.isPresent();
     }
 }

@@ -8,17 +8,19 @@ import com.writeoncereadmany.util.Multimap;
 
 import java.util.List;
 import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.stream.Stream;
 
 public class TypeEngine
 {
-    private final List<TypingRule> rules;
+    private final SortedSet<TypingRule> rules;
     private final Map<ScopeIndex, Type> typeDefinitions;
     private final Multimap<TypeDefinition, TypeDefinition> alreadyVisitedDefinitions = new Multimap<>();
 
     public TypeEngine(List<TypingRule> rules, Map<ScopeIndex, Type> typeDefinitions)
     {
-        this.rules = rules;
+        this.rules = new TreeSet<>(rules);
         this.typeDefinitions = typeDefinitions;
     }
 
@@ -33,7 +35,7 @@ public class TypeEngine
     {
         if(sourceType instanceof Nothing)
         {
-            // Nothing is assignable to anything: including Nothing
+            // Nothing is assignable to anything, including Nothing
             return Stream.empty();
         }
         else if(targetType instanceof Nothing)

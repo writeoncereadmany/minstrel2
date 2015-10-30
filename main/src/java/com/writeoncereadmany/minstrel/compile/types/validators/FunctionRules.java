@@ -39,6 +39,12 @@ public class FunctionRules implements TypingRule
                              getReturnTypeMismatches(sourceType, targetType, checker));
     }
 
+    @Override
+    public int priority()
+    {
+        return 3;
+    }
+
     private Stream<TypeError> getReturnTypeMismatches(FunctionType sourceType, FunctionType targetType, TypeEngine checker)
     {
         TypeDefinition sourceReturnType = sourceType.returnType;

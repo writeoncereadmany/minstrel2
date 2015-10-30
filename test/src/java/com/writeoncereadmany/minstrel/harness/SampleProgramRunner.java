@@ -70,7 +70,7 @@ public class SampleProgramRunner
     public void testASingleScript() throws Exception
     {
         final List<String> errorCollector = new ArrayList<>();
-        runFileAndVerifyResults(new File(ROOT_SCRIPT_DIR, "implemented/typechecking/wrong_arity.minstrel"), errorCollector);
+        runFileAndVerifyResults(new File(ROOT_SCRIPT_DIR, "implemented/strings/cannot_concatenate_strings_and_numbers.minstrel"), errorCollector);
         assertThat(errorCollector, is(empty()));
     }
 

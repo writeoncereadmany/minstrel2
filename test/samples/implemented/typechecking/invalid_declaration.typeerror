@@ -1,6 +1,1 @@
-Type error on line 1. In String actuallyANumber is 42, String cannot be assigned to Number: Source type does not have member dividedBy
-Type error on line 1. In String actuallyANumber is 42, String cannot be assigned to Number: Source type does not have member minus
-Type error on line 1. In String actuallyANumber is 42, String cannot be assigned to Number: Source type does not have member multipliedBy
-Type error on line 1. In String actuallyANumber is 42, String cannot be assigned to Number: Source type does not have member negate
-Type error on line 1. In String actuallyANumber is 42, String cannot be assigned to Number: Target type cannot accept implementation String
 Type error on line 1. In String actuallyANumber is 42, String cannot be assigned to Number: Target type cannot accept implementation Number
