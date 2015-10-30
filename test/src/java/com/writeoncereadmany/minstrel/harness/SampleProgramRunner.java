@@ -28,6 +28,7 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.writeoncereadmany.minstrel.harness.utils.ErrorChecker.collateErrors;
 import static com.writeoncereadmany.minstrel.harness.utils.FileUtils.firstLine;
@@ -158,7 +159,10 @@ public class SampleProgramRunner
                 }
             }
 
-            verifyOutput(file, printed, errorCollector);
+            if(!printed.toString().isEmpty())
+            {
+                collateErrors("out", file.toPath(), () -> Stream.of(printed.toString().split("\n")), errorCollector::add);
+            }
         }
         catch (IOException ex)
         {
@@ -168,40 +172,6 @@ public class SampleProgramRunner
         {
             throw new RuntimeException("Error when parsing " + file.getName(), ex);
         }
-    }
-
-    private void verifyOutput(File file, ByteArrayOutputStream printed, List<String> errorCollector) throws IOException
-    {
-        String actualOutputString = printed.toString();
-
-        Path expectedOutputPath = replaceExtension(file, "out").toPath();
-        Collector<? super String, ?, String> joiner = joinWith("\n");
-
-        if(actualOutputString.isEmpty() && !Files.exists(expectedOutputPath))
-        {
-            // everything's fine! no need to do anything. but it's clearer with all possibilities enumerated
-        }
-        else if(actualOutputString.isEmpty() && Files.exists(expectedOutputPath))
-        {
-            errorCollector.add("Expected output from " + file.getName() + " but got none");
-        }
-        else if(!actualOutputString.isEmpty() && !Files.exists(expectedOutputPath))
-        {
-            errorCollector.add("Expected no output from " + file.getName() + " but got: " + actualOutputString);
-        }
-        else
-        {
-            List<String> actualOutput = asList(actualOutputString.split("\n"));
-            List<String> expectedOutput = Files.lines(expectedOutputPath).collect(Collectors.toList());
-
-            if(!actualOutput.equals(expectedOutput))
-            {
-                errorCollector.add("Wrong output from " + file.getName() + ". Expected:\n" +
-                                   expectedOutput.stream().collect(joiner) + "\n Actual: \n" +
-                                   actualOutput.stream().collect(joiner));
-            }
-        }
-
     }
 
 
