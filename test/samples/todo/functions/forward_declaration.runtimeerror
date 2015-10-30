@@ -1,2 +1,1 @@
-Note! This is only expected to fail right now because we haven't implemented dependency analysis in the interpreter.
-Hopefully at some point we can do something about that? But that's way down the list of priorities.
+java.lang.NullPointerException

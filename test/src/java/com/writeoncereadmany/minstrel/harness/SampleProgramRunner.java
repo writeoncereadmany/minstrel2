@@ -153,7 +153,7 @@ public class SampleProgramRunner
             }
             catch (RuntimeException ex)
             {
-                if (hasExpectedRuntimeErrors(file, errorCollector, ex))
+                if (collateErrors("runtimeerror", file.toPath(), () -> Stream.of(ex.toString()), errorCollector::add))
                 {
                     return;
                 }
@@ -172,29 +172,5 @@ public class SampleProgramRunner
         {
             throw new RuntimeException("Error when parsing " + file.getName(), ex);
         }
-    }
-
-
-    private boolean hasExpectedRuntimeErrors(File file, List<String> errorCollector, RuntimeException ex) throws FileNotFoundException
-    {
-        File runtimeErrors = replaceExtension(file, "runtimeerror");
-        // for now, just check the file exists. we'll verify its contents later
-        if(!runtimeErrors.exists())
-        {
-            errorCollector.add(String.format("Expected no runtime errors for %s, but got %s: %s",
-                    file.getName(),
-                    ex,
-                    Arrays.stream(ex.getStackTrace()).map(StackTraceElement::toString).collect(joinWith("\n"))));
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
-
-    private File replaceExtension(File file, String newExtension)
-    {
-        return new File(file.getAbsolutePath().replace(".minstrel", "." + newExtension));
     }
 }
