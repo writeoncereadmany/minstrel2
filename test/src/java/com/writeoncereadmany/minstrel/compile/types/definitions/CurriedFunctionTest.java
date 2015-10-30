@@ -24,12 +24,12 @@ import static org.junit.Assert.assertThat;
 
 public class CurriedFunctionTest
 {
-    public static final ScopeIndex NUMBER = new ScopeIndex(3, 2);
+    public static final ScopeIndex NUMBER = new ScopeIndex("Number", 3, 2);
 
     @Test
     public void canRepresentFunctionCallsOnTypesIndependentlyOfTheirDefinitionsAndResolveCorrectly()
     {
-        final ScopeIndex functionTypeName = new ScopeIndex(3, 3);
+        final ScopeIndex functionTypeName = new ScopeIndex("func", 3, 3);
         final ConcreteTypeDefinition namedCurriedFunction = new ConcreteTypeDefinition(functionTypeName, "Curried");
         final TypeDefinition callTwice = namedCurriedFunction.returnType().returnType();
 
@@ -51,7 +51,7 @@ public class CurriedFunctionTest
     @Test
     public void attemptingToGetReturnTypesFromNonFunctionsWillResultInUndefinedTypes()
     {
-        final ScopeIndex functionTypeName = new ScopeIndex(3, 3);
+        final ScopeIndex functionTypeName = new ScopeIndex("func", 3, 3);
         final ConcreteTypeDefinition namedFunction = new ConcreteTypeDefinition(functionTypeName, "Funcy");
         final TypeDefinition callTwice = namedFunction.returnType().returnType();
 
@@ -72,7 +72,7 @@ public class CurriedFunctionTest
     @Test
     public void attemptingToGetMissingMemberTypesWillResultInUndefinedTypes()
     {
-        final ScopeIndex recordTypeName = new ScopeIndex(3, 3);
+        final ScopeIndex recordTypeName = new ScopeIndex("func", 3, 3);
         final ConcreteTypeDefinition namedRecord = new ConcreteTypeDefinition(recordTypeName, "Fooable");
         final TypeDefinition getMember = namedRecord.getMember("foo");
 

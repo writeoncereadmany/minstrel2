@@ -24,11 +24,11 @@ import static org.junit.Assert.assertThat;
 
 public class FunctionTypeTest
 {
-    private final ScopeIndex CAT_DEF = new ScopeIndex(3, 2);
-    private final ScopeIndex DOG_DEF = new ScopeIndex(3, 3);
-    private final ScopeIndex MAMMAL_DEF = new ScopeIndex(3, 4);
-    private final ScopeIndex FISH_DEF = new ScopeIndex(3, 5);
-    private final ScopeIndex ANIMAL_DEF = new ScopeIndex(3, 6);
+    private final ScopeIndex CAT_DEF = new ScopeIndex("Cat", 3, 2);
+    private final ScopeIndex DOG_DEF = new ScopeIndex("Dog", 3, 3);
+    private final ScopeIndex MAMMAL_DEF = new ScopeIndex("Mammal", 3, 4);
+    private final ScopeIndex FISH_DEF = new ScopeIndex("Fish", 3, 5);
+    private final ScopeIndex ANIMAL_DEF = new ScopeIndex("Animal", 3, 6);
 
     private final Map<ScopeIndex, Type> definitions = mapOf(
             entry(CAT_DEF, new StructuralType(new Implementation(CAT_DEF))),

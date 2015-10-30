@@ -25,13 +25,13 @@ import static org.junit.Assert.assertThat;
 
 public class InterfaceTest
 {
-    private static final ScopeIndex NUMBER_DEFINITION = new ScopeIndex(1, 1);
-    private static final ScopeIndex STRING_DEFINITION = new ScopeIndex(1, 2);
-    private static final ScopeIndex FISH_DEFINITION = new ScopeIndex(3, 1);
-    private static final ScopeIndex DOG_DEFINITION = new ScopeIndex(3, 2);
-    private static final ScopeIndex CAT_DEFINITION = new ScopeIndex(3, 3);
-    private static final ScopeIndex ANIMAL_DEFINITION = new ScopeIndex(3, 4);
-    private static final ScopeIndex MAMMAL_DEFINITION = new ScopeIndex(3, 5);
+    private static final ScopeIndex NUMBER_DEFINITION = new ScopeIndex("Number", 1, 1);
+    private static final ScopeIndex STRING_DEFINITION = new ScopeIndex("String", 1, 2);
+    private static final ScopeIndex FISH_DEFINITION = new ScopeIndex("Fish", 3, 1);
+    private static final ScopeIndex DOG_DEFINITION = new ScopeIndex("Dog", 3, 2);
+    private static final ScopeIndex CAT_DEFINITION = new ScopeIndex("Cat", 3, 3);
+    private static final ScopeIndex ANIMAL_DEFINITION = new ScopeIndex("Animal", 3, 4);
+    private static final ScopeIndex MAMMAL_DEFINITION = new ScopeIndex("Mammal", 3, 5);
 
     private static final TypeDefinition NUMBER = new ConcreteTypeDefinition(NUMBER_DEFINITION, "INumber");
     private static final TypeDefinition STRING = new ConcreteTypeDefinition(STRING_DEFINITION, "IString");
@@ -83,8 +83,8 @@ public class InterfaceTest
     @Test
     public void anInterfaceIsAssignableIfFunctionTypesAreAssignable()
     {
-        ScopeIndex stringToCatDefinition = new ScopeIndex(4, 1);
-        ScopeIndex stringToMammalDefinition = new ScopeIndex(4, 2);
+        ScopeIndex stringToCatDefinition = new ScopeIndex("StringToCat", 4, 1);
+        ScopeIndex stringToMammalDefinition = new ScopeIndex("StringToMammal", 4, 2);
 
         TypeDefinition stringToCat = new ConcreteTypeDefinition(stringToCatDefinition, "StringToCat");
         TypeDefinition stringToMammal = new ConcreteTypeDefinition(stringToMammalDefinition, "StringToMammal");
@@ -112,8 +112,8 @@ public class InterfaceTest
     @Test
     public void anInterfaceIsNotAssignableIfFunctionTypesAreNotAssignable()
     {
-        ScopeIndex stringToCatDefinition = new ScopeIndex(4, 1);
-        ScopeIndex stringToMammalDefinition = new ScopeIndex(4, 2);
+        ScopeIndex stringToCatDefinition = new ScopeIndex("StringToCat", 4, 1);
+        ScopeIndex stringToMammalDefinition = new ScopeIndex("StringToMammal", 4, 2);
 
         TypeDefinition stringToCat = new ConcreteTypeDefinition(stringToCatDefinition, "StringToCat");
         TypeDefinition stringToMammal = new ConcreteTypeDefinition(stringToMammalDefinition, "StringToMammal");
@@ -144,9 +144,9 @@ public class InterfaceTest
     @Test
     public void canHandleRecursiveDefinitions()
     {
-        ScopeIndex stringListDefinition = new ScopeIndex(5, 1);
-        ScopeIndex handleNextDefn = new ScopeIndex(5, 2);
-        ScopeIndex handleEndDefn = new ScopeIndex(5, 3);
+        ScopeIndex stringListDefinition = new ScopeIndex("StringList", 5, 1);
+        ScopeIndex handleNextDefn = new ScopeIndex("handleNext", 5, 2);
+        ScopeIndex handleEndDefn = new ScopeIndex("handleEnd", 5, 3);
 
         TypeDefinition stringList = new ConcreteTypeDefinition(stringListDefinition, "StringList");
         TypeDefinition handleNext = new ConcreteTypeDefinition(handleNextDefn, "HandleNext");
@@ -171,13 +171,13 @@ public class InterfaceTest
     @Test
     public void canHandleMismatchedRecursiveDefinitions()
     {
-        ScopeIndex stringListDefinition = new ScopeIndex(5, 1);
-        ScopeIndex handleNextStringDefn = new ScopeIndex(5, 2);
-        ScopeIndex handleEndStringDefn = new ScopeIndex(5, 3);
+        ScopeIndex stringListDefinition = new ScopeIndex("StringList", 5, 1);
+        ScopeIndex handleNextStringDefn = new ScopeIndex("nextString", 5, 2);
+        ScopeIndex handleEndStringDefn = new ScopeIndex("endOfStrings", 5, 3);
 
-        ScopeIndex numberListDefinition = new ScopeIndex(5, 4);
-        ScopeIndex handleNextNumberDefn = new ScopeIndex(5, 5);
-        ScopeIndex handleEndNumberDefn = new ScopeIndex(5, 6);
+        ScopeIndex numberListDefinition = new ScopeIndex("NumberList", 5, 4);
+        ScopeIndex handleNextNumberDefn = new ScopeIndex("nextNumber", 5, 5);
+        ScopeIndex handleEndNumberDefn = new ScopeIndex("endOfNumbers", 5, 6);
 
         TypeDefinition stringList = new ConcreteTypeDefinition(stringListDefinition, "StringList");
         TypeDefinition handleNextString = new ConcreteTypeDefinition(handleNextStringDefn, "HandleNextString");

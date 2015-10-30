@@ -36,7 +36,7 @@ public class Scope
         Namespace namespace = namespaces.get(kind);
         if(namespace.contains(name.text))
         {
-            return new ScopeIndex(index, namespace.indexOf(name.text));
+            return new ScopeIndex(name.text, index, namespace.indexOf(name.text));
         }
         else if(parentScope != null)
         {

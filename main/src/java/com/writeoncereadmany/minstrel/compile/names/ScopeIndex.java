@@ -14,13 +14,15 @@ import java.util.Objects;
  */
 public class ScopeIndex
 {
-    public static final ScopeIndex UNDEFINED = new ScopeIndex(Integer.MIN_VALUE, Integer.MIN_VALUE);
+    public static final ScopeIndex UNDEFINED = new ScopeIndex("Undefined", Integer.MIN_VALUE, Integer.MIN_VALUE);
 
+    private final String name;
     private final int scopeIndex;
     private final int positionIndex;
 
-    public ScopeIndex(int scopeIndex, int positionIndex)
+    public ScopeIndex(String name, int scopeIndex, int positionIndex)
     {
+        this.name = name;
         this.scopeIndex = scopeIndex;
         this.positionIndex = positionIndex;
     }

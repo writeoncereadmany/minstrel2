@@ -14,10 +14,10 @@ import static org.junit.Assert.assertThat;
 
 public class ImplementationTest
 {
-    public static final ScopeIndex NUMBER = new ScopeIndex(3, 2);
-    public static final ScopeIndex STRING = new ScopeIndex(3, 4);
-    public static final ScopeIndex TRUE = new ScopeIndex(2, 4);
-    public static final ScopeIndex FALSE = new ScopeIndex(2, 5);
+    public static final ScopeIndex NUMBER = new ScopeIndex("Number", 3, 2);
+    public static final ScopeIndex STRING = new ScopeIndex("String", 3, 4);
+    public static final ScopeIndex TRUE = new ScopeIndex("True", 2, 4);
+    public static final ScopeIndex FALSE = new ScopeIndex("False", 2, 5);
 
     private final TypeEngine typeEngine = new TypeEngine(singletonList(new ImplementationRule()), emptyMap());
 
