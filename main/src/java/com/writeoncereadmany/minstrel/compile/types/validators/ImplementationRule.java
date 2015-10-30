@@ -30,6 +30,6 @@ public class ImplementationRule implements TypingRule
         return sourceImplementation.possibleImplementations.stream()
                 .flatMap(impl -> targetImplementation.possibleImplementations.contains(impl)
                                    ? Stream.empty()
-                                   : Stream.of(new TypeError("Target type cannot accept implementation " + impl)));
+                                   : Stream.of(new TypeError("Target type cannot accept implementation " + impl.name())));
     }
 }

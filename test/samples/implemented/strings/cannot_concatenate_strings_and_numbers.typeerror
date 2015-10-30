@@ -2,5 +2,5 @@ Type error on line 1. In "The answer is: " + 42, [Number] -> Anything cannot be 
 Type error on line 1. In "The answer is: " + 42, [Number] -> Anything cannot be assigned to String.plus: Source type does not have member minus
 Type error on line 1. In "The answer is: " + 42, [Number] -> Anything cannot be assigned to String.plus: Source type does not have member multipliedBy
 Type error on line 1. In "The answer is: " + 42, [Number] -> Anything cannot be assigned to String.plus: Source type does not have member negate
-Type error on line 1. In "The answer is: " + 42, [Number] -> Anything cannot be assigned to String.plus: Target type cannot accept implementation ScopeIndex{scopeIndex=0, positionIndex=0}
-Type error on line 1. In "The answer is: " + 42, [Number] -> Anything cannot be assigned to String.plus: Target type cannot accept implementation ScopeIndex{scopeIndex=0, positionIndex=1}
+Type error on line 1. In "The answer is: " + 42, [Number] -> Anything cannot be assigned to String.plus: Target type cannot accept implementation String
+Type error on line 1. In "The answer is: " + 42, [Number] -> Anything cannot be assigned to String.plus: Target type cannot accept implementation Number

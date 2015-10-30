@@ -2,5 +2,5 @@ Type error on line 2. In printNum["chihuahuas"], [String] -> Anything cannot be 
 Type error on line 2. In printNum["chihuahuas"], [String] -> Anything cannot be assigned to [Number] -> Success: Source type does not have member minus
 Type error on line 2. In printNum["chihuahuas"], [String] -> Anything cannot be assigned to [Number] -> Success: Source type does not have member multipliedBy
 Type error on line 2. In printNum["chihuahuas"], [String] -> Anything cannot be assigned to [Number] -> Success: Source type does not have member negate
-Type error on line 2. In printNum["chihuahuas"], [String] -> Anything cannot be assigned to [Number] -> Success: Target type cannot accept implementation ScopeIndex{scopeIndex=0, positionIndex=1}
-Type error on line 2. In printNum["chihuahuas"], [String] -> Anything cannot be assigned to [Number] -> Success: Target type cannot accept implementation ScopeIndex{scopeIndex=0, positionIndex=0}
+Type error on line 2. In printNum["chihuahuas"], [String] -> Anything cannot be assigned to [Number] -> Success: Target type cannot accept implementation Number
+Type error on line 2. In printNum["chihuahuas"], [String] -> Anything cannot be assigned to [Number] -> Success: Target type cannot accept implementation String

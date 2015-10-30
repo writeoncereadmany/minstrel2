@@ -2,5 +2,5 @@ Type error on line 1. In String actuallyANumber is 42, String cannot be assigned
 Type error on line 1. In String actuallyANumber is 42, String cannot be assigned to Number: Source type does not have member minus
 Type error on line 1. In String actuallyANumber is 42, String cannot be assigned to Number: Source type does not have member multipliedBy
 Type error on line 1. In String actuallyANumber is 42, String cannot be assigned to Number: Source type does not have member negate
-Type error on line 1. In String actuallyANumber is 42, String cannot be assigned to Number: Target type cannot accept implementation ScopeIndex{scopeIndex=0, positionIndex=0}
-Type error on line 1. In String actuallyANumber is 42, String cannot be assigned to Number: Target type cannot accept implementation ScopeIndex{scopeIndex=0, positionIndex=1}
+Type error on line 1. In String actuallyANumber is 42, String cannot be assigned to Number: Target type cannot accept implementation String
+Type error on line 1. In String actuallyANumber is 42, String cannot be assigned to Number: Target type cannot accept implementation Number

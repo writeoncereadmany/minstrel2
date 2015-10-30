@@ -45,8 +45,14 @@ public class ScopeIndex
     @Override
     public String toString() {
         return "ScopeIndex{" +
-                "scopeIndex=" + scopeIndex +
+                "name=" + name +
+                ", scopeIndex=" + scopeIndex +
                 ", positionIndex=" + positionIndex +
                 '}';
+    }
+
+    public String name()
+    {
+        return name;
     }
 }
