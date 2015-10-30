@@ -1,0 +1,1 @@
+Type error on line 2. In notAFunction[12], type Return type of Number is incoherent: Cannot call a non-function

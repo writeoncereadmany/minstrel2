@@ -1,0 +1,1 @@
+Type error on line 1. In "Hello".foo, type String.foo is incoherent: No such member

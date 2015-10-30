@@ -29,7 +29,6 @@ public class Zipper
         Objects.requireNonNull(zipper);
         Iterator<L> lefterator = Spliterators.iterator(Objects.requireNonNull(left).spliterator());
         Iterator<R> righterator = Spliterators.iterator(Objects.requireNonNull(right).spliterator());
-
         return zip(lefterator, righterator, zipper, (a, b) -> a && b);
     }
 

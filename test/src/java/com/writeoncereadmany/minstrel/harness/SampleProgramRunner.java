@@ -69,7 +69,7 @@ public class SampleProgramRunner
     public void testASingleScript() throws Exception
     {
         final List<String> errorCollector = new ArrayList<>();
-        runFileAndVerifyResults(new File(ROOT_SCRIPT_DIR, "implemented/parsing/basic_parse_error.minstrel"), errorCollector);
+        runFileAndVerifyResults(new File(ROOT_SCRIPT_DIR, "implemented/typechecking/wrong_arity.minstrel"), errorCollector);
         assertThat(errorCollector, is(empty()));
     }
 
@@ -138,7 +138,7 @@ public class SampleProgramRunner
 
             List<TypeError> typeErrors = typeChecker.getTypeErrors();
 
-            if(hasExpectedTypeErrors(file, errorCollector, typeErrors) || !typeErrors.isEmpty())
+            if(collateErrors("typeerror", file.toPath(), () -> typeErrors.stream().map(TypeError::toString), errorCollector::add))
             {
                 return;
             }
@@ -204,86 +204,6 @@ public class SampleProgramRunner
 
     }
 
-    private boolean hasExpectedLexErrors(File file, List<String> errorCollector, TestErrorListener lexErrorListener) throws FileNotFoundException
-    {
-        File lexErrors = replaceExtension(file, "lexerror");
-        if(lexErrorListener.hasErrors())
-        {
-            // for now, just check the file exists. we'll verify its contents later.
-            if(!lexErrors.exists())
-            {
-                errorCollector.add(String.format("Expected no lex errors for %s", file.getName()));
-            }
-            else
-            {
-                assertThat(firstLine(lexErrors), is(lexErrorListener.errors()));
-                return true;
-            }
-        }
-        else
-        {
-            // for now, just check the file exists. we'll verify its contents later.
-            if(lexErrors.exists())
-            {
-                errorCollector.add(String.format("Expected lex errors for %s", file.getName()));
-            }
-        }
-        return false;
-    }
-
-
-    private boolean hasExpectedParseErrors(File file, List<String> errorCollector, TestErrorListener parseErrorListener) throws FileNotFoundException
-    {
-        File parseerrors = replaceExtension(file, "parseerror");
-        if(parseErrorListener.hasErrors())
-        {
-            // for now, just check the file exists. we'll verify its contents later
-            if(!parseerrors.exists())
-            {
-                errorCollector.add(String.format("Expected no parse errors for %s", file.getName()));
-            }
-            else
-            {
-                assertThat(firstLine(parseerrors), is(parseErrorListener.errors()));
-                // checking of contents goes here, then escape early
-                return true;
-            }
-        }
-        else
-        {
-            if(parseerrors.exists())
-            {
-                errorCollector.add(String.format("Expected parse errors for %s", file.getName()));
-            }
-        }
-        return false;
-    }
-
-    private boolean hasExpectedTypeErrors(File file, List<String> errorCollector, List<TypeError> typeErrors) throws FileNotFoundException
-    {
-        File typeErrorFile = replaceExtension(file, "typeerror");
-        if(!typeErrors.isEmpty())
-        {
-            // for now, just check the file exists. we'll verify its contents later
-            if(!typeErrorFile.exists())
-            {
-                errorCollector.add(String.format("Expected no type errors for %s", file.getName()));
-            }
-            else
-            {
-                // checking of contents goes here, then escape early
-                return true;
-            }
-        }
-        else
-        {
-            if(typeErrorFile.exists())
-            {
-                errorCollector.add(String.format("Expected type errors for %s", file.getName()));
-            }
-        }
-        return false;
-    }
 
     private boolean hasExpectedRuntimeErrors(File file, List<String> errorCollector, RuntimeException ex) throws FileNotFoundException
     {
