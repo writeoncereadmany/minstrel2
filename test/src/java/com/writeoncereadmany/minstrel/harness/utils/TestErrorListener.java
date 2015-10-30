@@ -43,8 +43,8 @@ public class TestErrorListener implements ANTLRErrorListener
         return !errors.isEmpty();
     }
 
-    public String firstError()
+    public List<String> errors()
     {
-        return errors.get(0);
+        return errors;
     }
 }

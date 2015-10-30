@@ -3,6 +3,7 @@ package com.writeoncereadmany.minstrel.harness.utils;
 import com.writeoncereadmany.util.Pair;
 import com.writeoncereadmany.util.Zipper;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -14,7 +15,7 @@ import static com.writeoncereadmany.util.Joiner.joinWith;
 
 public class ErrorChecker
 {
-    public static boolean continueAfterCollatingErrors(String errorFileExtension, Path codeFile, Supplier<Stream<String>> actualErrors, Consumer<String> errorCollector) throws Exception
+    public static boolean collateErrors(String errorFileExtension, Path codeFile, Supplier<Stream<String>> actualErrors, Consumer<String> errorCollector) throws IOException
     {
         final Path withErrorFileExtention = Paths.get(codeFile.toAbsolutePath().toString().replace(".minstrel", "." + errorFileExtension));
         boolean expectErrors = Files.exists(withErrorFileExtention);
@@ -31,7 +32,7 @@ public class ErrorChecker
         {
             Zipper.zipLongest(Files.lines(withErrorFileExtention), actualErrors.get(), Pair::new, "no more errors", "no more errors")
                   .filter(pair -> !pair.left.equals(pair.right))
-                  .map(pair -> "Mismatch in expected errors: expected " + pair.left + ", got " + pair.right)
+                  .map(pair -> "Mismatch in expected errors when running " + codeFile.toString() + ": expected " + pair.left + ", got " + pair.right)
                   .forEach(errorCollector::accept);
         }
         return expectErrors || gotErrors;

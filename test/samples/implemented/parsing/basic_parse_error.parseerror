@@ -1,1 +1,6 @@
 syntax error at line 1, column 10: missing 'is' at 'brown'
+syntax error at line 1, column 16: mismatched input 'fox' expecting {'/', '>=', '[', '<', '=', '>', '<=', '*', '+', '=/=', '-', '.', ';'}
+syntax error at line 1, column 26: missing 'is' at 'over'
+syntax error at line 1, column 31: mismatched input 'the' expecting {'/', '>=', '[', '<', '=', '>', '<=', '*', '+', '=/=', '-', '.', ';'}
+syntax error at line 1, column 40: missing 'is' at 'dog'
+syntax error at line 1, column 43: missing ';' at '<EOF>'

@@ -7,7 +7,6 @@ import com.writeoncereadmany.minstrel.compile.names.ScopeIndex;
 import com.writeoncereadmany.minstrel.compile.types.Type;
 import com.writeoncereadmany.minstrel.compile.types.TypeEngine;
 import com.writeoncereadmany.minstrel.compile.types.TypeError;
-import com.writeoncereadmany.minstrel.compile.types.defintions.TypeDefinition;
 import com.writeoncereadmany.minstrel.compile.types.validators.FunctionRules;
 import com.writeoncereadmany.minstrel.compile.types.validators.ImplementationRule;
 import com.writeoncereadmany.minstrel.compile.types.validators.InterfaceRule;
@@ -15,6 +14,7 @@ import com.writeoncereadmany.minstrel.compile.visitors.DefineNames;
 import com.writeoncereadmany.minstrel.compile.visitors.ResolveNames;
 import com.writeoncereadmany.minstrel.builtins.Builtins;
 import com.writeoncereadmany.minstrel.compile.visitors.TypeChecker;
+import com.writeoncereadmany.minstrel.harness.utils.ErrorChecker;
 import com.writeoncereadmany.minstrel.harness.utils.TestErrorListener;
 import com.writeoncereadmany.minstrel.orchestrator.MinstrelOrchestrator;
 import com.writeoncereadmany.minstrel.runtime.interpreter.Interpreter;
@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import static com.writeoncereadmany.minstrel.harness.utils.ErrorChecker.collateErrors;
 import static com.writeoncereadmany.minstrel.harness.utils.FileUtils.firstLine;
 import static com.writeoncereadmany.util.Joiner.joinWith;
 import static java.util.Arrays.asList;
@@ -68,7 +69,7 @@ public class SampleProgramRunner
     public void testASingleScript() throws Exception
     {
         final List<String> errorCollector = new ArrayList<>();
-        runFileAndVerifyResults(new File(ROOT_SCRIPT_DIR, "implemented/typechecking/accessing_nonexistent_member.minstrel"), errorCollector);
+        runFileAndVerifyResults(new File(ROOT_SCRIPT_DIR, "implemented/parsing/basic_parse_error.minstrel"), errorCollector);
         assertThat(errorCollector, is(empty()));
     }
 
@@ -99,12 +100,12 @@ public class SampleProgramRunner
             TokenStream lexed = orchestrator.lex(new FileInputStream(file));
             ParseTree parseTree = orchestrator.parse(lexed);
 
-            if (hasExpectedLexErrors(file, errorCollector, lexErrorListener))
+            if (collateErrors("lexerror", file.toPath(), lexErrorListener.errors()::stream, errorCollector::add))
             {
                 return;
             }
 
-            if (hasExpectedParseErrors(file, errorCollector, parseErrorListener) || parseErrorListener.hasErrors())
+            if (collateErrors("parseerror", file.toPath(), parseErrorListener.errors()::stream, errorCollector::add))
             {
                 return;
             }
@@ -120,7 +121,7 @@ public class SampleProgramRunner
             program.visit(new DefineNames(nameResolver, types));
             program.visit(new ResolveNames(nameResolver, types));
 
-            if(hasExpectedNameErrors(file, errorCollector, nameResolver) || !nameResolver.getNameResolutionErrors().isEmpty())
+            if(collateErrors("nameerror", file.toPath(), nameResolver.getNameResolutionErrors()::stream, errorCollector::add))
             {
                 return;
             }
@@ -215,7 +216,7 @@ public class SampleProgramRunner
             }
             else
             {
-                assertThat(firstLine(lexErrors), is(lexErrorListener.firstError()));
+                assertThat(firstLine(lexErrors), is(lexErrorListener.errors()));
                 return true;
             }
         }
@@ -243,7 +244,7 @@ public class SampleProgramRunner
             }
             else
             {
-                assertThat(firstLine(parseerrors), is(parseErrorListener.firstError()));
+                assertThat(firstLine(parseerrors), is(parseErrorListener.errors()));
                 // checking of contents goes here, then escape early
                 return true;
             }
@@ -301,35 +302,6 @@ public class SampleProgramRunner
             return true;
         }
     }
-
-    private boolean hasExpectedNameErrors(File file, List<String> errorCollector, NameResolver nameResolver) throws FileNotFoundException
-    {
-        File nameerrors = replaceExtension(file, "nameerror");
-        if(!nameResolver.getNameResolutionErrors().isEmpty())
-        {
-            // for now, just check the file exists. we'll verify its contents later
-            if(!nameerrors.exists())
-            {
-                errorCollector.add(String.format("Expected no name errors for %s, got: %s",
-                                                 file.getName(),
-                                                 nameResolver.getNameResolutionErrors()));
-            }
-            else
-            {
-                assertThat("Name error in " + file.getName(), firstLine(nameerrors), is(nameResolver.getNameResolutionErrors().get(0)));
-                return true;
-            }
-        }
-        else
-        {
-            if(nameerrors.exists())
-            {
-                errorCollector.add(String.format("Expected name errors for %s", file.getName()));
-            }
-        }
-        return false;
-    }
-
 
     private File replaceExtension(File file, String newExtension)
     {
